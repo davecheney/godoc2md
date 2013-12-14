@@ -150,7 +150,7 @@ only when building the package for 32-bit x86.
 
 ## Variables
 
-<pre>var ToolDir = filepath.Join(runtime.GOROOT(), &#34;pkg/tool/&#34;+runtime.GOOS+&#34;_&#34;+runtime.GOARCH)</pre>
+<pre>var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)</pre>
 ToolDir is the directory containing build tools.
 
 
@@ -182,63 +182,63 @@ a local import path, like ".", "..", "./foo", or "../foo".
 
 ## type Context
 <pre>type Context struct {
-    GOARCH      string <span class="comment">// target architecture</span>
-    GOOS        string <span class="comment">// target operating system</span>
-    GOROOT      string <span class="comment">// Go root</span>
-    GOPATH      string <span class="comment">// Go path</span>
-    CgoEnabled  bool   <span class="comment">// whether cgo can be used</span>
-    UseAllFiles bool   <span class="comment">// use files regardless of +build lines, file names</span>
-    Compiler    string <span class="comment">// compiler to assume when computing target paths</span>
+    GOARCH      string // target architecture
+    GOOS        string // target operating system
+    GOROOT      string // Go root
+    GOPATH      string // Go path
+    CgoEnabled  bool   // whether cgo can be used
+    UseAllFiles bool   // use files regardless of +build lines, file names
+    Compiler    string // compiler to assume when computing target paths
 
-    <span class="comment">// The build and release tags specify build constraints</span>
-    <span class="comment">// that should be considered satisfied when processing +build lines.</span>
-    <span class="comment">// Clients creating a new context may customize BuildTags, which</span>
-    <span class="comment">// defaults to empty, but it is usually an error to customize ReleaseTags,</span>
-    <span class="comment">// which defaults to the list of Go releases the current release is compatible with.</span>
-    <span class="comment">// In addition to the BuildTags and ReleaseTags, build constraints</span>
-    <span class="comment">// consider the values of GOARCH and GOOS as satisfied tags.</span>
+    // The build and release tags specify build constraints
+    // that should be considered satisfied when processing +build lines.
+    // Clients creating a new context may customize BuildTags, which
+    // defaults to empty, but it is usually an error to customize ReleaseTags,
+    // which defaults to the list of Go releases the current release is compatible with.
+    // In addition to the BuildTags and ReleaseTags, build constraints
+    // consider the values of GOARCH and GOOS as satisfied tags.
     BuildTags   []string
     ReleaseTags []string
 
-    <span class="comment">// The install suffix specifies a suffix to use in the name of the installation</span>
-    <span class="comment">// directory. By default it is empty, but custom builds that need to keep</span>
-    <span class="comment">// their outputs separate can set InstallSuffix to do so. For example, when</span>
-    <span class="comment">// using the race detector, the go command uses InstallSuffix = &#34;race&#34;, so</span>
-    <span class="comment">// that on a Linux/386 system, packages are written to a directory named</span>
-    <span class="comment">// &#34;linux_386_race&#34; instead of the usual &#34;linux_386&#34;.</span>
+    // The install suffix specifies a suffix to use in the name of the installation
+    // directory. By default it is empty, but custom builds that need to keep
+    // their outputs separate can set InstallSuffix to do so. For example, when
+    // using the race detector, the go command uses InstallSuffix = "race", so
+    // that on a Linux/386 system, packages are written to a directory named
+    // "linux_386_race" instead of the usual "linux_386".
     InstallSuffix string
 
-    <span class="comment">// JoinPath joins the sequence of path fragments into a single path.</span>
-    <span class="comment">// If JoinPath is nil, Import uses filepath.Join.</span>
+    // JoinPath joins the sequence of path fragments into a single path.
+    // If JoinPath is nil, Import uses filepath.Join.
     JoinPath func(elem ...string) string
 
-    <span class="comment">// SplitPathList splits the path list into a slice of individual paths.</span>
-    <span class="comment">// If SplitPathList is nil, Import uses filepath.SplitList.</span>
+    // SplitPathList splits the path list into a slice of individual paths.
+    // If SplitPathList is nil, Import uses filepath.SplitList.
     SplitPathList func(list string) []string
 
-    <span class="comment">// IsAbsPath reports whether path is an absolute path.</span>
-    <span class="comment">// If IsAbsPath is nil, Import uses filepath.IsAbs.</span>
+    // IsAbsPath reports whether path is an absolute path.
+    // If IsAbsPath is nil, Import uses filepath.IsAbs.
     IsAbsPath func(path string) bool
 
-    <span class="comment">// IsDir reports whether the path names a directory.</span>
-    <span class="comment">// If IsDir is nil, Import calls os.Stat and uses the result&#39;s IsDir method.</span>
+    // IsDir reports whether the path names a directory.
+    // If IsDir is nil, Import calls os.Stat and uses the result's IsDir method.
     IsDir func(path string) bool
 
-    <span class="comment">// HasSubdir reports whether dir is a subdirectory of</span>
-    <span class="comment">// (perhaps multiple levels below) root.</span>
-    <span class="comment">// If so, HasSubdir sets rel to a slash-separated path that</span>
-    <span class="comment">// can be joined to root to produce a path equivalent to dir.</span>
-    <span class="comment">// If HasSubdir is nil, Import uses an implementation built on</span>
-    <span class="comment">// filepath.EvalSymlinks.</span>
+    // HasSubdir reports whether dir is a subdirectory of
+    // (perhaps multiple levels below) root.
+    // If so, HasSubdir sets rel to a slash-separated path that
+    // can be joined to root to produce a path equivalent to dir.
+    // If HasSubdir is nil, Import uses an implementation built on
+    // filepath.EvalSymlinks.
     HasSubdir func(root, dir string) (rel string, ok bool)
 
-    <span class="comment">// ReadDir returns a slice of os.FileInfo, sorted by Name,</span>
-    <span class="comment">// describing the content of the named directory.</span>
-    <span class="comment">// If ReadDir is nil, Import uses ioutil.ReadDir.</span>
+    // ReadDir returns a slice of os.FileInfo, sorted by Name,
+    // describing the content of the named directory.
+    // If ReadDir is nil, Import uses ioutil.ReadDir.
     ReadDir func(dir string) (fi []os.FileInfo, err error)
 
-    <span class="comment">// OpenFile opens a file (not a directory) for reading.</span>
-    <span class="comment">// If OpenFile is nil, Import uses os.Open.</span>
+    // OpenFile opens a file (not a directory) for reading.
+    // If OpenFile is nil, Import uses os.Open.
     OpenFile func(path string) (r io.ReadCloser, err error)
 }</pre>
 A Context specifies the supporting context for a build.
@@ -337,13 +337,13 @@ An ImportMode controls the behavior of the Import method.
 
 
 <pre>const (
-    <span class="comment">// If FindOnly is set, Import stops after locating the directory</span>
-    <span class="comment">// that should contain the sources for a package.  It does not</span>
-    <span class="comment">// read any files in the directory.</span>
-    FindOnly ImportMode = 1 &lt;&lt; iota
+    // If FindOnly is set, Import stops after locating the directory
+    // that should contain the sources for a package.  It does not
+    // read any files in the directory.
+    FindOnly ImportMode = 1 << iota
 
-    <span class="comment">// If AllowBinary is set, Import can be satisfied by a compiled</span>
-    <span class="comment">// package object without corresponding sources.</span>
+    // If AllowBinary is set, Import can be satisfied by a compiled
+    // package object without corresponding sources.
     AllowBinary
 )</pre>
 
@@ -390,49 +390,49 @@ test files, files hidden by build tags, and so on.)
 
 ## type Package
 <pre>type Package struct {
-    Dir         string   <span class="comment">// directory containing package sources</span>
-    Name        string   <span class="comment">// package name</span>
-    Doc         string   <span class="comment">// documentation synopsis</span>
-    ImportPath  string   <span class="comment">// import path of package (&#34;&#34; if unknown)</span>
-    Root        string   <span class="comment">// root of Go tree where this package lives</span>
-    SrcRoot     string   <span class="comment">// package source root directory (&#34;&#34; if unknown)</span>
-    PkgRoot     string   <span class="comment">// package install root directory (&#34;&#34; if unknown)</span>
-    BinDir      string   <span class="comment">// command install directory (&#34;&#34; if unknown)</span>
-    Goroot      bool     <span class="comment">// package found in Go root</span>
-    PkgObj      string   <span class="comment">// installed .a file</span>
-    AllTags     []string <span class="comment">// tags that can influence file selection in this directory</span>
-    ConflictDir string   <span class="comment">// this directory shadows Dir in $GOPATH</span>
+    Dir         string   // directory containing package sources
+    Name        string   // package name
+    Doc         string   // documentation synopsis
+    ImportPath  string   // import path of package ("" if unknown)
+    Root        string   // root of Go tree where this package lives
+    SrcRoot     string   // package source root directory ("" if unknown)
+    PkgRoot     string   // package install root directory ("" if unknown)
+    BinDir      string   // command install directory ("" if unknown)
+    Goroot      bool     // package found in Go root
+    PkgObj      string   // installed .a file
+    AllTags     []string // tags that can influence file selection in this directory
+    ConflictDir string   // this directory shadows Dir in $GOPATH
 
-    <span class="comment">// Source files</span>
-    GoFiles        []string <span class="comment">// .go source files (excluding CgoFiles, TestGoFiles, XTestGoFiles)</span>
-    CgoFiles       []string <span class="comment">// .go source files that import &#34;C&#34;</span>
-    IgnoredGoFiles []string <span class="comment">// .go source files ignored for this build</span>
-    CFiles         []string <span class="comment">// .c source files</span>
-    CXXFiles       []string <span class="comment">// .cc, .cpp and .cxx source files</span>
-    HFiles         []string <span class="comment">// .h, .hh, .hpp and .hxx source files</span>
-    SFiles         []string <span class="comment">// .s source files</span>
-    SwigFiles      []string <span class="comment">// .swig files</span>
-    SwigCXXFiles   []string <span class="comment">// .swigcxx files</span>
-    SysoFiles      []string <span class="comment">// .syso system object files to add to archive</span>
+    // Source files
+    GoFiles        []string // .go source files (excluding CgoFiles, TestGoFiles, XTestGoFiles)
+    CgoFiles       []string // .go source files that import "C"
+    IgnoredGoFiles []string // .go source files ignored for this build
+    CFiles         []string // .c source files
+    CXXFiles       []string // .cc, .cpp and .cxx source files
+    HFiles         []string // .h, .hh, .hpp and .hxx source files
+    SFiles         []string // .s source files
+    SwigFiles      []string // .swig files
+    SwigCXXFiles   []string // .swigcxx files
+    SysoFiles      []string // .syso system object files to add to archive
 
-    <span class="comment">// Cgo directives</span>
-    CgoCFLAGS    []string <span class="comment">// Cgo CFLAGS directives</span>
-    CgoCPPFLAGS  []string <span class="comment">// Cgo CPPFLAGS directives</span>
-    CgoCXXFLAGS  []string <span class="comment">// Cgo CXXFLAGS directives</span>
-    CgoLDFLAGS   []string <span class="comment">// Cgo LDFLAGS directives</span>
-    CgoPkgConfig []string <span class="comment">// Cgo pkg-config directives</span>
+    // Cgo directives
+    CgoCFLAGS    []string // Cgo CFLAGS directives
+    CgoCPPFLAGS  []string // Cgo CPPFLAGS directives
+    CgoCXXFLAGS  []string // Cgo CXXFLAGS directives
+    CgoLDFLAGS   []string // Cgo LDFLAGS directives
+    CgoPkgConfig []string // Cgo pkg-config directives
 
-    <span class="comment">// Dependency information</span>
-    Imports   []string                    <span class="comment">// imports from GoFiles, CgoFiles</span>
-    ImportPos map[string][]token.Position <span class="comment">// line information for Imports</span>
+    // Dependency information
+    Imports   []string                    // imports from GoFiles, CgoFiles
+    ImportPos map[string][]token.Position // line information for Imports
 
-    <span class="comment">// Test information</span>
-    TestGoFiles    []string                    <span class="comment">// _test.go files in package</span>
-    TestImports    []string                    <span class="comment">// imports from TestGoFiles</span>
-    TestImportPos  map[string][]token.Position <span class="comment">// line information for TestImports</span>
-    XTestGoFiles   []string                    <span class="comment">// _test.go files outside package</span>
-    XTestImports   []string                    <span class="comment">// imports from XTestGoFiles</span>
-    XTestImportPos map[string][]token.Position <span class="comment">// line information for XTestImports</span>
+    // Test information
+    TestGoFiles    []string                    // _test.go files in package
+    TestImports    []string                    // imports from TestGoFiles
+    TestImportPos  map[string][]token.Position // line information for TestImports
+    XTestGoFiles   []string                    // _test.go files outside package
+    XTestImports   []string                    // imports from XTestGoFiles
+    XTestImportPos map[string][]token.Position // line information for XTestImports
 }</pre>
 A Package describes the Go package found in a directory.
 

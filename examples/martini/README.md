@@ -29,9 +29,9 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
 ## Constants
 
 <pre>const (
-    Dev  string = &#34;development&#34;
-    Prod string = &#34;production&#34;
-    Test string = &#34;test&#34;
+    Dev  string = "development"
+    Prod string = "production"
+    Test string = "test"
 )</pre>
 Envs
 
@@ -101,11 +101,11 @@ Classic creates a classic Martini with some basic default middleware - martini.L
 ## type Context
 <pre>type Context interface {
     inject.Injector
-    <span class="comment">// Next is an optional function that Middleware Handlers can call to yield the until after</span>
-    <span class="comment">// the other Handlers have been executed. This works really well for any operations that must</span>
-    <span class="comment">// happen after an http request</span>
+    // Next is an optional function that Middleware Handlers can call to yield the until after
+    // the other Handlers have been executed. This works really well for any operations that must
+    // happen after an http request
     Next()
-    <span class="comment">// contains filtered or unexported methods</span>
+    // contains filtered or unexported methods
 }</pre>
 Context represents a request context. Services can be mapped on the request level from this interface.
 
@@ -169,7 +169,7 @@ Static returns a middleware handler that serves static files in the given direct
 ## type Martini
 <pre>type Martini struct {
     inject.Injector
-    <span class="comment">// contains filtered or unexported fields</span>
+    // contains filtered or unexported fields
 }</pre>
 Martini represents the top level web application. inject.Injector methods can be invoked to map services on a global level.
 
@@ -267,14 +267,14 @@ Params is a map of name/value pairs for named routes. An instance of martini.Par
 ## type ResponseWriter
 <pre>type ResponseWriter interface {
     http.ResponseWriter
-    <span class="comment">// Status returns the status code of the response or 0 if the response has not been written.</span>
+    // Status returns the status code of the response or 0 if the response has not been written.
     Status() int
-    <span class="comment">// Written returns whether or not the ResponseWriter has been written.</span>
+    // Written returns whether or not the ResponseWriter has been written.
     Written() bool
-    <span class="comment">// Size returns the size of the response body.</span>
+    // Size returns the size of the response body.
     Size() int
-    <span class="comment">// Before allows for a function to be called before the ResponseWriter has been written to. This is</span>
-    <span class="comment">// useful for setting headers or any other operations that must happen before a response has been written.</span>
+    // Before allows for a function to be called before the ResponseWriter has been written to. This is
+    // useful for setting headers or any other operations that must happen before a response has been written.
     Before(BeforeFunc)
 }</pre>
 ResponseWriter is a wrapper around http.ResponseWriter that provides extra information about
@@ -305,7 +305,7 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 ## type Route
 <pre>type Route interface {
-    <span class="comment">// URLWith returns a rendering of the Route&#39;s url with the given string params.</span>
+    // URLWith returns a rendering of the Route's url with the given string params.
     URLWith([]string) string
 }</pre>
 Route is an interface representing a Route in Martini's routing layer.
@@ -326,27 +326,27 @@ Route is an interface representing a Route in Martini's routing layer.
 
 ## type Router
 <pre>type Router interface {
-    <span class="comment">// Get adds a route for a HTTP GET request to the specified matching pattern.</span>
+    // Get adds a route for a HTTP GET request to the specified matching pattern.
     Get(string, ...Handler) Route
-    <span class="comment">// Patch adds a route for a HTTP PATCH request to the specified matching pattern.</span>
+    // Patch adds a route for a HTTP PATCH request to the specified matching pattern.
     Patch(string, ...Handler) Route
-    <span class="comment">// Post adds a route for a HTTP POST request to the specified matching pattern.</span>
+    // Post adds a route for a HTTP POST request to the specified matching pattern.
     Post(string, ...Handler) Route
-    <span class="comment">// Put adds a route for a HTTP PUT request to the specified matching pattern.</span>
+    // Put adds a route for a HTTP PUT request to the specified matching pattern.
     Put(string, ...Handler) Route
-    <span class="comment">// Delete adds a route for a HTTP DELETE request to the specified matching pattern.</span>
+    // Delete adds a route for a HTTP DELETE request to the specified matching pattern.
     Delete(string, ...Handler) Route
-    <span class="comment">// Options adds a route for a HTTP OPTIONS request to the specified matching pattern.</span>
+    // Options adds a route for a HTTP OPTIONS request to the specified matching pattern.
     Options(string, ...Handler) Route
-    <span class="comment">// Head adds a route for a HTTP HEAD request to the specified matching pattern.</span>
+    // Head adds a route for a HTTP HEAD request to the specified matching pattern.
     Head(string, ...Handler) Route
-    <span class="comment">// Any adds a route for any HTTP method request to the specified matching pattern.</span>
+    // Any adds a route for any HTTP method request to the specified matching pattern.
     Any(string, ...Handler) Route
 
-    <span class="comment">// NotFound sets the handlers that are called when a no route matches a request. Throws a basic 404 by default.</span>
+    // NotFound sets the handlers that are called when a no route matches a request. Throws a basic 404 by default.
     NotFound(...Handler)
 
-    <span class="comment">// Handle is the entry point for routing. This is used as a martini.Handler</span>
+    // Handle is the entry point for routing. This is used as a martini.Handler
     Handle(http.ResponseWriter, *http.Request, Context)
 }</pre>
 Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked handlers, and dependency injection.
@@ -375,7 +375,7 @@ NewRouter creates a new Router instance.
 
 ## type Routes
 <pre>type Routes interface {
-    <span class="comment">// URLFor returns a rendered URL for the given route. Optional params can be passed to fulfill named parameters in the route.</span>
+    // URLFor returns a rendered URL for the given route. Optional params can be passed to fulfill named parameters in the route.
     URLFor(route Route, params ...interface{}) string
 }</pre>
 Routes is a helper service for Martini's routing layer.

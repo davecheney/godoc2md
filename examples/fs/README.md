@@ -26,20 +26,20 @@ Package fs provides filesystem-related functions.
 ## type FileSystem
 <pre>type FileSystem interface {
 
-    <span class="comment">// ReadDir reads the directory named by dirname and returns a</span>
-    <span class="comment">// list of directory entries.</span>
+    // ReadDir reads the directory named by dirname and returns a
+    // list of directory entries.
     ReadDir(dirname string) ([]os.FileInfo, error)
 
-    <span class="comment">// Lstat returns a FileInfo describing the named file. If the file is a</span>
-    <span class="comment">// symbolic link, the returned FileInfo describes the symbolic link. Lstat</span>
-    <span class="comment">// makes no attempt to follow the link.</span>
+    // Lstat returns a FileInfo describing the named file. If the file is a
+    // symbolic link, the returned FileInfo describes the symbolic link. Lstat
+    // makes no attempt to follow the link.
     Lstat(name string) (os.FileInfo, error)
 
-    <span class="comment">// Join joins any number of path elements into a single path, adding a</span>
-    <span class="comment">// separator if necessary. The result is Cleaned; in particular, all</span>
-    <span class="comment">// empty strings are ignored.</span>
-    <span class="comment">//</span>
-    <span class="comment">// The separator is FileSystem specific.</span>
+    // Join joins any number of path elements into a single path, adding a
+    // separator if necessary. The result is Cleaned; in particular, all
+    // empty strings are ignored.
+    //
+    // The separator is FileSystem specific.
     Join(elem ...string) string
 }</pre>
 FileSystem defines the methods of an abstract filesystem.
@@ -60,7 +60,7 @@ FileSystem defines the methods of an abstract filesystem.
 
 ## type Walker
 <pre>type Walker struct {
-    <span class="comment">// contains filtered or unexported fields</span>
+    // contains filtered or unexported fields
 }</pre>
 Walker provides a convenient interface for iterating over the
 descendants of a filesystem path.

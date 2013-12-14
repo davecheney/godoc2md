@@ -24,14 +24,14 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{with .Consts}}
 ## Constants
 {{range .}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 {{end}}
 {{with .Vars}}
 ## Variables
 {{range .}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 {{end}}
@@ -39,7 +39,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{/* Name is a string - no need for FSet */}}
 {{$name_html := html .Name}}
 ## func {{$name_html}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{example_html $ .Name}}
 {{end}}
@@ -47,16 +47,16 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{$tname := .Name}}
 {{$tname_html := html .Name}}
 ## type {{$tname_html}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 
 {{range .Consts}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 
 {{range .Vars}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 
@@ -65,7 +65,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{range .Funcs}}
 {{$name_html := html .Name}}
 ### func {{$name_html}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{example_html $ .Name}}
 {{end}}
@@ -73,7 +73,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{range .Methods}}
 {{$name_html := html .Name}}
 ### func ({{html .Recv}}) {{$name_html}}
-<pre>{{node_html $ .Decl false}}</pre>
+<pre>{{node $ .Decl}}</pre>
 {{comment_html .Doc}}
 {{$name := printf "%s_%s" $tname .Name}}
 {{example_html $ $name}}
