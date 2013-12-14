@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// godoc2md
-//
 // godoc2md converts godoc formatted package documentation into Markdown format.
 // 
 // usage
