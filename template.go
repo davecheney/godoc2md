@@ -64,7 +64,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 
 {{range .Methods}}
 {{$name_html := html .Name}}
-### func ({{html .Recv}}) {{$name_html}}
+### func ({{md .Recv}}) {{$name_html}}
 
     {{node $ .Decl}}
 

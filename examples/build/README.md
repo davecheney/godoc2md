@@ -261,7 +261,7 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 
 
-### func (*Context) Import
+### func (\*Context) Import
 
     func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)
 
@@ -287,7 +287,7 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 
-### func (*Context) ImportDir
+### func (\*Context) ImportDir
 
     func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
 
@@ -299,7 +299,7 @@ the named directory.
 
 
 
-### func (*Context) MatchFile
+### func (\*Context) MatchFile
 
     func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)
 
@@ -315,7 +315,7 @@ read some or all of the file's content.
 
 
 
-### func (*Context) SrcDirs
+### func (\*Context) SrcDirs
 
     func (ctxt *Context) SrcDirs() []string
 
@@ -380,7 +380,7 @@ test files, files hidden by build tags, and so on.)
 
 
 
-### func (*NoGoError) Error
+### func (\*NoGoError) Error
 
     func (e *NoGoError) Error() string
 
@@ -471,7 +471,7 @@ ImportDir is shorthand for Default.ImportDir.
 
 
 
-### func (*Package) IsCommand
+### func (\*Package) IsCommand
 
     func (p *Package) IsCommand() bool
 

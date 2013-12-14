@@ -92,7 +92,7 @@ WalkFS returns a new Walker rooted at root on the FileSystem fs.
 
 
 
-### func (*Walker) Err
+### func (\*Walker) Err
 
     func (w *Walker) Err() error
 
@@ -105,7 +105,7 @@ an error, w will not descend into that directory.
 
 
 
-### func (*Walker) Path
+### func (\*Walker) Path
 
     func (w *Walker) Path() string
 
@@ -119,7 +119,7 @@ a directory containing the file "a", Path will return "dir/a".
 
 
 
-### func (*Walker) SkipDir
+### func (\*Walker) SkipDir
 
     func (w *Walker) SkipDir()
 
@@ -131,7 +131,7 @@ If w is not on a directory, SkipDir has no effect.
 
 
 
-### func (*Walker) Stat
+### func (\*Walker) Stat
 
     func (w *Walker) Stat() os.FileInfo
 
@@ -143,7 +143,7 @@ visited by a call to Step.
 
 
 
-### func (*Walker) Step
+### func (\*Walker) Step
 
     func (w *Walker) Step() bool
 

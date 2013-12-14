@@ -19,6 +19,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"text/template"
 
 	"code.google.com/p/go.tools/godoc"
@@ -55,6 +56,7 @@ var (
 	funcs = map[string]interface{}{
 		"comment_md": comment_mdFunc,
 		"base":       path.Base,
+		"md":         mdFunc,
 	}
 )
 
@@ -64,6 +66,12 @@ func comment_mdFunc(comment string) string {
 	var buf bytes.Buffer
 	ToMD(&buf, comment, nil)
 	return buf.String()
+}
+
+func mdFunc(text string) string {
+	text = strings.Replace(text, "*", "\\*", -1)
+	text = strings.Replace(text, "_", "\\_", -1)
+	return text
 }
 
 func readTemplate(name, data string) *template.Template {
