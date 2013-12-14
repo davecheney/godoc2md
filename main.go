@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// godoc2md
+//
 package main
 
 import (
@@ -94,12 +96,10 @@ var pkgTemplate = `{{with .PAst}}{{node $ .}}{{end}}{{/*
 
 ---------------------------------------
 
-*/}}{{with .PDoc}}{{if $.IsMain}}COMMAND DOCUMENTATION
+*/}}{{with .PDoc}}{{if $.IsMain}}# {{.Name}}
 
 {{comment_text .Doc "    " "\t"}}
-{{else}}PACKAGE DOCUMENTATION
-
-package {{.Name}}
+{{else}}# package {{.Name}}
     import "{{.ImportPath}}"
 
 {{comment_text .Doc "    " "\t"}}
