@@ -58,6 +58,9 @@ var (
 
 	md_pre     = []byte("\t")
 	md_newline = []byte("\n")
+	md_h1      = []byte("# ")
+	md_h2      = []byte("## ")
+	md_h3      = []byte("### ")
 )
 
 // Emphasize and escape a line of text for HTML. URLs are converted into links;
@@ -249,22 +252,17 @@ func ToMD(w io.Writer, text string, words map[string]string) {
 			for _, line := range b.lines {
 				emphasize(w, line, words, true)
 			}
-			w.Write(md_newline)	// trailing newline to emulate </p>
+			w.Write(md_newline) // trailing newline to emulate </p>
 		case opHead:
-			w.Write(html_h)
+			w.Write(md_h3)
 			id := ""
 			for _, line := range b.lines {
 				if id == "" {
 					id = anchorID(line)
-					w.Write([]byte(id))
-					w.Write(html_hq)
 				}
 				commentEscape(w, line, true)
 			}
-			if id == "" {
-				w.Write(html_hq)
-			}
-			w.Write(html_endh)
+			w.Write(md_newline)
 		case opPre:
 			w.Write(md_newline)
 			for _, line := range b.lines {

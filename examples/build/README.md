@@ -3,7 +3,7 @@
 
 Package build gathers information about Go packages.
 
-<h3 id="hdr-Go_Path">Go Path</h3>
+### Go Path
 The Go path is a list of directory trees containing Go source code.
 It is consulted to resolve imports that cannot be found in the standard
 Go tree.  The default path is the value of the GOPATH environment
@@ -54,7 +54,7 @@ Here's an example directory layout:
 	            foo/
 	                bar.a          (installed package object)
 
-<h3 id="hdr-Build_Constraints">Build Constraints</h3>
+### Build Constraints
 A build constraint is a line comment beginning with the directive +build
 that lists the conditions under which a file should be included in the package.
 Constraints may appear in any kind of source file (not just Go), but
