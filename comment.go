@@ -23,24 +23,8 @@ var (
 // Escape comment text for HTML. If nice is set,
 // also turn `` into &ldquo; and '' into &rdquo;.
 func commentEscape(w io.Writer, text string, nice bool) {
-	last := 0
-	if nice {
-		for i := 0; i < len(text)-1; i++ {
-			ch := text[i]
-			if ch == text[i+1] && (ch == '`' || ch == '\'') {
-				template.HTMLEscape(w, []byte(text[last:i]))
-				last = i + 2
-				switch ch {
-				case '`':
-					w.Write(ldquo)
-				case '\'':
-					w.Write(rdquo)
-				}
-				i++ // loop will add one more
-			}
-		}
-	}
-	template.HTMLEscape(w, []byte(text[last:]))
+	w.Write([]byte(text))
+	return
 }
 
 const (
@@ -72,8 +56,8 @@ var (
 	html_hq     = []byte(`">`)
 	html_endh   = []byte("</h3>\n")
 
-	md_pre	    = []byte("\t")
-	md_newline  = []byte("\n")
+	md_pre     = []byte("\t")
+	md_newline = []byte("\n")
 )
 
 // Emphasize and escape a line of text for HTML. URLs are converted into links;

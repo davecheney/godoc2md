@@ -11,13 +11,13 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
 
 	package main
 	
-	import &#34;github.com/codegangsta/martini&#34;
+	import "github.com/codegangsta/martini"
 	
 	func main() {
 	  m := martini.Classic()
 	
-	  m.Get(&#34;/&#34;, func() string {
-	    return &#34;Hello world!&#34;
+	  m.Get("/", func() string {
+	    return "Hello world!"
 	  })
 	
 	  m.Run()
@@ -135,7 +135,7 @@ Context represents a request context. Services can be mapped on the request leve
 ## type Handler
 <pre>type Handler interface{}</pre>
 
-Handler can be any callable function. Martini attempts to inject services into the handler&#39;s argument list.
+Handler can be any callable function. Martini attempts to inject services into the handler's argument list.
 Martini will panic if an argument could not be fullfilled via dependency injection.
 
 
@@ -327,7 +327,7 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
     URLWith([]string) string
 }</pre>
 
-Route is an interface representing a Route in Martini&#39;s routing layer.
+Route is an interface representing a Route in Martini's routing layer.
 
 
 
@@ -369,7 +369,7 @@ Route is an interface representing a Route in Martini&#39;s routing layer.
     Handle(http.ResponseWriter, *http.Request, Context)
 }</pre>
 
-Router is Martini&#39;s de-facto routing interface. Supports HTTP verbs, stacked handlers, and dependency injection.
+Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked handlers, and dependency injection.
 
 
 
@@ -400,7 +400,7 @@ NewRouter creates a new Router instance.
     URLFor(route Route, params ...interface{}) string
 }</pre>
 
-Routes is a helper service for Martini&#39;s routing layer.
+Routes is a helper service for Martini's routing layer.
 
 
 

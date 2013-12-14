@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // godoc2md converts godoc formatted package documentation into Markdown format.
-// 
+//
 // usage
 //
 //    godoc2md $PACKAGE > $GOPATH/src/$PACKAGE/README.md
@@ -14,9 +14,9 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
-	"path"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"runtime"
 	"text/template"
@@ -54,16 +54,16 @@ var (
 
 	funcs = map[string]interface{}{
 		"comment_md": comment_mdFunc,
-		"base": path.Base,
+		"base":       path.Base,
 	}
 )
 
 const punchCardWidth = 80
 
 func comment_mdFunc(comment string) string {
-        var buf bytes.Buffer
-        ToMD(&buf, comment, nil) 
-        return buf.String()
+	var buf bytes.Buffer
+	ToMD(&buf, comment, nil)
+	return buf.String()
 }
 
 func readTemplate(name, data string) *template.Template {
