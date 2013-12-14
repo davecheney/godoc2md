@@ -5,9 +5,7 @@
 		
 Package martini is a powerful package for quickly writing modular web applications/services in Golang.
 
-
 For a full guide visit a href="http://github.com/codegangsta/martini">http://github.com/codegangsta/martini</a>
-
 
 	package main
 	
@@ -42,7 +40,6 @@ Envs
 
 
 
-
 ## Variables
 
 <pre>var Env = Dev</pre>
@@ -55,12 +52,10 @@ Env is the environment that Martini is executing in. The MARTINI_ENV is read on 
 
 
 
-
 ## type BeforeFunc
 <pre>type BeforeFunc func(ResponseWriter)</pre>
 
 BeforeFunc is a function that is called before the ResponseWriter has been written to.
-
 
 
 
@@ -92,12 +87,10 @@ ClassicMartini represents a Martini with some reasonable defaults. Embeds the ro
 
 
 
-
 ### func Classic
 <pre>func Classic() *ClassicMartini</pre>
 
 Classic creates a classic Martini with some basic default middleware - martini.Logger, martini.Recovery, and martini.Static.
-
 
 
 
@@ -131,13 +124,11 @@ Context represents a request context. Services can be mapped on the request leve
 
 
 
-
 ## type Handler
 <pre>type Handler interface{}</pre>
 
 Handler can be any callable function. Martini attempts to inject services into the handler's argument list.
 Martini will panic if an argument could not be fullfilled via dependency injection.
-
 
 
 
@@ -156,7 +147,6 @@ Logger returns a middleware handler that logs the request as it goes in and the 
 
 
 
-
 ### func Recovery
 <pre>func Recovery() Handler</pre>
 
@@ -165,12 +155,10 @@ Recovery returns a middleware that recovers from any panics and writes a 500 if 
 
 
 
-
 ### func Static
 <pre>func Static(directory string) Handler</pre>
 
 Static returns a middleware handler that serves static files in the given directory.
-
 
 
 
@@ -196,12 +184,10 @@ Martini represents the top level web application. inject.Injector methods can be
 
 
 
-
 ### func New
 <pre>func New() *Martini</pre>
 
 New creates a bare bones Martini instance. Use this method if you want to have full control over the middleware that is used.
-
 
 
 
@@ -279,7 +265,6 @@ Params is a map of name/value pairs for named routes. An instance of martini.Par
 
 
 
-
 ## type ResponseWriter
 <pre>type ResponseWriter interface {
     http.ResponseWriter
@@ -307,12 +292,10 @@ if the functionality calls for it.
 
 
 
-
 ### func NewResponseWriter
 <pre>func NewResponseWriter(rw http.ResponseWriter) ResponseWriter</pre>
 
 NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
-
 
 
 
@@ -328,7 +311,6 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 }</pre>
 
 Route is an interface representing a Route in Martini's routing layer.
-
 
 
 
@@ -380,12 +362,10 @@ Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked han
 
 
 
-
 ### func NewRouter
 <pre>func NewRouter() Router</pre>
 
 NewRouter creates a new Router instance.
-
 
 
 
@@ -401,7 +381,6 @@ NewRouter creates a new Router instance.
 }</pre>
 
 Routes is a helper service for Martini's routing layer.
-
 
 
 

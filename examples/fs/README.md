@@ -5,7 +5,6 @@
 		
 Package fs provides filesystem-related functions.
 
-
 		
 
 		
@@ -60,7 +59,6 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 
-
 ## type Walker
 <pre>type Walker struct {
     <span class="comment">// contains filtered or unexported fields</span>
@@ -83,7 +81,6 @@ Walker does not follow symbolic links.
 
 
 
-
 ### func Walk
 <pre>func Walk(root string) *Walker</pre>
 
@@ -92,12 +89,10 @@ Walk returns a new Walker rooted at root.
 
 
 
-
 ### func WalkFS
 <pre>func WalkFS(root string, fs FileSystem) *Walker</pre>
 
 WalkFS returns a new Walker rooted at root on the FileSystem fs.
-
 
 
 

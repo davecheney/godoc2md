@@ -246,11 +246,10 @@ func ToMD(w io.Writer, text string, words map[string]string) {
 	for _, b := range blocks(text) {
 		switch b.op {
 		case opPara:
-			w.Write(html_p)
+			w.Write(md_newline)
 			for _, line := range b.lines {
 				emphasize(w, line, words, true)
 			}
-			w.Write(html_endp)
 		case opHead:
 			w.Write(html_h)
 			id := ""
