@@ -87,7 +87,9 @@ ClassicMartini represents a Martini with some reasonable defaults. Embeds the ro
 
 
 ### func Classic
-<pre>func Classic() *ClassicMartini</pre>
+
+    func Classic() *ClassicMartini
+
 Classic creates a classic Martini with some basic default middleware - martini.Logger, martini.Recovery, and martini.Static.
 
 
@@ -139,7 +141,9 @@ Martini will panic if an argument could not be fullfilled via dependency injecti
 
 
 ### func Logger
-<pre>func Logger() Handler</pre>
+
+    func Logger() Handler
+
 Logger returns a middleware handler that logs the request as it goes in and the response as it goes out.
 
 
@@ -147,7 +151,9 @@ Logger returns a middleware handler that logs the request as it goes in and the 
 
 
 ### func Recovery
-<pre>func Recovery() Handler</pre>
+
+    func Recovery() Handler
+
 Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.
 
 
@@ -155,7 +161,9 @@ Recovery returns a middleware that recovers from any panics and writes a 500 if 
 
 
 ### func Static
-<pre>func Static(directory string) Handler</pre>
+
+    func Static(directory string) Handler
+
 Static returns a middleware handler that serves static files in the given directory.
 
 
@@ -184,7 +192,9 @@ Martini represents the top level web application. inject.Injector methods can be
 
 
 ### func New
-<pre>func New() *Martini</pre>
+
+    func New() *Martini
+
 New creates a bare bones Martini instance. Use this method if you want to have full control over the middleware that is used.
 
 
@@ -194,7 +204,9 @@ New creates a bare bones Martini instance. Use this method if you want to have f
 
 
 ### func (*Martini) Action
-<pre>func (m *Martini) Action(handler Handler)</pre>
+
+    func (m *Martini) Action(handler Handler)
+
 Action sets the handler that will be called after all the middleware has been invoked. This is set to martini.Router in a martini.Classic().
 
 
@@ -203,7 +215,9 @@ Action sets the handler that will be called after all the middleware has been in
 
 
 ### func (*Martini) Handlers
-<pre>func (m *Martini) Handlers(handlers ...Handler)</pre>
+
+    func (m *Martini) Handlers(handlers ...Handler)
+
 Handlers sets the entire middleware stack with the given Handlers. This will clear any current middleware handlers.
 Will panic if any of the handlers is not a callable function
 
@@ -213,7 +227,9 @@ Will panic if any of the handlers is not a callable function
 
 
 ### func (*Martini) Run
-<pre>func (m *Martini) Run()</pre>
+
+    func (m *Martini) Run()
+
 Run the http server. Listening on os.GetEnv("PORT") or 3000 by default.
 
 
@@ -222,7 +238,9 @@ Run the http server. Listening on os.GetEnv("PORT") or 3000 by default.
 
 
 ### func (*Martini) ServeHTTP
-<pre>func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)</pre>
+
+    func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)
+
 ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to control your own HTTP server.
 
 
@@ -231,7 +249,9 @@ ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to 
 
 
 ### func (*Martini) Use
-<pre>func (m *Martini) Use(handler Handler)</pre>
+
+    func (m *Martini) Use(handler Handler)
+
 Use adds a middleware Handler to the stack. Will panic if the handler is not a callable func. Middleware Handlers are invoked in the order that they are added.
 
 
@@ -287,7 +307,9 @@ if the functionality calls for it.
 
 
 ### func NewResponseWriter
-<pre>func NewResponseWriter(rw http.ResponseWriter) ResponseWriter</pre>
+
+    func NewResponseWriter(rw http.ResponseWriter) ResponseWriter
+
 NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 
@@ -357,7 +379,9 @@ Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked han
 
 
 ### func NewRouter
-<pre>func NewRouter() Router</pre>
+
+    func NewRouter() Router
+
 NewRouter creates a new Router instance.
 
 

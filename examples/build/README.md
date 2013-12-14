@@ -263,7 +263,9 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 
 ### func (*Context) Import
-<pre>func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)</pre>
+
+    func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)
+
 Import returns details about the Go package named by the import path,
 interpreting local import paths relative to the srcDir directory.
 If the path is a local import path naming a package that can be imported
@@ -287,7 +289,9 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 ### func (*Context) ImportDir
-<pre>func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)</pre>
+
+    func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
+
 ImportDir is like Import but processes the Go package found in
 the named directory.
 
@@ -297,7 +301,9 @@ the named directory.
 
 
 ### func (*Context) MatchFile
-<pre>func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)</pre>
+
+    func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)
+
 MatchFile reports whether the file with the given name in the given directory
 matches the context and would be included in a Package created by ImportDir
 of that directory.
@@ -311,7 +317,9 @@ read some or all of the file's content.
 
 
 ### func (*Context) SrcDirs
-<pre>func (ctxt *Context) SrcDirs() []string</pre>
+
+    func (ctxt *Context) SrcDirs() []string
+
 SrcDirs returns a list of package source root directories.
 It draws from the current Go root and Go path but omits directories
 that do not exist.
@@ -374,7 +382,9 @@ test files, files hidden by build tags, and so on.)
 
 
 ### func (*NoGoError) Error
-<pre>func (e *NoGoError) Error() string</pre>
+
+    func (e *NoGoError) Error() string
+
 
 
 
@@ -441,7 +451,9 @@ A Package describes the Go package found in a directory.
 
 
 ### func Import
-<pre>func Import(path, srcDir string, mode ImportMode) (*Package, error)</pre>
+
+    func Import(path, srcDir string, mode ImportMode) (*Package, error)
+
 Import is shorthand for Default.Import.
 
 
@@ -449,7 +461,9 @@ Import is shorthand for Default.Import.
 
 
 ### func ImportDir
-<pre>func ImportDir(dir string, mode ImportMode) (*Package, error)</pre>
+
+    func ImportDir(dir string, mode ImportMode) (*Package, error)
+
 ImportDir is shorthand for Default.ImportDir.
 
 
@@ -459,7 +473,9 @@ ImportDir is shorthand for Default.ImportDir.
 
 
 ### func (*Package) IsCommand
-<pre>func (p *Package) IsCommand() bool</pre>
+
+    func (p *Package) IsCommand() bool
+
 IsCommand reports whether the package is considered a
 command to be installed (not just a library).
 Packages named "main" are treated as commands.

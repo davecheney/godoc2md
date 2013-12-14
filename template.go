@@ -65,7 +65,9 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{range .Funcs}}
 {{$name_html := html .Name}}
 ### func {{$name_html}}
-<pre>{{node $ .Decl}}</pre>
+
+    {{node $ .Decl}}
+
 {{comment_md .Doc}}
 {{example_html $ .Name}}
 {{end}}
@@ -73,7 +75,9 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{range .Methods}}
 {{$name_html := html .Name}}
 ### func ({{html .Recv}}) {{$name_html}}
-<pre>{{node $ .Decl}}</pre>
+
+    {{node $ .Decl}}
+
 {{comment_md .Doc}}
 {{$name := printf "%s_%s" $tname .Name}}
 {{example_html $ $name}}
