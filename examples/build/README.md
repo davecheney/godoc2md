@@ -1,11 +1,9 @@
 
-	
 # build
-		
-		
-Package build gathers information about Go packages.
-<h3 id="hdr-Go_Path">Go Path</h3>
 
+Package build gathers information about Go packages.
+
+<h3 id="hdr-Go_Path">Go Path</h3>
 The Go path is a list of directory trees containing Go source code.
 It is consulted to resolve imports that cannot be found in the standard
 Go tree.  The default path is the value of the GOPATH environment
@@ -39,6 +37,7 @@ installed commands.
 
 Here's an example directory layout:
 
+
 	GOPATH=/home/user/gocode
 	
 	/home/user/gocode/
@@ -56,7 +55,6 @@ Here's an example directory layout:
 	                bar.a          (installed package object)
 
 <h3 id="hdr-Build_Constraints">Build Constraints</h3>
-
 A build constraint is a line comment beginning with the directive +build
 that lists the conditions under which a file should be included in the package.
 Constraints may appear in any kind of source file (not just Go), but
@@ -71,27 +69,28 @@ each option evaluates as the AND of its comma-separated terms;
 and each term is an alphanumeric word or, preceded by !, its negation.
 That is, the build constraint:
 
-	// +build linux,386 darwin,!cgo
 
+	// +build linux,386 darwin,!cgo
 
 corresponds to the boolean formula:
 
-	(linux AND 386) OR (darwin AND (NOT cgo))
 
+	(linux AND 386) OR (darwin AND (NOT cgo))
 
 A file may have multiple build constraints. The overall constraint is the AND
 of the individual constraints. That is, the build constraints:
 
+
 	// +build linux darwin
 	// +build 386
 
-
 corresponds to the boolean formula:
+
 
 	(linux OR darwin) AND 386
 
-
 During a particular build, the following words are satisfied:
+
 
 	- the target operating system, as spelled by runtime.GOOS
 	- the target architecture, as spelled by runtime.GOARCH
@@ -101,20 +100,19 @@ During a particular build, the following words are satisfied:
 	- "go1.2", from Go version 1.2 onward
 	- any additional words listed in ctxt.BuildTags
 
-
 If a file's name, after stripping the extension and a possible _test suffix,
 matches any of the following patterns:
+
 
 	*_GOOS
 	*_GOARCH
 	*_GOOS_GOARCH
 
-
 (example: source_windows_amd64.go) or the literals:
+
 
 	GOOS
 	GOARCH
-
 
 (example: windows.go) where GOOS and GOARCH represent any known operating
 system and architecture values respectively, then the file is considered to
@@ -122,38 +120,39 @@ have an implicit build constraint requiring those terms.
 
 To keep a file from being considered for the build:
 
-	// +build ignore
 
+	// +build ignore
 
 (any other unsatisfied word will work as well, but ``ignore'' is conventional.)
 
 To build a file only when using cgo, and only on Linux and OS X:
 
-	// +build linux,cgo darwin,cgo
 
+	// +build linux,cgo darwin,cgo
 
 Such a file is usually paired with another file implementing the
 default functionality for other systems, which in this case would
 carry the constraint:
 
-	// +build !linux,!darwin !cgo
 
+	// +build !linux,!darwin !cgo
 
 Naming a file dns_windows.go will cause it to be included only when
 building the package for Windows; similarly, math_386.s will be included
 only when building the package for 32-bit x86.
 
-		
 
-		
+
+
+
 
 
 
 ## Variables
 
 <pre>var ToolDir = filepath.Join(runtime.GOROOT(), &#34;pkg/tool/&#34;+runtime.GOOS+&#34;_&#34;+runtime.GOARCH)</pre>
-
 ToolDir is the directory containing build tools.
+
 
 
 
@@ -162,7 +161,6 @@ ToolDir is the directory containing build tools.
 
 ## func ArchChar
 <pre>func ArchChar(goarch string) (string, error)</pre>
-
 ArchChar returns the architecture character for the given goarch.
 For example, ArchChar("amd64") returns "6".
 
@@ -170,11 +168,12 @@ For example, ArchChar("amd64") returns "6".
 
 
 
+
 ## func IsLocalImport
 <pre>func IsLocalImport(path string) bool</pre>
-
 IsLocalImport reports whether the import path is
 a local import path, like ".", "..", "./foo", or "../foo".
+
 
 
 
@@ -242,18 +241,18 @@ a local import path, like ".", "..", "./foo", or "../foo".
     <span class="comment">// If OpenFile is nil, Import uses os.Open.</span>
     OpenFile func(path string) (r io.ReadCloser, err error)
 }</pre>
-
 A Context specifies the supporting context for a build.
 
 
 
 
 
-<pre>var Default Context = defaultContext()</pre>
 
+<pre>var Default Context = defaultContext()</pre>
 Default is the default Context for builds.
 It uses the GOARCH, GOOS, GOROOT, and GOPATH environment variables
 if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
+
 
 
 
@@ -332,8 +331,8 @@ that do not exist.
 
 ## type ImportMode
 <pre>type ImportMode uint</pre>
-
 An ImportMode controls the behavior of the Import method.
+
 
 
 
@@ -364,10 +363,10 @@ An ImportMode controls the behavior of the Import method.
 <pre>type NoGoError struct {
     Dir string
 }</pre>
-
 NoGoError is the error used by Import to describe a directory
 containing no buildable Go source files. (It may still contain
 test files, files hidden by build tags, and so on.)
+
 
 
 
@@ -435,8 +434,8 @@ test files, files hidden by build tags, and so on.)
     XTestImports   []string                    <span class="comment">// imports from XTestGoFiles</span>
     XTestImportPos map[string][]token.Position <span class="comment">// line information for XTestImports</span>
 }</pre>
-
 A Package describes the Go package found in a directory.
+
 
 
 
@@ -449,16 +448,16 @@ A Package describes the Go package found in a directory.
 
 ### func Import
 <pre>func Import(path, srcDir string, mode ImportMode) (*Package, error)</pre>
-
 Import is shorthand for Default.Import.
+
 
 
 
 
 ### func ImportDir
 <pre>func ImportDir(dir string, mode ImportMode) (*Package, error)</pre>
-
 ImportDir is shorthand for Default.ImportDir.
+
 
 
 

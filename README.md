@@ -1,16 +1,15 @@
 
-	
 # godoc2md
-		
-		
+
 godoc2md converts godoc formatted package documentation into Markdown format.
 
 usage
 
+
 	godoc2md $PACKAGE > $GOPATH/src/$PACKAGE/README.md
 
 
-	
+
 
 
 

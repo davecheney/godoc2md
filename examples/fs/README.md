@@ -1,13 +1,12 @@
 
-	
 # fs
-		
-		
+
 Package fs provides filesystem-related functions.
 
-		
 
-		
+
+
+
 		<div id="pkg-examples">
 			<h4>Examples</h4>
 			<dl>
@@ -16,7 +15,7 @@ Package fs provides filesystem-related functions.
 			
 			</dl>
 		</div>
-		
+
 
 
 
@@ -43,8 +42,8 @@ Package fs provides filesystem-related functions.
     <span class="comment">// The separator is FileSystem specific.</span>
     Join(elem ...string) string
 }</pre>
-
 FileSystem defines the methods of an abstract filesystem.
+
 
 
 
@@ -63,7 +62,6 @@ FileSystem defines the methods of an abstract filesystem.
 <pre>type Walker struct {
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
-
 Walker provides a convenient interface for iterating over the
 descendants of a filesystem path.
 Successive calls to the Step method will step through each
@@ -81,18 +79,19 @@ Walker does not follow symbolic links.
 
 
 
+
 ### func Walk
 <pre>func Walk(root string) *Walker</pre>
-
 Walk returns a new Walker rooted at root.
+
 
 
 
 
 ### func WalkFS
 <pre>func WalkFS(root string, fs FileSystem) *Walker</pre>
-
 WalkFS returns a new Walker rooted at root on the FileSystem fs.
+
 
 
 

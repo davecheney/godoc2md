@@ -1,17 +1,16 @@
 package main
 
-var pkgTemplate = `{{with .PDoc}}
-	{{if $.IsMain}}
+var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 # {{ base .ImportPath }}
-		{{/* command documentation */}}
-		{{comment_md .Doc}}
-	{{else}}
-# {{ .Name }}
-		{{/* package documentation */}}
-		{{comment_md .Doc}}
-		{{example_html $ ""}}
 
-		{{if $.Examples}}
+{{comment_md .Doc}}
+{{else}}
+# {{ .Name }}
+
+{{comment_md .Doc}}
+{{example_html $ ""}}
+
+{{if $.Examples}}
 		<div id="pkg-examples">
 			<h4>Examples</h4>
 			<dl>
@@ -20,7 +19,7 @@ var pkgTemplate = `{{with .PDoc}}
 			{{end}}
 			</dl>
 		</div>
-		{{end}}
+{{end}}
 
 {{with .Consts}}
 ## Constants
