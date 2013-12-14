@@ -7,9 +7,11 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"go/build"
+	"go/doc"
 	"log"
 	"os"
 	"path/filepath"
@@ -46,11 +48,23 @@ func usage() {
 var (
 	pres *godoc.Presentation
 	fs   = vfs.NameSpace{}
+
+	funcs = map[string]interface{}{
+		"comment_md": comment_mdFunc,
+	}
 )
+
+const punchCardWidth = 80
+
+func comment_mdFunc(comment string) string {
+	var buf bytes.Buffer
+	doc.ToText(&buf, comment, "", "\t", punchCardWidth)
+	return buf.String()
+}
 
 func readTemplate(name, data string) *template.Template {
 	// be explicit with errors (for app engine use)
-	t, err := template.New(name).Funcs(pres.FuncMap()).Parse(string(data))
+	t, err := template.New(name).Funcs(pres.FuncMap()).Funcs(funcs).Parse(string(data))
 	if err != nil {
 		log.Fatal("readTemplate: ", err)
 	}
@@ -96,65 +110,67 @@ var pkgTemplate = `{{with .PAst}}{{node $ .}}{{end}}{{/*
 
 ---------------------------------------
 
-*/}}{{with .PDoc}}{{if $.IsMain}}# {{.Name}}
+*/}}{{with .PDoc}}{{if $.IsMain}}# {{.ImportPath}}
 
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{else}}# package {{.Name}}
+
     import "{{.ImportPath}}"
 
-{{comment_text .Doc "    " "\t"}}
-{{example_text $ "" "    "}}{{/*
+{{comment_text .Doc "" "\t"}}
+{{example_text $ "" "\t"}}{{/*
 
 ---------------------------------------
 
 */}}{{with .Consts}}
-CONSTANTS
+## Constants
 
 {{range .}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{end}}{{end}}{{/*
 
 ---------------------------------------
 
 */}}{{with .Vars}}
-VARIABLES
+## Variables
 
 {{range .}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{end}}{{end}}{{/*
 
 ---------------------------------------
 
 */}}{{with .Funcs}}
-FUNCTIONS
+## Functions
 
 {{range .}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
-{{example_text $ .Name "    "}}{{end}}{{end}}{{/*
+{{comment_text .Doc "" "\t"}}
+{{example_text $ .Name "\t"}}{{end}}{{end}}{{/*
 
 ---------------------------------------
 
 */}}{{with .Types}}
-TYPES
+## Types
 
 {{range .}}{{$tname := .Name}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{range .Consts}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{end}}{{range .Vars}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{end}}{{example_text $ .Name "    "}}
 {{range .Funcs}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
-{{example_text $ .Name "    "}}
+{{comment_text .Doc "" "\t"}}
+{{example_text $ .Name "\t"}}
 {{end}}{{range .Methods}}{{node $ .Decl}}
-{{comment_text .Doc "    " "\t"}}
+{{comment_text .Doc "" "\t"}}
 {{$name := printf "%s_%s" $tname .Name}}{{example_text $ $name "    "}}{{end}}
 {{end}}{{end}}{{end}}{{/*
 
 ---------------------------------------
 
 */}}{{with $.Notes}}
+## Notes
 {{range $marker, $content := .}}
 {{$marker}}S
 
