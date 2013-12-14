@@ -8,8 +8,9 @@ godoc2md converts godoc formatted package documentation into Markdown format.
 
 usage
 
-<pre>godoc2md $PACKAGE &gt; $GOPATH/src/$PACKAGE/README.md
-</pre>
+
+	godoc2md $PACKAGE &gt; $GOPATH/src/$PACKAGE/README.md
+
 
 	
 

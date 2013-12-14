@@ -8,20 +8,21 @@ Package martini is a powerful package for quickly writing modular web applicatio
 
 For a full guide visit a href="http://github.com/codegangsta/martini">http://github.com/codegangsta/martini</a>
 
-<pre>package main
 
-import &#34;github.com/codegangsta/martini&#34;
+	package main
+	
+	import &#34;github.com/codegangsta/martini&#34;
+	
+	func main() {
+	  m := martini.Classic()
+	
+	  m.Get(&#34;/&#34;, func() string {
+	    return &#34;Hello world!&#34;
+	  })
+	
+	  m.Run()
+	}
 
-func main() {
-  m := martini.Classic()
-
-  m.Get(&#34;/&#34;, func() string {
-    return &#34;Hello world!&#34;
-  })
-
-  m.Run()
-}
-</pre>
 
 		
 

@@ -71,6 +71,9 @@ var (
 	html_h      = []byte(`<h3 id="`)
 	html_hq     = []byte(`">`)
 	html_endh   = []byte("</h3>\n")
+
+	md_pre	    = []byte("\t")
+	md_newline  = []byte("\n")
 )
 
 // Emphasize and escape a line of text for HTML. URLs are converted into links;
@@ -280,11 +283,12 @@ func ToMD(w io.Writer, text string, words map[string]string) {
 			}
 			w.Write(html_endh)
 		case opPre:
-			w.Write(html_pre)
+			w.Write(md_newline)
 			for _, line := range b.lines {
+				w.Write(md_pre)
 				emphasize(w, line, nil, false)
 			}
-			w.Write(html_endpre)
+			w.Write(md_newline)
 		}
 	}
 }
