@@ -7,17 +7,6 @@ Package fs provides filesystem-related functions.
 
 
 
-		<div id="pkg-examples">
-			<h4>Examples</h4>
-			<dl>
-			
-			<dd><a class="exampleLink" href="#example_Walker">Walker</a></dd>
-			
-			</dl>
-		</div>
-
-
-
 
 
 

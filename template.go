@@ -10,17 +10,6 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{comment_md .Doc}}
 {{example_html $ ""}}
 
-{{if $.Examples}}
-		<div id="pkg-examples">
-			<h4>Examples</h4>
-			<dl>
-			{{range $.Examples}}
-			<dd><a class="exampleLink" href="#example_{{.Name}}">{{example_name .Name}}</a></dd>
-			{{end}}
-			</dl>
-		</div>
-{{end}}
-
 {{with .Consts}}
 ## Constants
 {{range .}}

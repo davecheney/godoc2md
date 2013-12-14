@@ -24,8 +24,6 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
 
 
 
-
-
 ## Constants
 
 <pre>const (
