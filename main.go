@@ -14,6 +14,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"path"
 	"log"
 	"os"
 	"path/filepath"
@@ -53,6 +54,7 @@ var (
 
 	funcs = map[string]interface{}{
 		"comment_md": comment_mdFunc,
+		"base": path.Base,
 	}
 )
 

@@ -2,9 +2,11 @@ package main
 
 var pkgTemplate = `{{with .PDoc}}
 	{{if $.IsMain}}
+# {{ base .ImportPath }}
 		{{/* command documentation */}}
 		{{comment_md .Doc}}
 	{{else}}
+# {{ .Name }}
 		{{/* package documentation */}}
 		{{comment_md .Doc}}
 		{{example_html $ ""}}
