@@ -6,6 +6,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{comment_md .Doc}}
 {{else}}
 # {{ .Name }}
+    import "{{.ImportPath}}"
 
 {{comment_md .Doc}}
 {{example_html $ ""}}

@@ -1,5 +1,6 @@
 
 # build
+    import "go/build"
 
 Package build gathers information about Go packages.
 

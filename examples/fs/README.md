@@ -1,5 +1,6 @@
 
 # fs
+    import "github.com/kr/fs"
 
 Package fs provides filesystem-related functions.
 
