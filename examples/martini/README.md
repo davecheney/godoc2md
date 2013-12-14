@@ -195,9 +195,8 @@ New creates a bare bones Martini instance. Use this method if you want to have f
 
 ### func (*Martini) Action
 <pre>func (m *Martini) Action(handler Handler)</pre>
-<p>
 Action sets the handler that will be called after all the middleware has been invoked. This is set to martini.Router in a martini.Classic().
-</p>
+
 
 
 
@@ -205,10 +204,9 @@ Action sets the handler that will be called after all the middleware has been in
 
 ### func (*Martini) Handlers
 <pre>func (m *Martini) Handlers(handlers ...Handler)</pre>
-<p>
 Handlers sets the entire middleware stack with the given Handlers. This will clear any current middleware handlers.
 Will panic if any of the handlers is not a callable function
-</p>
+
 
 
 
@@ -216,9 +214,8 @@ Will panic if any of the handlers is not a callable function
 
 ### func (*Martini) Run
 <pre>func (m *Martini) Run()</pre>
-<p>
-Run the http server. Listening on os.GetEnv(&#34;PORT&#34;) or 3000 by default.
-</p>
+Run the http server. Listening on os.GetEnv("PORT") or 3000 by default.
+
 
 
 
@@ -226,9 +223,8 @@ Run the http server. Listening on os.GetEnv(&#34;PORT&#34;) or 3000 by default.
 
 ### func (*Martini) ServeHTTP
 <pre>func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)</pre>
-<p>
 ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to control your own HTTP server.
-</p>
+
 
 
 
@@ -236,9 +232,8 @@ ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to 
 
 ### func (*Martini) Use
 <pre>func (m *Martini) Use(handler Handler)</pre>
-<p>
 Use adds a middleware Handler to the stack. Will panic if the handler is not a callable func. Middleware Handlers are invoked in the order that they are added.
-</p>
+
 
 
 

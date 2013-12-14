@@ -264,25 +264,23 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 ### func (*Context) Import
 <pre>func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)</pre>
-<p>
 Import returns details about the Go package named by the import path,
 interpreting local import paths relative to the srcDir directory.
 If the path is a local import path naming a package that can be imported
 using a standard import path, the returned package will set p.ImportPath
 to that path.
-</p>
-<p>
+
 In the directory containing the package, .go, .c, .h, and .s files are
 considered part of the package except for:
-</p>
-<pre>- .go files in package documentation
-- files starting with _ or . (likely editor temporary files)
-- files with build constraints not satisfied by the context
-</pre>
-<p>
+
+
+	- .go files in package documentation
+	- files starting with _ or . (likely editor temporary files)
+	- files with build constraints not satisfied by the context
+
 If an error occurs, Import returns a non-nil error and a non-nil
 *Package containing partial information.
-</p>
+
 
 
 
@@ -290,10 +288,9 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 ### func (*Context) ImportDir
 <pre>func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)</pre>
-<p>
 ImportDir is like Import but processes the Go package found in
 the named directory.
-</p>
+
 
 
 
@@ -301,15 +298,13 @@ the named directory.
 
 ### func (*Context) MatchFile
 <pre>func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)</pre>
-<p>
 MatchFile reports whether the file with the given name in the given directory
 matches the context and would be included in a Package created by ImportDir
 of that directory.
-</p>
-<p>
+
 MatchFile considers the name of the file and may use ctxt.OpenFile to
-read some or all of the file&#39;s content.
-</p>
+read some or all of the file's content.
+
 
 
 
@@ -317,11 +312,10 @@ read some or all of the file&#39;s content.
 
 ### func (*Context) SrcDirs
 <pre>func (ctxt *Context) SrcDirs() []string</pre>
-<p>
 SrcDirs returns a list of package source root directories.
 It draws from the current Go root and Go path but omits directories
 that do not exist.
-</p>
+
 
 
 
@@ -466,11 +460,10 @@ ImportDir is shorthand for Default.ImportDir.
 
 ### func (*Package) IsCommand
 <pre>func (p *Package) IsCommand() bool</pre>
-<p>
 IsCommand reports whether the package is considered a
 command to be installed (not just a library).
-Packages named &#34;main&#34; are treated as commands.
-</p>
+Packages named "main" are treated as commands.
+
 
 
 
