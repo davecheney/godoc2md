@@ -10,9 +10,6 @@ Package fs provides filesystem-related functions.
 
 
 
-
-
-
 ## type FileSystem
 <pre>type FileSystem interface {
 
@@ -45,9 +42,6 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 
-
-
-
 ## type Walker
 <pre>type Walker struct {
     // contains filtered or unexported fields
@@ -68,8 +62,6 @@ Walker does not follow symbolic links.
 
 
 
-
-
 ### func Walk
 
     func Walk(root string) *Walker
@@ -77,16 +69,11 @@ Walker does not follow symbolic links.
 Walk returns a new Walker rooted at root.
 
 
-
-
-
 ### func WalkFS
 
     func WalkFS(root string, fs FileSystem) *Walker
 
 WalkFS returns a new Walker rooted at root on the FileSystem fs.
-
-
 
 
 
@@ -101,7 +88,6 @@ an error, w will not descend into that directory.
 
 
 
-
 ### func (\*Walker) Path
 
     func (w *Walker) Path() string
@@ -110,7 +96,6 @@ Path returns the path to the most recent file or directory
 visited by a call to Step. It contains the argument to Walk
 as a prefix; that is, if Walk is called with "dir", which is
 a directory containing the file "a", Path will return "dir/a".
-
 
 
 
@@ -123,14 +108,12 @@ If w is not on a directory, SkipDir has no effect.
 
 
 
-
 ### func (\*Walker) Stat
 
     func (w *Walker) Stat() os.FileInfo
 
 Stat returns info for the most recent file or directory
 visited by a call to Step.
-
 
 
 

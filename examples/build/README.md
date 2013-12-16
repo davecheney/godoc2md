@@ -146,14 +146,10 @@ only when building the package for 32-bit x86.
 
 
 
-
 ## Variables
 
 <pre>var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)</pre>
 ToolDir is the directory containing build tools.
-
-
-
 
 
 
@@ -165,16 +161,10 @@ For example, ArchChar("amd64") returns "6".
 
 
 
-
-
-
 ## func IsLocalImport
 <pre>func IsLocalImport(path string) bool</pre>
 IsLocalImport reports whether the import path is
 a local import path, like ".", "..", "./foo", or "../foo".
-
-
-
 
 
 
@@ -246,13 +236,10 @@ A Context specifies the supporting context for a build.
 
 
 
-
 <pre>var Default Context = defaultContext()</pre>
 Default is the default Context for builds.
 It uses the GOARCH, GOOS, GOROOT, and GOPATH environment variables
 if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
-
-
 
 
 
@@ -283,14 +270,12 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 
-
 ### func (\*Context) ImportDir
 
     func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
 
 ImportDir is like Import but processes the Go package found in
 the named directory.
-
 
 
 
@@ -307,7 +292,6 @@ read some or all of the file's content.
 
 
 
-
 ### func (\*Context) SrcDirs
 
     func (ctxt *Context) SrcDirs() []string
@@ -319,13 +303,9 @@ that do not exist.
 
 
 
-
-
-
 ## type ImportMode
 <pre>type ImportMode uint</pre>
 An ImportMode controls the behavior of the Import method.
-
 
 
 
@@ -339,10 +319,6 @@ An ImportMode controls the behavior of the Import method.
     // package object without corresponding sources.
     AllowBinary
 )</pre>
-
-
-
-
 
 
 
@@ -370,13 +346,9 @@ test files, files hidden by build tags, and so on.)
 
 
 
-
 ### func (\*NoGoError) Error
 
     func (e *NoGoError) Error() string
-
-
-
 
 
 
@@ -437,8 +409,6 @@ A Package describes the Go package found in a directory.
 
 
 
-
-
 ### func Import
 
     func Import(path, srcDir string, mode ImportMode) (*Package, error)
@@ -446,16 +416,11 @@ A Package describes the Go package found in a directory.
 Import is shorthand for Default.Import.
 
 
-
-
-
 ### func ImportDir
 
     func ImportDir(dir string, mode ImportMode) (*Package, error)
 
 ImportDir is shorthand for Default.ImportDir.
-
-
 
 
 

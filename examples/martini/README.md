@@ -24,7 +24,6 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
 
 
 
-
 ## Constants
 
 <pre>const (
@@ -33,7 +32,6 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
     Test string = "test"
 )</pre>
 Envs
-
 
 
 
@@ -47,15 +45,9 @@ Env is the environment that Martini is executing in. The MARTINI_ENV is read on 
 
 
 
-
-
-
 ## type BeforeFunc
 <pre>type BeforeFunc func(ResponseWriter)</pre>
 BeforeFunc is a function that is called before the ResponseWriter has been written to.
-
-
-
 
 
 
@@ -83,17 +75,11 @@ ClassicMartini represents a Martini with some reasonable defaults. Embeds the ro
 
 
 
-
-
 ### func Classic
 
     func Classic() *ClassicMartini
 
 Classic creates a classic Martini with some basic default middleware - martini.Logger, martini.Recovery, and martini.Static.
-
-
-
-
 
 
 
@@ -121,15 +107,10 @@ Context represents a request context. Services can be mapped on the request leve
 
 
 
-
-
-
 ## type Handler
 <pre>type Handler interface{}</pre>
 Handler can be any callable function. Martini attempts to inject services into the handler's argument list.
 Martini will panic if an argument could not be fullfilled via dependency injection.
-
-
 
 
 
@@ -146,9 +127,6 @@ Martini will panic if an argument could not be fullfilled via dependency injecti
 Logger returns a middleware handler that logs the request as it goes in and the response as it goes out.
 
 
-
-
-
 ### func Recovery
 
     func Recovery() Handler
@@ -156,18 +134,11 @@ Logger returns a middleware handler that logs the request as it goes in and the 
 Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.
 
 
-
-
-
 ### func Static
 
     func Static(directory string) Handler
 
 Static returns a middleware handler that serves static files in the given directory.
-
-
-
-
 
 
 
@@ -188,15 +159,11 @@ Martini represents the top level web application. inject.Injector methods can be
 
 
 
-
-
 ### func New
 
     func New() *Martini
 
 New creates a bare bones Martini instance. Use this method if you want to have full control over the middleware that is used.
-
-
 
 
 
@@ -209,14 +176,12 @@ Action sets the handler that will be called after all the middleware has been in
 
 
 
-
 ### func (\*Martini) Handlers
 
     func (m *Martini) Handlers(handlers ...Handler)
 
 Handlers sets the entire middleware stack with the given Handlers. This will clear any current middleware handlers.
 Will panic if any of the handlers is not a callable function
-
 
 
 
@@ -228,13 +193,11 @@ Run the http server. Listening on os.GetEnv("PORT") or 3000 by default.
 
 
 
-
 ### func (\*Martini) ServeHTTP
 
     func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)
 
 ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to control your own HTTP server.
-
 
 
 
@@ -247,15 +210,9 @@ Use adds a middleware Handler to the stack. Will panic if the handler is not a c
 
 
 
-
-
-
 ## type Params
 <pre>type Params map[string]string</pre>
 Params is a map of name/value pairs for named routes. An instance of martini.Params is available to be injected into any route handler.
-
-
-
 
 
 
@@ -293,17 +250,11 @@ if the functionality calls for it.
 
 
 
-
-
 ### func NewResponseWriter
 
     func NewResponseWriter(rw http.ResponseWriter) ResponseWriter
 
 NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
-
-
-
-
 
 
 
@@ -315,9 +266,6 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
     URLWith([]string) string
 }</pre>
 Route is an interface representing a Route in Martini's routing layer.
-
-
-
 
 
 
@@ -365,17 +313,11 @@ Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked han
 
 
 
-
-
 ### func NewRouter
 
     func NewRouter() Router
 
 NewRouter creates a new Router instance.
-
-
-
-
 
 
 

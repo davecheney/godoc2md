@@ -11,59 +11,43 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{comment_md .Doc}}
 {{example_html $ ""}}
 
-{{with .Consts}}
-## Constants
+{{with .Consts}}## Constants
 {{range .}}
 <pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 {{end}}
-{{with .Vars}}
-## Variables
+{{with .Vars}}## Variables
 {{range .}}
 <pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{end}}
 {{end}}
-{{range .Funcs}}
-{{/* Name is a string - no need for FSet */}}
-{{$name_html := html .Name}}
-## func {{$name_html}}
+{{range .Funcs}}{{$name_html := html .Name}}## func {{$name_html}}
 <pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 {{example_html $ .Name}}
 {{end}}
-{{range .Types}}
-{{$tname := .Name}}
-{{$tname_html := html .Name}}
-## type {{$tname_html}}
+{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## type {{$tname_html}}
 <pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 
-{{range .Consts}}
-<pre>{{node $ .Decl}}</pre>
-{{comment_md .Doc}}
-{{end}}
+{{range .Consts}}<pre>{{node $ .Decl}}</pre>
+{{comment_md .Doc}}{{end}}
 
-{{range .Vars}}
-<pre>{{node $ .Decl}}</pre>
-{{comment_md .Doc}}
-{{end}}
+{{range .Vars}}<pre>{{node $ .Decl}}</pre>
+{{comment_md .Doc}}{{end}}
 
 {{example_html $ $tname}}
 
-{{range .Funcs}}
-{{$name_html := html .Name}}
-### func {{$name_html}}
+{{range .Funcs}}{{$name_html := html .Name}}### func {{$name_html}}
 
     {{node $ .Decl}}
 
 {{comment_md .Doc}}
-{{example_html $ .Name}}
-{{end}}
+{{example_html $ .Name}}{{end}}
 
-{{range .Methods}}
-{{$name_html := html .Name}}### func ({{md .Recv}}) {{$name_html}}
+{{range .Methods}}{{$name_html := html .Name}}### func ({{md .Recv}}) {{$name_html}}
 
     {{node $ .Decl}}
 

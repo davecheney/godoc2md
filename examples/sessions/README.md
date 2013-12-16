@@ -167,17 +167,11 @@ session to a common registry. Save() uses it to save all registered sessions.
 
 
 
-
-
-
 ## func NewCookie
 <pre>func NewCookie(name, value string, options *Options) *http.Cookie</pre>
 NewCookie returns an http.Cookie with the options set. It also sets
 the Expires field calculated based on the MaxAge value, for Internet
 Explorer compatibility.
-
-
-
 
 
 
@@ -188,17 +182,12 @@ Save saves all sessions used during the current request.
 
 
 
-
-
-
 ## type CookieStore
 <pre>type CookieStore struct {
     Codecs  []securecookie.Codec
     Options *Options // default configuration
 }</pre>
 CookieStore stores sessions using secure cookies.
-
-
 
 
 
@@ -231,8 +220,6 @@ strong keys.
 
 
 
-
-
 ### func (\*CookieStore) Get
 
     func (s *CookieStore) Get(r *http.Request, name string) (*Session, error)
@@ -244,7 +231,6 @@ the session to check if it is an existing session or a new one.
 
 It returns a new session and an error if the session exists but could
 not be decoded.
-
 
 
 
@@ -260,16 +246,12 @@ decoded session after the first call.
 
 
 
-
 ### func (\*CookieStore) Save
 
     func (s *CookieStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
 
 Save adds a single session to the response.
-
-
-
 
 
 
@@ -294,8 +276,6 @@ This store is still experimental and not well tested. Feedback is welcome.
 
 
 
-
-
 ### func NewFilesystemStore
 
     func NewFilesystemStore(path string, keyPairs ...[]byte) *FilesystemStore
@@ -310,8 +290,6 @@ See NewCookieStore() for a description of the other parameters.
 
 
 
-
-
 ### func (\*FilesystemStore) Get
 
     func (s *FilesystemStore) Get(r *http.Request, name string) (*Session, error)
@@ -319,7 +297,6 @@ See NewCookieStore() for a description of the other parameters.
 Get returns a session for the given name after adding it to the registry.
 
 See CookieStore.Get().
-
 
 
 
@@ -333,7 +310,6 @@ The default for a new FilesystemStore is 4096.
 
 
 
-
 ### func (\*FilesystemStore) New
 
     func (s *FilesystemStore) New(r *http.Request, name string) (*Session, error)
@@ -344,16 +320,12 @@ See CookieStore.New().
 
 
 
-
 ### func (\*FilesystemStore) Save
 
     func (s *FilesystemStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
 
 Save adds a single session to the response.
-
-
-
 
 
 
@@ -374,13 +346,9 @@ Borrowed from the App Engine SDK.
 
 
 
-
 ### func (MultiError) Error
 
     func (m MultiError) Error() string
-
-
-
 
 
 
@@ -411,16 +379,11 @@ Fields are a subset of http.Cookie fields.
 
 
 
-
-
-
 ## type Registry
 <pre>type Registry struct {
     // contains filtered or unexported fields
 }</pre>
 Registry stores sessions used during a request.
-
-
 
 
 
@@ -439,8 +402,6 @@ GetRegistry returns a registry instance for the current request.
 
 
 
-
-
 ### func (\*Registry) Get
 
     func (s *Registry) Get(store Store, name string) (session *Session, err error)
@@ -451,15 +412,11 @@ It returns a new session if there are no sessions registered for the name.
 
 
 
-
 ### func (\*Registry) Save
 
     func (s *Registry) Save(w http.ResponseWriter) error
 
 Save saves all sessions registered for the current request.
-
-
-
 
 
 
@@ -482,15 +439,11 @@ Session stores the values and optional configuration for a session.
 
 
 
-
-
 ### func NewSession
 
     func NewSession(store Store, name string) *Session
 
 NewSession is called by session stores to create a new session instance.
-
-
 
 
 
@@ -506,7 +459,6 @@ the flash key. If not defined "_flash" is used by default.
 
 
 
-
 ### func (\*Session) Flashes
 
     func (s *Session) Flashes(vars ...string) []interface{}
@@ -518,13 +470,11 @@ the flash key. If not defined "_flash" is used by default.
 
 
 
-
 ### func (\*Session) Name
 
     func (s *Session) Name() string
 
 Name returns the name used to register the session.
-
 
 
 
@@ -537,15 +487,11 @@ store.Save(request, response, session)
 
 
 
-
 ### func (\*Session) Store
 
     func (s *Session) Store() Store
 
 Store returns the session store used to register the session.
-
-
-
 
 
 
