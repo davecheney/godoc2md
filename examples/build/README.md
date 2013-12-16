@@ -260,7 +260,6 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 
 
-
 ### func (\*Context) Import
 
     func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)
@@ -285,16 +284,12 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 
-
-
 ### func (\*Context) ImportDir
 
     func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
 
 ImportDir is like Import but processes the Go package found in
 the named directory.
-
-
 
 
 
@@ -313,8 +308,6 @@ read some or all of the file's content.
 
 
 
-
-
 ### func (\*Context) SrcDirs
 
     func (ctxt *Context) SrcDirs() []string
@@ -322,7 +315,6 @@ read some or all of the file's content.
 SrcDirs returns a list of package source root directories.
 It draws from the current Go root and Go path but omits directories
 that do not exist.
-
 
 
 
@@ -379,11 +371,9 @@ test files, files hidden by build tags, and so on.)
 
 
 
-
 ### func (\*NoGoError) Error
 
     func (e *NoGoError) Error() string
-
 
 
 
@@ -470,7 +460,6 @@ ImportDir is shorthand for Default.ImportDir.
 
 
 
-
 ### func (\*Package) IsCommand
 
     func (p *Package) IsCommand() bool
@@ -478,7 +467,6 @@ ImportDir is shorthand for Default.ImportDir.
 IsCommand reports whether the package is considered a
 command to be installed (not just a library).
 Packages named "main" are treated as commands.
-
 
 
 
