@@ -25,15 +25,15 @@ For a full guide visit a href="http://github.com/codegangsta/martini">http://git
 
 
 ## Constants
-
-<pre>const (
+``` go
+const (
     Dev  string = "development"
     Prod string = "production"
     Test string = "test"
-)</pre>
+)
+```
+
 Envs
-
-
 
 
 ## Variables

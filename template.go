@@ -12,11 +12,8 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{example_html $ ""}}
 
 {{with .Consts}}## Constants
-{{range .}}
-<pre>{{node $ .Decl}}</pre>
-{{comment_md .Doc}}
-{{end}}
-{{end}}
+{{range .}}{{node $ .Decl | pre }}
+{{comment_md .Doc}}{{end}}{{end}}
 {{with .Vars}}## Variables
 {{range .}}
 <pre>{{node $ .Decl}}</pre>
