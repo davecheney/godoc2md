@@ -168,25 +168,29 @@ session to a common registry. Save() uses it to save all registered sessions.
 
 
 ## func NewCookie
-<pre>func NewCookie(name, value string, options *Options) *http.Cookie</pre>
+``` go
+func NewCookie(name, value string, options *Options) *http.Cookie
+```
 NewCookie returns an http.Cookie with the options set. It also sets
 the Expires field calculated based on the MaxAge value, for Internet
 Explorer compatibility.
 
 
-
 ## func Save
-<pre>func Save(r *http.Request, w http.ResponseWriter) error</pre>
+``` go
+func Save(r *http.Request, w http.ResponseWriter) error
+```
 Save saves all sessions used during the current request.
 
 
 
-
 ## type CookieStore
-<pre>type CookieStore struct {
+``` go
+type CookieStore struct {
     Codecs  []securecookie.Codec
     Options *Options // default configuration
-}</pre>
+}
+```
 CookieStore stores sessions using secure cookies.
 
 
@@ -198,9 +202,9 @@ CookieStore stores sessions using secure cookies.
 
 
 ### func NewCookieStore
-
-    func NewCookieStore(keyPairs ...[]byte) *CookieStore
-
+``` go
+func NewCookieStore(keyPairs ...[]byte) *CookieStore
+```
 NewCookieStore returns a new CookieStore.
 
 Keys are defined in pairs to allow key rotation, but the common case is
@@ -257,11 +261,13 @@ Save adds a single session to the response.
 
 
 ## type FilesystemStore
-<pre>type FilesystemStore struct {
+``` go
+type FilesystemStore struct {
     Codecs  []securecookie.Codec
     Options *Options // default configuration
     // contains filtered or unexported fields
-}</pre>
+}
+```
 FilesystemStore stores sessions in the filesystem.
 
 It also serves as a referece for custom stores.
@@ -277,9 +283,9 @@ This store is still experimental and not well tested. Feedback is welcome.
 
 
 ### func NewFilesystemStore
-
-    func NewFilesystemStore(path string, keyPairs ...[]byte) *FilesystemStore
-
+``` go
+func NewFilesystemStore(path string, keyPairs ...[]byte) *FilesystemStore
+```
 NewFilesystemStore returns a new FilesystemStore.
 
 The path argument is the directory where sessions will be saved. If empty
@@ -331,7 +337,9 @@ Save adds a single session to the response.
 
 
 ## type MultiError
-<pre>type MultiError []error</pre>
+``` go
+type MultiError []error
+```
 MultiError stores multiple errors.
 
 Borrowed from the App Engine SDK.
@@ -354,7 +362,8 @@ Borrowed from the App Engine SDK.
 
 
 ## type Options
-<pre>type Options struct {
+``` go
+type Options struct {
     Path   string
     Domain string
     // MaxAge=0 means no 'Max-Age' attribute specified.
@@ -363,7 +372,8 @@ Borrowed from the App Engine SDK.
     MaxAge   int
     Secure   bool
     HttpOnly bool
-}</pre>
+}
+```
 Options stores configuration for a session or session store.
 
 Fields are a subset of http.Cookie fields.
@@ -380,9 +390,11 @@ Fields are a subset of http.Cookie fields.
 
 
 ## type Registry
-<pre>type Registry struct {
+``` go
+type Registry struct {
     // contains filtered or unexported fields
-}</pre>
+}
+```
 Registry stores sessions used during a request.
 
 
@@ -394,9 +406,9 @@ Registry stores sessions used during a request.
 
 
 ### func GetRegistry
-
-    func GetRegistry(r *http.Request) *Registry
-
+``` go
+func GetRegistry(r *http.Request) *Registry
+```
 GetRegistry returns a registry instance for the current request.
 
 
@@ -422,13 +434,15 @@ Save saves all sessions registered for the current request.
 
 
 ## type Session
-<pre>type Session struct {
+``` go
+type Session struct {
     ID      string
     Values  map[interface{}]interface{}
     Options *Options
     IsNew   bool
     // contains filtered or unexported fields
-}</pre>
+}
+```
 Session stores the values and optional configuration for a session.
 
 
@@ -440,9 +454,9 @@ Session stores the values and optional configuration for a session.
 
 
 ### func NewSession
-
-    func NewSession(store Store, name string) *Session
-
+``` go
+func NewSession(store Store, name string) *Session
+```
 NewSession is called by session stores to create a new session instance.
 
 
@@ -497,7 +511,8 @@ Store returns the session store used to register the session.
 
 
 ## type Store
-<pre>type Store interface {
+``` go
+type Store interface {
     // Get should return a cached session.
     Get(r *http.Request, name string) (*Session, error)
 
@@ -509,7 +524,8 @@ Store returns the session store used to register the session.
 
     // Save should persist session to the underlying store implementation.
     Save(r *http.Request, w http.ResponseWriter, s *Session) error
-}</pre>
+}
+```
 Store is an interface for custom session stores.
 
 See CookieStore and FilesystemStore for examples.

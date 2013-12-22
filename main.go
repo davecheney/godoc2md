@@ -77,7 +77,7 @@ func mdFunc(text string) string {
 }
 
 func preFunc(text string) string {
-	return "``` go\n"+text+"\n```\n"
+	return "``` go\n"+text+"\n```"
 }
 
 func readTemplate(name, data string) *template.Template {

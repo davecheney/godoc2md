@@ -155,27 +155,29 @@ only when building the package for 32-bit x86.
 ``` go
 var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
 ```
-
 ToolDir is the directory containing build tools.
 
 
 ## func ArchChar
-<pre>func ArchChar(goarch string) (string, error)</pre>
+``` go
+func ArchChar(goarch string) (string, error)
+```
 ArchChar returns the architecture character for the given goarch.
 For example, ArchChar("amd64") returns "6".
 
 
-
 ## func IsLocalImport
-<pre>func IsLocalImport(path string) bool</pre>
+``` go
+func IsLocalImport(path string) bool
+```
 IsLocalImport reports whether the import path is
 a local import path, like ".", "..", "./foo", or "../foo".
 
 
 
-
 ## type Context
-<pre>type Context struct {
+``` go
+type Context struct {
     GOARCH      string // target architecture
     GOOS        string // target operating system
     GOROOT      string // Go root
@@ -234,7 +236,8 @@ a local import path, like ".", "..", "./foo", or "../foo".
     // OpenFile opens a file (not a directory) for reading.
     // If OpenFile is nil, Import uses os.Open.
     OpenFile func(path string) (r io.ReadCloser, err error)
-}</pre>
+}
+```
 A Context specifies the supporting context for a build.
 
 
@@ -244,7 +247,6 @@ A Context specifies the supporting context for a build.
 ``` go
 var Default Context = defaultContext()
 ```
-
 Default is the default Context for builds.
 It uses the GOARCH, GOOS, GOROOT, and GOPATH environment variables
 if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
@@ -312,7 +314,9 @@ that do not exist.
 
 
 ## type ImportMode
-<pre>type ImportMode uint</pre>
+``` go
+type ImportMode uint
+```
 An ImportMode controls the behavior of the Import method.
 
 
@@ -338,11 +342,12 @@ const (
 
 
 
-
 ## type NoGoError
-<pre>type NoGoError struct {
+``` go
+type NoGoError struct {
     Dir string
-}</pre>
+}
+```
 NoGoError is the error used by Import to describe a directory
 containing no buildable Go source files. (It may still contain
 test files, files hidden by build tags, and so on.)
@@ -365,7 +370,8 @@ test files, files hidden by build tags, and so on.)
 
 
 ## type Package
-<pre>type Package struct {
+``` go
+type Package struct {
     Dir         string   // directory containing package sources
     Name        string   // package name
     Doc         string   // documentation synopsis
@@ -409,7 +415,8 @@ test files, files hidden by build tags, and so on.)
     XTestGoFiles   []string                    // _test.go files outside package
     XTestImports   []string                    // imports from XTestGoFiles
     XTestImportPos map[string][]token.Position // line information for XTestImports
-}</pre>
+}
+```
 A Package describes the Go package found in a directory.
 
 
@@ -421,16 +428,16 @@ A Package describes the Go package found in a directory.
 
 
 ### func Import
-
-    func Import(path, srcDir string, mode ImportMode) (*Package, error)
-
+``` go
+func Import(path, srcDir string, mode ImportMode) (*Package, error)
+```
 Import is shorthand for Default.Import.
 
 
 ### func ImportDir
-
-    func ImportDir(dir string, mode ImportMode) (*Package, error)
-
+``` go
+func ImportDir(dir string, mode ImportMode) (*Package, error)
+```
 ImportDir is shorthand for Default.ImportDir.
 
 

@@ -18,12 +18,11 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 {{range .Funcs}}{{$name_html := html .Name}}## func {{$name_html}}
-<pre>{{node $ .Decl}}</pre>
+{{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}
-{{end}}
+{{example_html $ .Name}}{{end}}
 {{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## type {{$tname_html}}
-<pre>{{node $ .Decl}}</pre>
+{{node $ .Decl | pre}}
 {{comment_md .Doc}}
 
 {{range .Consts}}{{node $ .Decl | pre }}
@@ -35,9 +34,7 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 {{example_html $ $tname}}
 
 {{range .Funcs}}{{$name_html := html .Name}}### func {{$name_html}}
-
-    {{node $ .Decl}}
-
+{{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{example_html $ .Name}}{{end}}
 

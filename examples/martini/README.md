@@ -32,7 +32,6 @@ const (
     Test string = "test"
 )
 ```
-
 Envs
 
 
@@ -40,13 +39,14 @@ Envs
 ``` go
 var Env = Dev
 ```
-
 Env is the environment that Martini is executing in. The MARTINI_ENV is read on initialization to set this variable.
 
 
 
 ## type BeforeFunc
-<pre>type BeforeFunc func(ResponseWriter)</pre>
+``` go
+type BeforeFunc func(ResponseWriter)
+```
 BeforeFunc is a function that is called before the ResponseWriter has been written to.
 
 
@@ -61,10 +61,12 @@ BeforeFunc is a function that is called before the ResponseWriter has been writt
 
 
 ## type ClassicMartini
-<pre>type ClassicMartini struct {
+``` go
+type ClassicMartini struct {
     *Martini
     Router
-}</pre>
+}
+```
 ClassicMartini represents a Martini with some reasonable defaults. Embeds the router functions for convenience.
 
 
@@ -76,9 +78,9 @@ ClassicMartini represents a Martini with some reasonable defaults. Embeds the ro
 
 
 ### func Classic
-
-    func Classic() *ClassicMartini
-
+``` go
+func Classic() *ClassicMartini
+```
 Classic creates a classic Martini with some basic default middleware - martini.Logger, martini.Recovery, and martini.Static.
 
 
@@ -86,14 +88,16 @@ Classic creates a classic Martini with some basic default middleware - martini.L
 
 
 ## type Context
-<pre>type Context interface {
+``` go
+type Context interface {
     inject.Injector
     // Next is an optional function that Middleware Handlers can call to yield the until after
     // the other Handlers have been executed. This works really well for any operations that must
     // happen after an http request
     Next()
     // contains filtered or unexported methods
-}</pre>
+}
+```
 Context represents a request context. Services can be mapped on the request level from this interface.
 
 
@@ -108,7 +112,9 @@ Context represents a request context. Services can be mapped on the request leve
 
 
 ## type Handler
-<pre>type Handler interface{}</pre>
+``` go
+type Handler interface{}
+```
 Handler can be any callable function. Martini attempts to inject services into the handler's argument list.
 Martini will panic if an argument could not be fullfilled via dependency injection.
 
@@ -121,23 +127,23 @@ Martini will panic if an argument could not be fullfilled via dependency injecti
 
 
 ### func Logger
-
-    func Logger() Handler
-
+``` go
+func Logger() Handler
+```
 Logger returns a middleware handler that logs the request as it goes in and the response as it goes out.
 
 
 ### func Recovery
-
-    func Recovery() Handler
-
+``` go
+func Recovery() Handler
+```
 Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.
 
 
 ### func Static
-
-    func Static(directory string) Handler
-
+``` go
+func Static(directory string) Handler
+```
 Static returns a middleware handler that serves static files in the given directory.
 
 
@@ -145,10 +151,12 @@ Static returns a middleware handler that serves static files in the given direct
 
 
 ## type Martini
-<pre>type Martini struct {
+``` go
+type Martini struct {
     inject.Injector
     // contains filtered or unexported fields
-}</pre>
+}
+```
 Martini represents the top level web application. inject.Injector methods can be invoked to map services on a global level.
 
 
@@ -160,9 +168,9 @@ Martini represents the top level web application. inject.Injector methods can be
 
 
 ### func New
-
-    func New() *Martini
-
+``` go
+func New() *Martini
+```
 New creates a bare bones Martini instance. Use this method if you want to have full control over the middleware that is used.
 
 
@@ -211,7 +219,9 @@ Use adds a middleware Handler to the stack. Will panic if the handler is not a c
 
 
 ## type Params
-<pre>type Params map[string]string</pre>
+``` go
+type Params map[string]string
+```
 Params is a map of name/value pairs for named routes. An instance of martini.Params is available to be injected into any route handler.
 
 
@@ -226,7 +236,8 @@ Params is a map of name/value pairs for named routes. An instance of martini.Par
 
 
 ## type ResponseWriter
-<pre>type ResponseWriter interface {
+``` go
+type ResponseWriter interface {
     http.ResponseWriter
     // Status returns the status code of the response or 0 if the response has not been written.
     Status() int
@@ -237,7 +248,8 @@ Params is a map of name/value pairs for named routes. An instance of martini.Par
     // Before allows for a function to be called before the ResponseWriter has been written to. This is
     // useful for setting headers or any other operations that must happen before a response has been written.
     Before(BeforeFunc)
-}</pre>
+}
+```
 ResponseWriter is a wrapper around http.ResponseWriter that provides extra information about
 the response. It is recommended that middleware handlers use this construct to wrap a responsewriter
 if the functionality calls for it.
@@ -251,9 +263,9 @@ if the functionality calls for it.
 
 
 ### func NewResponseWriter
-
-    func NewResponseWriter(rw http.ResponseWriter) ResponseWriter
-
+``` go
+func NewResponseWriter(rw http.ResponseWriter) ResponseWriter
+```
 NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 
@@ -261,7 +273,9 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 
 ## type ReturnHandler
-<pre>type ReturnHandler func(http.ResponseWriter, []reflect.Value)</pre>
+``` go
+type ReturnHandler func(http.ResponseWriter, []reflect.Value)
+```
 ReturnHandler is a service that Martini provides that is called
 when a route handler returns something. The ReturnHandler is
 responsible for writing to the ResponseWriter based on the values
@@ -279,10 +293,12 @@ that are passed into this function.
 
 
 ## type Route
-<pre>type Route interface {
+``` go
+type Route interface {
     // URLWith returns a rendering of the Route's url with the given string params.
     URLWith([]string) string
-}</pre>
+}
+```
 Route is an interface representing a Route in Martini's routing layer.
 
 
@@ -297,7 +313,8 @@ Route is an interface representing a Route in Martini's routing layer.
 
 
 ## type Router
-<pre>type Router interface {
+``` go
+type Router interface {
     // Get adds a route for a HTTP GET request to the specified matching pattern.
     Get(string, ...Handler) Route
     // Patch adds a route for a HTTP PATCH request to the specified matching pattern.
@@ -320,7 +337,8 @@ Route is an interface representing a Route in Martini's routing layer.
 
     // Handle is the entry point for routing. This is used as a martini.Handler
     Handle(http.ResponseWriter, *http.Request, Context)
-}</pre>
+}
+```
 Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked handlers, and dependency injection.
 
 
@@ -332,9 +350,9 @@ Router is Martini's de-facto routing interface. Supports HTTP verbs, stacked han
 
 
 ### func NewRouter
-
-    func NewRouter() Router
-
+``` go
+func NewRouter() Router
+```
 NewRouter creates a new Router instance.
 
 
@@ -342,10 +360,12 @@ NewRouter creates a new Router instance.
 
 
 ## type Routes
-<pre>type Routes interface {
+``` go
+type Routes interface {
     // URLFor returns a rendered URL for the given route. Optional params can be passed to fulfill named parameters in the route.
     URLFor(route Route, params ...interface{}) string
-}</pre>
+}
+```
 Routes is a helper service for Martini's routing layer.
 
 

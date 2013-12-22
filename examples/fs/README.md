@@ -11,7 +11,8 @@ Package fs provides filesystem-related functions.
 
 
 ## type FileSystem
-<pre>type FileSystem interface {
+``` go
+type FileSystem interface {
 
     // ReadDir reads the directory named by dirname and returns a
     // list of directory entries.
@@ -28,7 +29,8 @@ Package fs provides filesystem-related functions.
     //
     // The separator is FileSystem specific.
     Join(elem ...string) string
-}</pre>
+}
+```
 FileSystem defines the methods of an abstract filesystem.
 
 
@@ -43,9 +45,11 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 ## type Walker
-<pre>type Walker struct {
+``` go
+type Walker struct {
     // contains filtered or unexported fields
-}</pre>
+}
+```
 Walker provides a convenient interface for iterating over the
 descendants of a filesystem path.
 Successive calls to the Step method will step through each
@@ -63,16 +67,16 @@ Walker does not follow symbolic links.
 
 
 ### func Walk
-
-    func Walk(root string) *Walker
-
+``` go
+func Walk(root string) *Walker
+```
 Walk returns a new Walker rooted at root.
 
 
 ### func WalkFS
-
-    func WalkFS(root string, fs FileSystem) *Walker
-
+``` go
+func WalkFS(root string, fs FileSystem) *Walker
+```
 WalkFS returns a new Walker rooted at root on the FileSystem fs.
 
 
