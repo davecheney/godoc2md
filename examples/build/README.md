@@ -152,11 +152,11 @@ only when building the package for 32-bit x86.
 
 
 ## Variables
+``` go
+var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+```
 
-<pre>var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)</pre>
 ToolDir is the directory containing build tools.
-
-
 
 
 ## func ArchChar

@@ -37,11 +37,11 @@ Envs
 
 
 ## Variables
+``` go
+var Env = Dev
+```
 
-<pre>var Env = Dev</pre>
 Env is the environment that Martini is executing in. The MARTINI_ENV is read on initialization to set this variable.
-
-
 
 
 
