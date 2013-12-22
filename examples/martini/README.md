@@ -260,6 +260,24 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 
 
+## type ReturnHandler
+<pre>type ReturnHandler func(http.ResponseWriter, []reflect.Value)</pre>
+ReturnHandler is a service that Martini provides that is called
+when a route handler returns something. The ReturnHandler is
+responsible for writing to the ResponseWriter based on the values
+that are passed into this function.
+
+
+
+
+
+
+
+
+
+
+
+
 ## type Route
 <pre>type Route interface {
     // URLWith returns a rendering of the Route's url with the given string params.

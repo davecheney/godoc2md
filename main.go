@@ -58,6 +58,7 @@ var (
 		"comment_md": comment_mdFunc,
 		"base":       path.Base,
 		"md":         mdFunc,
+		"pre":	      preFunc,
 	}
 )
 
@@ -73,6 +74,10 @@ func mdFunc(text string) string {
 	text = strings.Replace(text, "*", "\\*", -1)
 	text = strings.Replace(text, "_", "\\_", -1)
 	return text
+}
+
+func preFunc(text string) string {
+	return "``` go\n"+text+"\n```\n"
 }
 
 func readTemplate(name, data string) *template.Template {

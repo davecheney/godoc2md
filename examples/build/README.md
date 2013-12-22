@@ -56,11 +56,16 @@ Here's an example directory layout:
 	                bar.a          (installed package object)
 
 ### Build Constraints
-A build constraint is a line comment beginning with the directive +build
+A build constraint, also known as a build tag, is a line comment that begins
+
+
+	// +build
+
 that lists the conditions under which a file should be included in the package.
 Constraints may appear in any kind of source file (not just Go), but
 they must appear near the top of the file, preceded
-only by blank lines and other line comments.
+only by blank lines and other line comments. These rules mean that in Go
+files a build constraint must appear before the package clause.
 
 To distinguish build constraints from package documentation, a series of
 build constraints must be followed by a blank line.
@@ -236,7 +241,10 @@ A Context specifies the supporting context for a build.
 
 
 
-<pre>var Default Context = defaultContext()</pre>
+``` go
+var Default Context = defaultContext()
+```
+
 Default is the default Context for builds.
 It uses the GOARCH, GOOS, GOROOT, and GOPATH environment variables
 if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
@@ -309,7 +317,8 @@ An ImportMode controls the behavior of the Import method.
 
 
 
-<pre>const (
+``` go
+const (
     // If FindOnly is set, Import stops after locating the directory
     // that should contain the sources for a package.  It does not
     // read any files in the directory.
@@ -318,7 +327,9 @@ An ImportMode controls the behavior of the Import method.
     // If AllowBinary is set, Import can be satisfied by a compiled
     // package object without corresponding sources.
     AllowBinary
-)</pre>
+)
+```
+
 
 
 

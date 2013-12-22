@@ -32,10 +32,10 @@ var pkgTemplate = `{{with .PDoc}}{{if $.IsMain}}
 <pre>{{node $ .Decl}}</pre>
 {{comment_md .Doc}}
 
-{{range .Consts}}<pre>{{node $ .Decl}}</pre>
+{{range .Consts}}{{node $ .Decl | pre }}
 {{comment_md .Doc}}{{end}}
 
-{{range .Vars}}<pre>{{node $ .Decl}}</pre>
+{{range .Vars}}{{node $ .Decl | pre }}
 {{comment_md .Doc}}{{end}}
 
 {{example_html $ $tname}}
