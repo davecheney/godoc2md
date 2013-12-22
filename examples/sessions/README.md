@@ -225,9 +225,9 @@ strong keys.
 
 
 ### func (\*CookieStore) Get
-
-    func (s *CookieStore) Get(r *http.Request, name string) (*Session, error)
-
+``` go
+func (s *CookieStore) Get(r *http.Request, name string) (*Session, error)
+```
 Get returns a session for the given name after adding it to the registry.
 
 It returns a new session if the sessions doesn't exist. Access IsNew on
@@ -239,9 +239,9 @@ not be decoded.
 
 
 ### func (\*CookieStore) New
-
-    func (s *CookieStore) New(r *http.Request, name string) (*Session, error)
-
+``` go
+func (s *CookieStore) New(r *http.Request, name string) (*Session, error)
+```
 New returns a session for the given name without adding it to the registry.
 
 The difference between New() and Get() is that calling New() twice will
@@ -251,12 +251,11 @@ decoded session after the first call.
 
 
 ### func (\*CookieStore) Save
-
-    func (s *CookieStore) Save(r *http.Request, w http.ResponseWriter,
+``` go
+func (s *CookieStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
-
+```
 Save adds a single session to the response.
-
 
 
 
@@ -297,9 +296,9 @@ See NewCookieStore() for a description of the other parameters.
 
 
 ### func (\*FilesystemStore) Get
-
-    func (s *FilesystemStore) Get(r *http.Request, name string) (*Session, error)
-
+``` go
+func (s *FilesystemStore) Get(r *http.Request, name string) (*Session, error)
+```
 Get returns a session for the given name after adding it to the registry.
 
 See CookieStore.Get().
@@ -307,9 +306,9 @@ See CookieStore.Get().
 
 
 ### func (\*FilesystemStore) MaxLength
-
-    func (s *FilesystemStore) MaxLength(l int)
-
+``` go
+func (s *FilesystemStore) MaxLength(l int)
+```
 MaxLength restricts the maximum length of new sessions to l.
 If l is 0 there is no limit to the size of a session, use with caution.
 The default for a new FilesystemStore is 4096.
@@ -317,9 +316,9 @@ The default for a new FilesystemStore is 4096.
 
 
 ### func (\*FilesystemStore) New
-
-    func (s *FilesystemStore) New(r *http.Request, name string) (*Session, error)
-
+``` go
+func (s *FilesystemStore) New(r *http.Request, name string) (*Session, error)
+```
 New returns a session for the given name without adding it to the registry.
 
 See CookieStore.New().
@@ -327,12 +326,11 @@ See CookieStore.New().
 
 
 ### func (\*FilesystemStore) Save
-
-    func (s *FilesystemStore) Save(r *http.Request, w http.ResponseWriter,
+``` go
+func (s *FilesystemStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
-
+```
 Save adds a single session to the response.
-
 
 
 
@@ -355,10 +353,9 @@ Borrowed from the App Engine SDK.
 
 
 ### func (MultiError) Error
-
-    func (m MultiError) Error() string
-
-
+``` go
+func (m MultiError) Error() string
+```
 
 
 ## type Options
@@ -377,7 +374,6 @@ type Options struct {
 Options stores configuration for a session or session store.
 
 Fields are a subset of http.Cookie fields.
-
 
 
 
@@ -415,9 +411,9 @@ GetRegistry returns a registry instance for the current request.
 
 
 ### func (\*Registry) Get
-
-    func (s *Registry) Get(store Store, name string) (session *Session, err error)
-
+``` go
+func (s *Registry) Get(store Store, name string) (session *Session, err error)
+```
 Get registers and returns a session for the given name and session store.
 
 It returns a new session if there are no sessions registered for the name.
@@ -425,11 +421,10 @@ It returns a new session if there are no sessions registered for the name.
 
 
 ### func (\*Registry) Save
-
-    func (s *Registry) Save(w http.ResponseWriter) error
-
+``` go
+func (s *Registry) Save(w http.ResponseWriter) error
+```
 Save saves all sessions registered for the current request.
-
 
 
 
@@ -463,9 +458,9 @@ NewSession is called by session stores to create a new session instance.
 
 
 ### func (\*Session) AddFlash
-
-    func (s *Session) AddFlash(value interface{}, vars ...string)
-
+``` go
+func (s *Session) AddFlash(value interface{}, vars ...string)
+```
 AddFlash adds a flash message to the session.
 
 A single variadic argument is accepted, and it is optional: it defines
@@ -474,9 +469,9 @@ the flash key. If not defined "_flash" is used by default.
 
 
 ### func (\*Session) Flashes
-
-    func (s *Session) Flashes(vars ...string) []interface{}
-
+``` go
+func (s *Session) Flashes(vars ...string) []interface{}
+```
 Flashes returns a slice of flash messages from the session.
 
 A single variadic argument is accepted, and it is optional: it defines
@@ -485,28 +480,27 @@ the flash key. If not defined "_flash" is used by default.
 
 
 ### func (\*Session) Name
-
-    func (s *Session) Name() string
-
+``` go
+func (s *Session) Name() string
+```
 Name returns the name used to register the session.
 
 
 
 ### func (\*Session) Save
-
-    func (s *Session) Save(r *http.Request, w http.ResponseWriter) error
-
+``` go
+func (s *Session) Save(r *http.Request, w http.ResponseWriter) error
+```
 Save is a convenience method to save this session. It is the same as calling
 store.Save(request, response, session)
 
 
 
 ### func (\*Session) Store
-
-    func (s *Session) Store() Store
-
+``` go
+func (s *Session) Store() Store
+```
 Store returns the session store used to register the session.
-
 
 
 
@@ -529,8 +523,6 @@ type Store interface {
 Store is an interface for custom session stores.
 
 See CookieStore and FilesystemStore for examples.
-
-
 
 
 

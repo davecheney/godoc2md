@@ -59,7 +59,6 @@ BeforeFunc is a function that is called before the ResponseWriter has been writt
 
 
 
-
 ## type ClassicMartini
 ``` go
 type ClassicMartini struct {
@@ -86,7 +85,6 @@ Classic creates a classic Martini with some basic default middleware - martini.L
 
 
 
-
 ## type Context
 ``` go
 type Context interface {
@@ -99,7 +97,6 @@ type Context interface {
 }
 ```
 Context represents a request context. Services can be mapped on the request level from this interface.
-
 
 
 
@@ -149,7 +146,6 @@ Static returns a middleware handler that serves static files in the given direct
 
 
 
-
 ## type Martini
 ``` go
 type Martini struct {
@@ -177,44 +173,43 @@ New creates a bare bones Martini instance. Use this method if you want to have f
 
 
 ### func (\*Martini) Action
-
-    func (m *Martini) Action(handler Handler)
-
+``` go
+func (m *Martini) Action(handler Handler)
+```
 Action sets the handler that will be called after all the middleware has been invoked. This is set to martini.Router in a martini.Classic().
 
 
 
 ### func (\*Martini) Handlers
-
-    func (m *Martini) Handlers(handlers ...Handler)
-
+``` go
+func (m *Martini) Handlers(handlers ...Handler)
+```
 Handlers sets the entire middleware stack with the given Handlers. This will clear any current middleware handlers.
 Will panic if any of the handlers is not a callable function
 
 
 
 ### func (\*Martini) Run
-
-    func (m *Martini) Run()
-
+``` go
+func (m *Martini) Run()
+```
 Run the http server. Listening on os.GetEnv("PORT") or 3000 by default.
 
 
 
 ### func (\*Martini) ServeHTTP
-
-    func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)
-
+``` go
+func (m *Martini) ServeHTTP(res http.ResponseWriter, req *http.Request)
+```
 ServeHTTP is the HTTP Entry point for a Martini instance. Useful if you want to control your own HTTP server.
 
 
 
 ### func (\*Martini) Use
-
-    func (m *Martini) Use(handler Handler)
-
+``` go
+func (m *Martini) Use(handler Handler)
+```
 Use adds a middleware Handler to the stack. Will panic if the handler is not a callable func. Middleware Handlers are invoked in the order that they are added.
-
 
 
 
@@ -223,7 +218,6 @@ Use adds a middleware Handler to the stack. Will panic if the handler is not a c
 type Params map[string]string
 ```
 Params is a map of name/value pairs for named routes. An instance of martini.Params is available to be injected into any route handler.
-
 
 
 
@@ -271,7 +265,6 @@ NewResponseWriter creates a ResponseWriter that wraps an http.ResponseWriter
 
 
 
-
 ## type ReturnHandler
 ``` go
 type ReturnHandler func(http.ResponseWriter, []reflect.Value)
@@ -291,7 +284,6 @@ that are passed into this function.
 
 
 
-
 ## type Route
 ``` go
 type Route interface {
@@ -300,7 +292,6 @@ type Route interface {
 }
 ```
 Route is an interface representing a Route in Martini's routing layer.
-
 
 
 
@@ -358,7 +349,6 @@ NewRouter creates a new Router instance.
 
 
 
-
 ## type Routes
 ``` go
 type Routes interface {
@@ -367,8 +357,6 @@ type Routes interface {
 }
 ```
 Routes is a helper service for Martini's routing layer.
-
-
 
 
 

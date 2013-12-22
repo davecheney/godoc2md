@@ -43,7 +43,6 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 
-
 ## type Walker
 ``` go
 type Walker struct {
@@ -83,9 +82,9 @@ WalkFS returns a new Walker rooted at root on the FileSystem fs.
 
 
 ### func (\*Walker) Err
-
-    func (w *Walker) Err() error
-
+``` go
+func (w *Walker) Err() error
+```
 Err returns the error, if any, for the most recent attempt
 by Step to visit a file or directory. If a directory has
 an error, w will not descend into that directory.
@@ -93,9 +92,9 @@ an error, w will not descend into that directory.
 
 
 ### func (\*Walker) Path
-
-    func (w *Walker) Path() string
-
+``` go
+func (w *Walker) Path() string
+```
 Path returns the path to the most recent file or directory
 visited by a call to Step. It contains the argument to Walk
 as a prefix; that is, if Walk is called with "dir", which is
@@ -104,33 +103,31 @@ a directory containing the file "a", Path will return "dir/a".
 
 
 ### func (\*Walker) SkipDir
-
-    func (w *Walker) SkipDir()
-
+``` go
+func (w *Walker) SkipDir()
+```
 SkipDir causes the currently visited directory to be skipped.
 If w is not on a directory, SkipDir has no effect.
 
 
 
 ### func (\*Walker) Stat
-
-    func (w *Walker) Stat() os.FileInfo
-
+``` go
+func (w *Walker) Stat() os.FileInfo
+```
 Stat returns info for the most recent file or directory
 visited by a call to Step.
 
 
 
 ### func (\*Walker) Step
-
-    func (w *Walker) Step() bool
-
+``` go
+func (w *Walker) Step() bool
+```
 Step advances the Walker to the next file or directory,
 which will then be available through the Path, Stat,
 and Err methods.
 It returns false when the walk stops at the end of the tree.
-
-
 
 
 
