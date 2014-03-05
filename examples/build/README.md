@@ -388,6 +388,7 @@ type Package struct {
     IgnoredGoFiles []string // .go source files ignored for this build
     CFiles         []string // .c source files
     CXXFiles       []string // .cc, .cpp and .cxx source files
+    MFiles         []string // .m (Objective-C) source files
     HFiles         []string // .h, .hh, .hpp and .hxx source files
     SFiles         []string // .s source files
     SwigFiles      []string // .swig files

@@ -58,7 +58,7 @@ var (
 		"comment_md": comment_mdFunc,
 		"base":       path.Base,
 		"md":         mdFunc,
-		"pre":	      preFunc,
+		"pre":        preFunc,
 	}
 )
 
@@ -77,7 +77,7 @@ func mdFunc(text string) string {
 }
 
 func preFunc(text string) string {
-	return "``` go\n"+text+"\n```"
+	return "``` go\n" + text + "\n```"
 }
 
 func readTemplate(name, data string) *template.Template {
@@ -96,6 +96,11 @@ func readTemplates(p *godoc.Presentation, html bool) {
 func main() {
 	flag.Usage = usage
 	flag.Parse()
+
+	// Check usage
+	if flag.NArg() == 0 {
+		usage()
+	}
 
 	// use file system of underlying OS
 	fs.Bind("/", vfs.OS(*goroot), "/", vfs.BindReplace)
