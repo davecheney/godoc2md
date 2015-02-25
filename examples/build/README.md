@@ -104,6 +104,8 @@ During a particular build, the following words are satisfied:
 	- "cgo", if ctxt.CgoEnabled is true
 	- "go1.1", from Go version 1.1 onward
 	- "go1.2", from Go version 1.2 onward
+	- "go1.3", from Go version 1.3 onward
+	- "go1.4", from Go version 1.4 onward
 	- any additional words listed in ctxt.BuildTags
 
 If a file's name, after stripping the extension and a possible _test suffix,
@@ -114,15 +116,10 @@ matches any of the following patterns:
 	*_GOARCH
 	*_GOOS_GOARCH
 
-(example: source_windows_amd64.go) or the literals:
-
-
-	GOOS
-	GOARCH
-
-(example: windows.go) where GOOS and GOARCH represent any known operating
-system and architecture values respectively, then the file is considered to
-have an implicit build constraint requiring those terms.
+(example: source_windows_amd64.go) where GOOS and GOARCH represent
+any known operating system and architecture values respectively, then
+the file is considered to have an implicit build constraint requiring
+those terms.
 
 To keep a file from being considered for the build:
 
@@ -146,6 +143,9 @@ carry the constraint:
 Naming a file dns_windows.go will cause it to be included only when
 building the package for Windows; similarly, math_386.s will be included
 only when building the package for 32-bit x86.
+
+Using GOOS=android matches build tags and files as for GOOS=linux
+in addition to android tags and files.
 
 
 
@@ -330,6 +330,12 @@ const (
     // If AllowBinary is set, Import can be satisfied by a compiled
     // package object without corresponding sources.
     AllowBinary
+
+    // If ImportComment is set, parse import comments on package statements.
+    // Import returns an error if it finds a comment it cannot understand
+    // or finds conflicting comments in multiple source files.
+    // See golang.org/s/go14customimport for more information.
+    ImportComment
 )
 ```
 
@@ -338,6 +344,33 @@ const (
 
 
 
+
+
+## type MultiplePackageError
+``` go
+type MultiplePackageError struct {
+    Dir      string   // directory containing files
+    Packages []string // package names found
+    Files    []string // corresponding files: Files[i] declares package Packages[i]
+}
+```
+MultiplePackageError describes a directory containing
+multiple buildable Go source files for multiple packages.
+
+
+
+
+
+
+
+
+
+
+
+### func (\*MultiplePackageError) Error
+``` go
+func (e *MultiplePackageError) Error() string
+```
 
 
 ## type NoGoError
@@ -369,18 +402,19 @@ func (e *NoGoError) Error() string
 ## type Package
 ``` go
 type Package struct {
-    Dir         string   // directory containing package sources
-    Name        string   // package name
-    Doc         string   // documentation synopsis
-    ImportPath  string   // import path of package ("" if unknown)
-    Root        string   // root of Go tree where this package lives
-    SrcRoot     string   // package source root directory ("" if unknown)
-    PkgRoot     string   // package install root directory ("" if unknown)
-    BinDir      string   // command install directory ("" if unknown)
-    Goroot      bool     // package found in Go root
-    PkgObj      string   // installed .a file
-    AllTags     []string // tags that can influence file selection in this directory
-    ConflictDir string   // this directory shadows Dir in $GOPATH
+    Dir           string   // directory containing package sources
+    Name          string   // package name
+    ImportComment string   // path in import comment on package statement
+    Doc           string   // documentation synopsis
+    ImportPath    string   // import path of package ("" if unknown)
+    Root          string   // root of Go tree where this package lives
+    SrcRoot       string   // package source root directory ("" if unknown)
+    PkgRoot       string   // package install root directory ("" if unknown)
+    BinDir        string   // command install directory ("" if unknown)
+    Goroot        bool     // package found in Go root
+    PkgObj        string   // installed .a file
+    AllTags       []string // tags that can influence file selection in this directory
+    ConflictDir   string   // this directory shadows Dir in $GOPATH
 
     // Source files
     GoFiles        []string // .go source files (excluding CgoFiles, TestGoFiles, XTestGoFiles)
