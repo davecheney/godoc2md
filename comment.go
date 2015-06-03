@@ -43,7 +43,7 @@ const (
 var matchRx = regexp.MustCompile(`(` + urlRx + `)|(` + identRx + `)`)
 
 var (
-	html_a      = []byte(`a href="`)
+	html_a      = []byte(`<a href="`)
 	html_aq     = []byte(`">`)
 	html_enda   = []byte("</a>")
 	html_i      = []byte("<i>")
