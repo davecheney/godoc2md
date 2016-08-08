@@ -17,9 +17,9 @@ var pkgTemplate = `{{with .PDoc}}
 {{comment_md .Doc}}
 {{example_html $ ""}}
 
-## <a name="pkg-index">Index</a>
-{{- if .Consts}}* [Constants](#pkg-constants){{end}}
-{{- if .Vars}}* [Variables](#pkg-variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
+## <a name="pkg-index">Index</a>{{if .Consts}}
+* [Constants](#pkg-constants){{end}}{{if .Vars}}
+* [Variables](#pkg-variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
 * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Types}}{{$tname_html := html .Name}}
 * [type {{$tname_html}}](#{{$tname_html}}){{- range .Funcs}}{{$name_html := html .Name}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
