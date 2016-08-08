@@ -34,7 +34,7 @@ var pkgTemplate = `{{with .PDoc}}
 {{end}}
 
 {{with .Consts}}## <a name="pkg-constants">Constants</a>
-{{range .}}{{node $ .Decl true | pre}}
+{{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 {{with .Vars}}## <a name="pkg-variables">Variables</a>
 {{range .}}{{node $ .Decl | pre}}
