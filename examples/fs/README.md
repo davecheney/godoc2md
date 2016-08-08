@@ -1,16 +1,41 @@
 
-# fs
-    import "github.com/kr/fs"
 
+# fs
+`import "github.com/kr/fs"`
+
+* [Overview](#pkg-overview)
+* [Index](#pkg-index)
+* [Examples](#pkg-examples)
+
+## <a name="pkg-overview">Overview</a>
 Package fs provides filesystem-related functions.
 
 
 
 
+## <a name="pkg-index">Index</a>
+* [type FileSystem](#FileSystem)
+* [type Walker](#Walker)
+  * [func Walk(root string) *Walker](#Walk)
+  * [func WalkFS(root string, fs FileSystem) *Walker](#WalkFS)
+  * [func (w *Walker) Err() error](#Walker.Err)
+  * [func (w *Walker) Path() string](#Walker.Path)
+  * [func (w *Walker) SkipDir()](#Walker.SkipDir)
+  * [func (w *Walker) Stat() os.FileInfo](#Walker.Stat)
+  * [func (w *Walker) Step() bool](#Walker.Step)
+
+#### <a name="pkg-examples">Examples</a>
+* [Walker](#example_Walker)
+
+#### <a name="pkg-files">Package files</a>
+[filesystem.go](/src/github.com/kr/fs/filesystem.go) [walk.go](/src/github.com/kr/fs/walk.go) 
 
 
 
-## type FileSystem
+
+
+
+## <a name="FileSystem">type</a> [FileSystem](/src/target/filesystem.go?s=121:774#L1)
 ``` go
 type FileSystem interface {
 
@@ -42,8 +67,7 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 
-
-## type Walker
+## <a name="Walker">type</a> [Walker](/src/target/walk.go?s=494:580#L5)
 ``` go
 type Walker struct {
     // contains filtered or unexported fields
@@ -63,16 +87,14 @@ Walker does not follow symbolic links.
 
 
 
-
-
-### func Walk
+### <a name="Walk">func</a> [Walk](/src/target/walk.go?s=692:722#L19)
 ``` go
 func Walk(root string) *Walker
 ```
 Walk returns a new Walker rooted at root.
 
 
-### func WalkFS
+### <a name="WalkFS">func</a> [WalkFS](/src/target/walk.go?s=826:873#L24)
 ``` go
 func WalkFS(root string, fs FileSystem) *Walker
 ```
@@ -81,7 +103,8 @@ WalkFS returns a new Walker rooted at root on the FileSystem fs.
 
 
 
-### func (\*Walker) Err
+
+### <a name="Walker.Err">func</a> (\*Walker) [Err](/src/target/walk.go?s=2325:2353#L77)
 ``` go
 func (w *Walker) Err() error
 ```
@@ -91,7 +114,8 @@ an error, w will not descend into that directory.
 
 
 
-### func (\*Walker) Path
+
+### <a name="Walker.Path">func</a> (\*Walker) [Path](/src/target/walk.go?s=1946:1976#L64)
 ``` go
 func (w *Walker) Path() string
 ```
@@ -102,7 +126,8 @@ a directory containing the file "a", Path will return "dir/a".
 
 
 
-### func (\*Walker) SkipDir
+
+### <a name="Walker.SkipDir">func</a> (\*Walker) [SkipDir](/src/target/walk.go?s=2496:2522#L83)
 ``` go
 func (w *Walker) SkipDir()
 ```
@@ -111,7 +136,8 @@ If w is not on a directory, SkipDir has no effect.
 
 
 
-### func (\*Walker) Stat
+
+### <a name="Walker.Stat">func</a> (\*Walker) [Stat](/src/target/walk.go?s=2090:2125#L70)
 ``` go
 func (w *Walker) Stat() os.FileInfo
 ```
@@ -120,7 +146,8 @@ visited by a call to Step.
 
 
 
-### func (\*Walker) Step
+
+### <a name="Walker.Step">func</a> (\*Walker) [Step](/src/target/walk.go?s=1176:1204#L36)
 ``` go
 func (w *Walker) Step() bool
 ```
@@ -128,7 +155,6 @@ Step advances the Walker to the next file or directory,
 which will then be available through the Path, Stat,
 and Err methods.
 It returns false when the walk stops at the end of the tree.
-
 
 
 
