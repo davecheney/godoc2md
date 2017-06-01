@@ -15,6 +15,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -37,7 +38,7 @@ var (
 	// layout control
 	tabWidth       = flag.Int("tabwidth", 4, "tab width")
 	showTimestamps = flag.Bool("timestamps", false, "show timestamps with directory listings")
-	altPkgTemplate = flag.String("template", "", "alternate template")
+	altPkgTemplate = flag.String("template", "", "path to an alternate template file")
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
 	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
 	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
@@ -123,7 +124,11 @@ func main() {
 	pres.HTMLMode = false
 
 	if *altPkgTemplate != "" {
-		pres.PackageText = readTemplate("package.txt", *altPkgTemplate)
+		buf, err := ioutil.ReadFile(*altPkgTemplate)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pres.PackageText = readTemplate("package.txt", string(buf))
 	} else {
 		pres.PackageText = readTemplate("package.txt", pkgTemplate)
 	}
