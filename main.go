@@ -37,7 +37,7 @@ var (
 	// layout control
 	tabWidth       = flag.Int("tabwidth", 4, "tab width")
 	showTimestamps = flag.Bool("timestamps", false, "show timestamps with directory listings")
-	templateDir    = flag.String("templates", "", "directory containing alternate template files")
+	altPkgTemplate = flag.String("template", "", "alternate template")
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
 	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
 	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
@@ -122,7 +122,11 @@ func main() {
 	pres.SrcMode = false
 	pres.HTMLMode = false
 
-	readTemplates(pres, false)
+	if *altPkgTemplate != "" {
+		pres.PackageText = readTemplate("package.txt", *altPkgTemplate)
+	} else {
+		pres.PackageText = readTemplate("package.txt", pkgTemplate)
+	}
 
 	if err := godoc.CommandLine(os.Stdout, fs, pres, flag.Args()); err != nil {
 		log.Print(err)
