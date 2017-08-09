@@ -90,10 +90,6 @@ func readTemplate(name, data string) *template.Template {
 	return t
 }
 
-func readTemplates(p *godoc.Presentation, html bool) {
-	p.PackageText = readTemplate("package.txt", pkgTemplate)
-}
-
 func main() {
 	flag.Usage = usage
 	flag.Parse()
