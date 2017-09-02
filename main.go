@@ -15,6 +15,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -37,7 +38,7 @@ var (
 	// layout control
 	tabWidth       = flag.Int("tabwidth", 4, "tab width")
 	showTimestamps = flag.Bool("timestamps", false, "show timestamps with directory listings")
-	templateDir    = flag.String("templates", "", "directory containing alternate template files")
+	altPkgTemplate = flag.String("template", "", "path to an alternate template file")
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
 	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
 	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
@@ -89,10 +90,6 @@ func readTemplate(name, data string) *template.Template {
 	return t
 }
 
-func readTemplates(p *godoc.Presentation, html bool) {
-	p.PackageText = readTemplate("package.txt", pkgTemplate)
-}
-
 func main() {
 	flag.Usage = usage
 	flag.Parse()
@@ -122,7 +119,15 @@ func main() {
 	pres.SrcMode = false
 	pres.HTMLMode = false
 
-	readTemplates(pres, false)
+	if *altPkgTemplate != "" {
+		buf, err := ioutil.ReadFile(*altPkgTemplate)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pres.PackageText = readTemplate("package.txt", string(buf))
+	} else {
+		pres.PackageText = readTemplate("package.txt", pkgTemplate)
+	}
 
 	if err := godoc.CommandLine(os.Stdout, fs, pres, flag.Args()); err != nil {
 		log.Print(err)
