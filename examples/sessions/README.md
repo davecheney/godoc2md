@@ -35,8 +35,7 @@ Let's start with an example that shows the sessions API in a nutshell:
 	var store = sessions.NewCookieStore([]byte("something-very-secret"))
 	
 	func MyHandler(w http.ResponseWriter, r *http.Request) {
-		// Get a session. We're ignoring the error resulted from decoding an
-		// existing session: Get() always returns a session, even if empty.
+		// Get a session. Get() always returns a session, even if empty.
 		session, err := store.Get(r, "session-name")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -405,7 +404,7 @@ See CookieStore.Get().
 
 
 
-### <a name="FilesystemStore.MaxAge">func</a> (\*FilesystemStore) [MaxAge](/src/target/store.go?s=6900:6941#L222)
+### <a name="FilesystemStore.MaxAge">func</a> (\*FilesystemStore) [MaxAge](/src/target/store.go?s=7361:7402#L236)
 ``` go
 func (s *FilesystemStore) MaxAge(age int)
 ```
@@ -438,12 +437,17 @@ See CookieStore.New().
 
 
 
-### <a name="FilesystemStore.Save">func</a> (\*FilesystemStore) [Save](/src/target/store.go?s=6122:6217#L198)
+### <a name="FilesystemStore.Save">func</a> (\*FilesystemStore) [Save](/src/target/store.go?s=6373:6468#L203)
 ``` go
 func (s *FilesystemStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
 ```
 Save adds a single session to the response.
+
+If the Options.MaxAge of the session is <= 0 then the session file will be
+deleted from the store path. With this process it enforces the properly
+session cookie handling so no need to trust in the cookie management in the
+web browser.
 
 
 

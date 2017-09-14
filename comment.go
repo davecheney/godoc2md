@@ -15,18 +15,6 @@ import (
 	"unicode/utf8"
 )
 
-var (
-	ldquo = []byte("&ldquo;")
-	rdquo = []byte("&rdquo;")
-)
-
-// Escape comment text for HTML. If nice is set,
-// also turn `` into &ldquo; and '' into &rdquo;.
-func commentEscape(w io.Writer, text string, nice bool) {
-	w.Write([]byte(text))
-	return
-}
-
 const (
 	// Regexp for Go identifiers
 	identRx = `[a-zA-Z_][a-zA-Z_0-9]*` // TODO(gri) ASCII only for now - fix this
@@ -43,35 +31,17 @@ const (
 var matchRx = regexp.MustCompile(`(` + urlRx + `)|(` + identRx + `)`)
 
 var (
-	html_a      = []byte(`<a href="`)
-	html_aq     = []byte(`">`)
-	html_enda   = []byte("</a>")
-	html_i      = []byte("<i>")
-	html_endi   = []byte("</i>")
-	html_p      = []byte("\n")
-	html_endp   = []byte("\n")
-	html_pre    = []byte("<pre>")
-	html_endpre = []byte("</pre>\n")
-	html_h      = []byte(`<h3 id="`)
-	html_hq     = []byte(`">`)
-	html_endh   = []byte("</h3>\n")
+	htmlA    = []byte(`<a href="`)
+	htmlAq   = []byte(`">`)
+	htmlEnda = []byte("</a>")
 
-	md_pre     = []byte("\t")
-	md_newline = []byte("\n")
-	md_h1      = []byte("# ")
-	md_h2      = []byte("## ")
-	md_h3      = []byte("### ")
+	mdPre     = []byte("\t")
+	mdNewline = []byte("\n")
+	mdH3      = []byte("### ")
 )
 
-// Emphasize and escape a line of text for HTML. URLs are converted into links;
-// if the URL also appears in the words map, the link is taken from the map (if
-// the corresponding map value is the empty string, the URL is not converted
-// into a link). Go identifiers that appear in the words map are italicized; if
-// the corresponding map value is not the empty string, it is considered a URL
-// and the word is converted into a link. If nice is set, the remaining text's
-// appearance is improved where it makes sense (e.g., `` is turned into &ldquo;
-// and '' into &rdquo;).
-func emphasize(w io.Writer, line string, words map[string]string, nice bool) {
+// Emphasize and escape a line of text for HTML. URLs are converted into links.
+func emphasize(w io.Writer, line string) {
 	for {
 		m := matchRx.FindStringSubmatchIndex(line)
 		if m == nil {
@@ -80,45 +50,29 @@ func emphasize(w io.Writer, line string, words map[string]string, nice bool) {
 		// m >= 6 (two parenthesized sub-regexps in matchRx, 1st one is urlRx)
 
 		// write text before match
-		commentEscape(w, line[0:m[0]], nice)
+		_, _ = w.Write([]byte(line[0:m[0]]))
 
 		// analyze match
 		match := line[m[0]:m[1]]
-		url := ""
-		italics := false
-		if words != nil {
-			url, italics = words[string(match)]
-		}
+
+		// if URL then write as link
 		if m[2] >= 0 {
-			// match against first parenthesized sub-regexp; must be match against urlRx
-			if !italics {
-				// no alternative URL in words list, use match instead
-				url = string(match)
-			}
-			italics = false // don't italicize URLs
+			_, _ = w.Write(htmlA)
+			template.HTMLEscape(w, []byte(match))
+			_, _ = w.Write(htmlAq)
 		}
 
 		// write match
-		if len(url) > 0 {
-			w.Write(html_a)
-			template.HTMLEscape(w, []byte(url))
-			w.Write(html_aq)
-		}
-		if italics {
-			w.Write(html_i)
-		}
-		commentEscape(w, match, nice)
-		if italics {
-			w.Write(html_endi)
-		}
-		if len(url) > 0 {
-			w.Write(html_enda)
+		_, _ = w.Write([]byte(match))
+
+		if m[2] >= 0 {
+			_, _ = w.Write(htmlEnda)
 		}
 
 		// advance
 		line = line[m[1]:]
 	}
-	commentEscape(w, line, nice)
+	_, _ = w.Write([]byte(line))
 }
 
 func indentLen(s string) int {
@@ -184,7 +138,7 @@ func heading(line string) string {
 	}
 
 	// exclude lines with illegal characters
-	if strings.IndexAny(line, ",.;:!?+*/=()[]{}_^°&§~%#@<\">\\") >= 0 {
+	if strings.ContainsAny(line, ",.;:!?+*/=()[]{}_^°&§~%#@<\">\\") {
 		return ""
 	}
 
@@ -238,38 +192,32 @@ func anchorID(line string) string {
 // A span of indented lines is converted into a <pre> block,
 // with the common indent prefix removed.
 //
-// URLs in the comment text are converted into links; if the URL also appears
-// in the words map, the link is taken from the map (if the corresponding map
-// value is the empty string, the URL is not converted into a link).
-//
-// Go identifiers that appear in the words map are italicized; if the corresponding
-// map value is not the empty string, it is considered a URL and the word is converted
-// into a link.
-func ToMD(w io.Writer, text string, words map[string]string) {
+// URLs in the comment text are converted into links.
+func ToMD(w io.Writer, text string) {
 	for _, b := range blocks(text) {
 		switch b.op {
 		case opPara:
 			for _, line := range b.lines {
-				emphasize(w, line, words, true)
+				emphasize(w, line)
 			}
-			w.Write(md_newline) // trailing newline to emulate </p>
+			_, _ = w.Write(mdNewline) // trailing newline to emulate </p>
 		case opHead:
-			w.Write(md_h3)
+			_, _ = w.Write(mdH3)
 			id := ""
 			for _, line := range b.lines {
 				if id == "" {
 					id = anchorID(line)
 				}
-				commentEscape(w, line, true)
+				_, _ = w.Write([]byte(line))
 			}
-			w.Write(md_newline)
+			_, _ = w.Write(mdNewline)
 		case opPre:
-			w.Write(md_newline)
+			_, _ = w.Write(mdNewline)
 			for _, line := range b.lines {
-				w.Write(md_pre)
-				emphasize(w, line, nil, false)
+				_, _ = w.Write(mdPre)
+				emphasize(w, line)
 			}
-			w.Write(md_newline)
+			_, _ = w.Write(mdNewline)
 		}
 	}
 }

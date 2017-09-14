@@ -56,18 +56,16 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"comment_md": comment_mdFunc,
+		"comment_md": commentMdFunc,
 		"base":       path.Base,
 		"md":         mdFunc,
 		"pre":        preFunc,
 	}
 )
 
-const punchCardWidth = 80
-
-func comment_mdFunc(comment string) string {
+func commentMdFunc(comment string) string {
 	var buf bytes.Buffer
-	ToMD(&buf, comment, nil)
+	ToMD(&buf, comment)
 	return buf.String()
 }
 
@@ -83,7 +81,7 @@ func preFunc(text string) string {
 
 func readTemplate(name, data string) *template.Template {
 	// be explicit with errors (for app engine use)
-	t, err := template.New(name).Funcs(pres.FuncMap()).Funcs(funcs).Parse(string(data))
+	t, err := template.New(name).Funcs(pres.FuncMap()).Funcs(funcs).Parse(data)
 	if err != nil {
 		log.Fatal("readTemplate: ", err)
 	}
