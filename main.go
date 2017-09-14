@@ -42,6 +42,11 @@ var (
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
 	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
 	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
+
+	// The hash format for Github is the default `#L%d`; but other source control platforms do not
+	// use the same format. For example Bitbucket Enterprise uses `#%d`. This option provides the
+	// user the option to switch the format as needed and still remain backwards compatible.
+	srcLinkHashFormat = flag.String("hashformat", "#L%d", "source link URL hash format")
 )
 
 func usage() {
@@ -56,18 +61,16 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"comment_md": comment_mdFunc,
+		"comment_md": commentMdFunc,
 		"base":       path.Base,
 		"md":         mdFunc,
 		"pre":        preFunc,
 	}
 )
 
-const punchCardWidth = 80
-
-func comment_mdFunc(comment string) string {
+func commentMdFunc(comment string) string {
 	var buf bytes.Buffer
-	ToMD(&buf, comment, nil)
+	ToMD(&buf, comment)
 	return buf.String()
 }
 
@@ -81,9 +84,40 @@ func preFunc(text string) string {
 	return "``` go\n" + text + "\n```"
 }
 
+// Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L562
+func srcLinkFunc(s string) string {
+	s = path.Clean("/" + s)
+	if !strings.HasPrefix(s, "/src/") {
+		s = "/src" + s
+	}
+	return s
+}
+
+// Removed code line that always substracted 10 from the value of `line`.
+// Made format for the source link hash configurable to support source control platforms other than Github.
+// Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L540
+func srcPosLinkFunc(s string, line, low, high int) string {
+	s = srcLinkFunc(s)
+	var buf bytes.Buffer
+	template.HTMLEscape(&buf, []byte(s))
+	// selection ranges are of form "s=low:high"
+	if low < high {
+		fmt.Fprintf(&buf, "?s=%d:%d", low, high) // no need for URL escaping
+		if line < 1 {
+			line = 1
+		}
+	}
+	// line id's in html-printed source are of the
+	// form "L%d" (on Github) where %d stands for the line number
+	if line > 0 {
+		fmt.Fprintf(&buf, *srcLinkHashFormat, line) // no need for URL escaping
+	}
+	return buf.String()
+}
+
 func readTemplate(name, data string) *template.Template {
 	// be explicit with errors (for app engine use)
-	t, err := template.New(name).Funcs(pres.FuncMap()).Funcs(funcs).Parse(string(data))
+	t, err := template.New(name).Funcs(pres.FuncMap()).Funcs(funcs).Parse(data)
 	if err != nil {
 		log.Fatal("readTemplate: ", err)
 	}
@@ -118,6 +152,7 @@ func main() {
 	pres.DeclLinks = *declLinks
 	pres.SrcMode = false
 	pres.HTMLMode = false
+	pres.URLForSrcPos = srcPosLinkFunc
 
 	if *altPkgTemplate != "" {
 		buf, err := ioutil.ReadFile(*altPkgTemplate)
