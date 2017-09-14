@@ -60,6 +60,8 @@ var (
 		"base":       path.Base,
 		"md":         mdFunc,
 		"pre":        preFunc,
+		"kebab":      kebabFunc,
+		"bitscape":   bitscapeFunc, //Escape [] for bitbucket confusion
 	}
 )
 
@@ -88,6 +90,19 @@ func readTemplate(name, data string) *template.Template {
 		log.Fatal("readTemplate: ", err)
 	}
 	return t
+}
+
+func kebabFunc(text string) string {
+	s := strings.Replace(strings.ToLower(text), " ", "-", -1)
+	s = strings.Replace(s, ".", "-", -1)
+	s = strings.Replace(s, "\\*", "42", -1)
+	return s
+}
+
+func bitscapeFunc(text string) string {
+	s := strings.Replace(text, "[", "\\[", -1)
+	s = strings.Replace(s, "]", "\\]", -1)
+	return s
 }
 
 func main() {
