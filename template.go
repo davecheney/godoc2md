@@ -6,46 +6,46 @@ var pkgTemplate = `{{with .PDoc}}
 {{comment_md .Doc}}
 {{else}}
 # {{ .Name }}
-` + "`" + `import "{{.ImportPath}}"` + "`" + `
 
-* [Overview](#pkg-overview)
-* [Index](#pkg-index){{if $.Examples}}
-* [Examples](#pkg-examples){{- end}}{{if $.Dirs}}
-* [Subdirectories](#pkg-subdirectories){{- end}}
+* [Overview](#markdown-header-overview)
+* [Index](#markdown-header-index){{if $.Examples}}
+* [Examples](#markdown-header-examples){{- end}}{{if $.Dirs}}
+* [Subdirectories](#markdown-header-subdirectories){{- end}}
 
-## <a name="pkg-overview">Overview</a>
+## Overview
 {{comment_md .Doc}}
 {{example_html $ ""}}
+{{example_text $ "" "    "}}
 
-## <a name="pkg-index">Index</a>{{if .Consts}}
-* [Constants](#pkg-constants){{end}}{{if .Vars}}
-* [Variables](#pkg-variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
-* [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Types}}{{$tname_html := html .Name}}
-* [type {{$tname_html}}](#{{$tname_html}}){{- range .Funcs}}{{$name_html := html .Name}}
-  * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
-  * [{{node_html $ .Decl false | sanitize}}](#{{$tname_html}}.{{$name_html}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
-* [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
+## Index{{if .Consts}}
+* [Constants](#markdown-header-constants){{end}}{{if .Vars}}
+* [Variables](#markdown-header-variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
+* [{{node_html $ .Decl false | sanitize | bitscape}}](#markdown-header-{{node_html $ .Decl false | sanitize | kebab}}){{- end}}{{- range .Types}}{{$tname_html := html .Name}}
+* [type {{$tname_html}}](#markdown-header-type-{{kebab $tname_html}}){{- range .Funcs}}{{$name_html := html .Name}}
+  * [{{node_html $ .Decl false | sanitize | bitscape}}](#markdown-header-func-{{$name_html | kebab}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
+  * [{{node_html $ .Decl false | sanitize | bitscape}}](#markdown-header-func-{{md .Recv | kebab}}-{{$name_html | kebab}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
+* [{{noteTitle $marker | html}}s](#markdown-header-{{noteTitle $marker | html | kebab}}s}}){{end}}{{end}}
 {{if $.Examples}}
-#### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
-* [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
+#### Examples{{- range $.Examples}}
+* [{{example_name .Name}}]{{- end}}{{- end}}
 {{with .Filenames}}
-#### <a name="pkg-files">Package files</a>
-{{range .}}[{{.|filename|html}}]({{.|srcLink|html}}) {{end}}
+#### Package files
+{{range .}}[{{.|filename|html}}]{{end}}
 {{end}}
 
-{{with .Consts}}## <a name="pkg-constants">Constants</a>
+{{with .Consts}}## Constants
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
-{{with .Vars}}## <a name="pkg-variables">Variables</a>
+{{with .Vars}}## Variables
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 
-{{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}## func [{{$name_html}}]
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}
+{{example_text $ .Name "    "}}
 {{callgraph_html $ "" .Name}}{{end}}
-{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{posLink_url $ .Decl}})
+{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## type [{{$tname_html}}]
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}{{range .Consts}}
 {{node $ .Decl | pre }}
@@ -53,29 +53,29 @@ var pkgTemplate = `{{with .PDoc}}
 {{node $ .Decl | pre }}
 {{comment_md .Doc}}{{end}}
 
-{{example_html $ $tname}}
+{{example_text $ $tname "    "}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
-{{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}### func [{{$name_html}}]
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}{{end}}
+{{example_text $ .Name "    "}}{{end}}
 {{callgraph_html $ "" .Name}}
 
-{{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Methods}}{{$name_html := html .Name}}### func ({{md .Recv}}) [{{$name_html}}]
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{$name := printf "%s_%s" $tname .Name}}{{example_html $ $name}}
+{{$name := printf "%s_%s" $tname .Name}}{{example_text $ $name "    "}}
 {{callgraph_html $ .Recv .Name}}
 {{end}}{{end}}{{end}}
 
 {{with $.Notes}}
 {{range $marker, $content := .}}
-## <a name="pkg-note-{{$marker}}">{{noteTitle $marker | html}}s
+## {{noteTitle $marker | html}}s
 <ul style="list-style: none; padding: 0;">
 {{range .}}
-<li><a href="{{posLink_url $ .}}">&#x261e;</a> {{html .Body}}</li>
+<li>&#x261e; {{html .Body}}</li>
 {{end}}
 </ul>
 {{end}}
