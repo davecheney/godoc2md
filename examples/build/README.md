@@ -216,7 +216,7 @@ ToolDir is the directory containing build tools.
 
 
 
-## <a name="ArchChar">func</a> [ArchChar](/src/target/build.go?s=45435:45479#L1553)
+## <a name="ArchChar">func</a> [ArchChar](/src/target/build.go?s=45435:45479#L1563)
 ``` go
 func ArchChar(goarch string) (string, error)
 ```
@@ -228,7 +228,7 @@ no longer vary by architecture; they are compile, link, .o, and a.out, respectiv
 
 
 
-## <a name="IsLocalImport">func</a> [IsLocalImport](/src/target/build.go?s=44955:44991#L1543)
+## <a name="IsLocalImport">func</a> [IsLocalImport](/src/target/build.go?s=44955:44991#L1553)
 ``` go
 func IsLocalImport(path string) bool
 ```
@@ -238,7 +238,7 @@ a local import path, like ".", "..", "./foo", or "../foo".
 
 
 
-## <a name="Context">type</a> [Context](/src/target/build.go?s=450:3568#L20)
+## <a name="Context">type</a> [Context](/src/target/build.go?s=450:3568#L30)
 ``` go
 type Context struct {
     GOARCH      string // target architecture
@@ -321,7 +321,7 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 
 
-### <a name="Context.Import">func</a> (\*Context) [Import](/src/target/build.go?s=16697:16787#L476)
+### <a name="Context.Import">func</a> (\*Context) [Import](/src/target/build.go?s=16697:16787#L486)
 ``` go
 func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)
 ```
@@ -345,7 +345,7 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 
-### <a name="Context.ImportDir">func</a> (\*Context) [ImportDir](/src/target/build.go?s=14860:14937#L424)
+### <a name="Context.ImportDir">func</a> (\*Context) [ImportDir](/src/target/build.go?s=14860:14937#L434)
 ``` go
 func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
 ```
@@ -355,7 +355,7 @@ the named directory.
 
 
 
-### <a name="Context.MatchFile">func</a> (\*Context) [MatchFile](/src/target/build.go?s=30989:31061#L1022)
+### <a name="Context.MatchFile">func</a> (\*Context) [MatchFile](/src/target/build.go?s=30989:31061#L1032)
 ``` go
 func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)
 ```
@@ -369,7 +369,7 @@ read some or all of the file's content.
 
 
 
-### <a name="Context.SrcDirs">func</a> (\*Context) [SrcDirs](/src/target/build.go?s=7522:7561#L228)
+### <a name="Context.SrcDirs">func</a> (\*Context) [SrcDirs](/src/target/build.go?s=7522:7561#L238)
 ``` go
 func (ctxt *Context) SrcDirs() []string
 ```
@@ -380,7 +380,7 @@ that do not exist.
 
 
 
-## <a name="ImportMode">type</a> [ImportMode](/src/target/build.go?s=9780:9800#L315)
+## <a name="ImportMode">type</a> [ImportMode](/src/target/build.go?s=9780:9800#L325)
 ``` go
 type ImportMode uint
 ```
@@ -441,7 +441,7 @@ const (
 
 
 
-## <a name="MultiplePackageError">type</a> [MultiplePackageError](/src/target/build.go?s=15413:15621#L441)
+## <a name="MultiplePackageError">type</a> [MultiplePackageError](/src/target/build.go?s=15413:15621#L451)
 ``` go
 type MultiplePackageError struct {
     Dir      string   // directory containing files
@@ -461,14 +461,14 @@ multiple buildable Go source files for multiple packages.
 
 
 
-### <a name="MultiplePackageError.Error">func</a> (\*MultiplePackageError) [Error](/src/target/build.go?s=15623:15668#L447)
+### <a name="MultiplePackageError.Error">func</a> (\*MultiplePackageError) [Error](/src/target/build.go?s=15623:15668#L457)
 ``` go
 func (e *MultiplePackageError) Error() string
 ```
 
 
 
-## <a name="NoGoError">type</a> [NoGoError](/src/target/build.go?s=15165:15202#L431)
+## <a name="NoGoError">type</a> [NoGoError](/src/target/build.go?s=15165:15202#L441)
 ``` go
 type NoGoError struct {
     Dir string
@@ -487,14 +487,14 @@ test files, files hidden by build tags, and so on.)
 
 
 
-### <a name="NoGoError.Error">func</a> (\*NoGoError) [Error](/src/target/build.go?s=15204:15238#L435)
+### <a name="NoGoError.Error">func</a> (\*NoGoError) [Error](/src/target/build.go?s=15204:15238#L445)
 ``` go
 func (e *NoGoError) Error() string
 ```
 
 
 
-## <a name="Package">type</a> [Package](/src/target/build.go?s=11686:14547#L362)
+## <a name="Package">type</a> [Package](/src/target/build.go?s=11686:14547#L372)
 ``` go
 type Package struct {
     Dir           string   // directory containing package sources
@@ -557,14 +557,14 @@ A Package describes the Go package found in a directory.
 
 
 
-### <a name="Import">func</a> [Import](/src/target/build.go?s=33366:33433#L1107)
+### <a name="Import">func</a> [Import](/src/target/build.go?s=33366:33433#L1117)
 ``` go
 func Import(path, srcDir string, mode ImportMode) (*Package, error)
 ```
 Import is shorthand for Default.Import.
 
 
-### <a name="ImportDir">func</a> [ImportDir](/src/target/build.go?s=33531:33592#L1112)
+### <a name="ImportDir">func</a> [ImportDir](/src/target/build.go?s=33531:33592#L1122)
 ``` go
 func ImportDir(dir string, mode ImportMode) (*Package, error)
 ```
@@ -574,7 +574,7 @@ ImportDir is shorthand for Default.ImportDir.
 
 
 
-### <a name="Package.IsCommand">func</a> (\*Package) [IsCommand](/src/target/build.go?s=14705:14739#L418)
+### <a name="Package.IsCommand">func</a> (\*Package) [IsCommand](/src/target/build.go?s=14705:14739#L428)
 ``` go
 func (p *Package) IsCommand() bool
 ```
