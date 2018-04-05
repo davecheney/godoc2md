@@ -40,12 +40,12 @@ var pkgTemplate = `{{with .PDoc}}
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 
-{{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{example_html $ .Name}}
 {{callgraph_html $ "" .Name}}{{end}}
-{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{posLink_url $ .Decl}})
+{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}{{range .Consts}}
 {{node $ .Decl | pre }}
@@ -57,13 +57,13 @@ var pkgTemplate = `{{with .PDoc}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
-{{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{example_html $ .Name}}{{end}}
 {{callgraph_html $ "" .Name}}
 
-{{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{$name := printf "%s_%s" $tname .Name}}{{example_html $ $name}}
@@ -75,7 +75,7 @@ var pkgTemplate = `{{with .PDoc}}
 ## <a name="pkg-note-{{$marker}}">{{noteTitle $marker | html}}s
 <ul style="list-style: none; padding: 0;">
 {{range .}}
-<li><a href="{{posLink_url $ .}}">&#x261e;</a> {{html .Body}}</li>
+<li><a href="{{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .}}">&#x261e;</a> {{html .Body}}</li>
 {{end}}
 </ul>
 {{end}}

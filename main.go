@@ -20,6 +20,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"text/template"
@@ -47,6 +48,21 @@ var (
 	// use the same format. For example Bitbucket Enterprise uses `#%d`. This option provides the
 	// user the option to switch the format as needed and still remain backwards compatible.
 	srcLinkHashFormat = flag.String("hashformat", "#L%d", "source link URL hash format")
+
+	// Patterns used to rewrite the package names to http urls for github and
+	// bitbucket and the suffix to place between the root of the repo and the
+	// rest. Those come from https://github.com/golang/gddo/tree/master/gosrc
+	gitPatterns = []struct {
+		pattern *regexp.Regexp
+		suffix  string
+	}{
+		// github.com
+		{regexp.MustCompile(`^(github\.com)/(?P<owner>[a-z0-9A-Z_.\-]+)/(?P<repo>[a-z0-9A-Z_.\-]+)(?P<dir>/.*)?$`), "tree/master"},
+		// bitbucket.com
+		{regexp.MustCompile(`^(bitbucket\.org)/(?P<owner>[a-z0-9A-Z_.\-]+)/(?P<repo>[a-z0-9A-Z_.\-]+)(?P<dir>/[a-z0-9A-Z_.\-/]*)?$`), "src/master"},
+		// all other
+		{regexp.MustCompile(`^(?P<domain>[a-z0-9A-Z_.\-]+\.[a-z]+)/(?P<owner>[a-z0-9A-Z_.\-]+)/(?P<repo>[a-z0-9A-Z_.\-]+)(?P<dir>/[a-z0-9A-Z_.\-/]*)?$`), "src"},
+	}
 )
 
 func usage() {
@@ -89,13 +105,10 @@ func preFunc(text string) string {
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L562
 func srcLinkFunc(s string) string {
 	s = path.Clean("/" + s)
-	if !strings.HasPrefix(s, "/src/") {
-		s = "/src" + s
-	}
-	return s
+	return strings.TrimPrefix(s, "/target")
 }
 
-// Removed code line that always substracted 10 from the value of `line`.
+// Removed code line that always subtracted 10 from the value of `line`.
 // Made format for the source link hash configurable to support source control platforms other than Github.
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L540
 func srcPosLinkFunc(s string, line, low, high int) string {
@@ -139,6 +152,33 @@ func bitscapeFunc(text string) string {
 	return s
 }
 
+// rewriteURL is used to rewrite urls from a github package source file
+func rewriteURL(src, suffix string, pattern *regexp.Regexp) string {
+	result := ""
+	if m := pattern.FindStringSubmatch(src); m != nil {
+		result = fmt.Sprintf("https://%s/%s/%s/%s", m[1], m[2], m[3], suffix)
+		if m[4] != "" {
+			result = fmt.Sprintf("%s%s", result, m[4])
+		}
+	}
+	return result
+}
+
+// Rewriting a source file path to its http equivalent and making sure you can
+// add a file a file path after without having to worry about the element that
+// comes between the root of the repository and the repo path
+func urlFromPackage(src string) string {
+	// the source for golang.org/x is on github
+	src = strings.Replace(src, "golang.org/x", "github.com/golang", -1)
+	// other packages
+	for _, pat := range gitPatterns {
+		if pat.pattern.MatchString(src) {
+			return rewriteURL(src, pat.suffix, pat.pattern)
+		}
+	}
+	return fmt.Sprintf("https://golang.org/src/%s", src)
+}
+
 func main() {
 	flag.Usage = usage
 	flag.Parse()
@@ -168,6 +208,7 @@ func main() {
 	pres.SrcMode = false
 	pres.HTMLMode = false
 	pres.URLForSrcPos = srcPosLinkFunc
+	pres.URLForSrc = urlFromPackage
 
 	if *altPkgTemplate != "" {
 		buf, err := ioutil.ReadFile(*altPkgTemplate)
