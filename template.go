@@ -15,7 +15,7 @@ var pkgTemplate = `{{with .PDoc}}
 
 ## <a name="pkg-overview">Overview</a>
 {{comment_md .Doc}}
-{{example_html $ ""}}
+{{example_md $ ""}}
 
 ## <a name="pkg-index">Index</a>{{if .Consts}}
 * [Constants](#pkg-constants){{end}}{{if .Vars}}
@@ -27,7 +27,7 @@ var pkgTemplate = `{{with .PDoc}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
 {{if $.Examples}}
 #### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
-* [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
+* [{{example_name .Name}}](#example-{{.Name | clean_link}}){{- end}}{{- end}}
 {{with .Filenames}}
 #### <a name="pkg-files">Package files</a>
 {{range $i, $f := .}}{{ if $i }} {{ end }}[{{$f|filename|html}}]({{.|srcLink|html}}){{end}}
@@ -43,7 +43,7 @@ var pkgTemplate = `{{with .PDoc}}
 {{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}
+{{example_md $ .Name}}
 {{callgraph_html $ "" .Name}}{{end}}
 {{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
@@ -53,20 +53,20 @@ var pkgTemplate = `{{with .PDoc}}
 {{node $ .Decl | pre }}
 {{comment_md .Doc}}{{end}}
 
-{{example_html $ $tname}}
+{{example_md $ $tname}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
 {{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}{{end}}
+{{example_md $ .Name}}{{end}}
 {{callgraph_html $ "" .Name}}
 
 {{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{$name := printf "%s_%s" $tname .Name}}{{example_html $ $name}}
+{{$name := printf "%s_%s" $tname .Name}}{{example_md $ $name}}
 {{callgraph_html $ .Recv .Name}}
 {{end}}{{end}}{{end}}
 
