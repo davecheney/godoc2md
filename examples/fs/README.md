@@ -25,7 +25,7 @@ Package fs provides filesystem-related functions.
   * [func (w *Walker) Step() bool](#Walker.Step)
 
 #### <a name="pkg-examples">Examples</a>
-* [Walker](#example_Walker)
+* [Walker](#example-walker)
 
 #### <a name="pkg-files">Package files</a>
 [filesystem.go](https://github.com/kr/fs/tree/master/filesystem.go) [walk.go](https://github.com/kr/fs/tree/master/walk.go)
@@ -82,6 +82,18 @@ but means that for very large directories Walker can be inefficient.
 Walker does not follow symbolic links.
 
 
+
+##### Example Walker:
+``` go
+    walker := fs.Walk("/usr/lib")
+    for walker.Step() {
+        if err := walker.Err(); err != nil {
+            fmt.Fprintln(os.Stderr, err)
+            continue
+        }
+        fmt.Println(walker.Path())
+    }
+```
 
 
 
