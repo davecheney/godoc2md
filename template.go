@@ -30,7 +30,7 @@ var pkgTemplate = `{{with .PDoc}}
 * [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
 {{with .Filenames}}
 #### <a name="pkg-files">Package files</a>
-{{range .}}[{{.|filename|html}}]({{.|srcLink|html}}) {{end}}
+{{range $i, $f := .}}{{ if $i }} {{ end }}[{{$f|filename|html}}]({{.|srcLink|html}}){{end}}
 {{end}}
 
 {{with .Consts}}## <a name="pkg-constants">Constants</a>
