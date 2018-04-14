@@ -87,7 +87,7 @@ flashes, call session.Flashes(). Here is an example:
 			return
 		}
 	
-		// Get the previously flashes, if any.
+		// Get the previous flashes, if any.
 		if flashes := session.Flashes(); len(flashes) > 0 {
 			// Use the flash values.
 		} else {
@@ -245,13 +245,13 @@ session to a common registry. Save() uses it to save all registered sessions.
 
 
 #### <a name="pkg-files">Package files</a>
-[doc.go](/src/github.com/gorilla/sessions/doc.go) [lex.go](/src/github.com/gorilla/sessions/lex.go) [sessions.go](/src/github.com/gorilla/sessions/sessions.go) [store.go](/src/github.com/gorilla/sessions/store.go) 
+[doc.go](https://github.com/gorilla/sessions/tree/master/doc.go) [lex.go](https://github.com/gorilla/sessions/tree/master/lex.go) [sessions.go](https://github.com/gorilla/sessions/tree/master/sessions.go) [store.go](https://github.com/gorilla/sessions/tree/master/store.go)
 
 
 
 
 
-## <a name="NewCookie">func</a> [NewCookie](/src/target/sessions.go?s=5420:5485#L195)
+## <a name="NewCookie">func</a> [NewCookie](https://github.com/gorilla/sessions/tree/master/sessions.go?s=5493:5558#L197)
 ``` go
 func NewCookie(name, value string, options *Options) *http.Cookie
 ```
@@ -261,7 +261,7 @@ Explorer compatibility.
 
 
 
-## <a name="Save">func</a> [Save](/src/target/sessions.go?s=5158:5213#L188)
+## <a name="Save">func</a> [Save](https://github.com/gorilla/sessions/tree/master/sessions.go?s=5231:5286#L190)
 ``` go
 func Save(r *http.Request, w http.ResponseWriter) error
 ```
@@ -270,7 +270,7 @@ Save saves all sessions used during the current request.
 
 
 
-## <a name="CookieStore">type</a> [CookieStore](/src/target/store.go?s=1999:2099#L67)
+## <a name="CookieStore">type</a> [CookieStore](https://github.com/gorilla/sessions/tree/master/store.go?s=1999:2099#L67)
 ``` go
 type CookieStore struct {
     Codecs  []securecookie.Codec
@@ -285,7 +285,7 @@ CookieStore stores sessions using secure cookies.
 
 
 
-### <a name="NewCookieStore">func</a> [NewCookieStore](/src/target/store.go?s=1704:1756#L53)
+### <a name="NewCookieStore">func</a> [NewCookieStore](https://github.com/gorilla/sessions/tree/master/store.go?s=1704:1756#L53)
 ``` go
 func NewCookieStore(keyPairs ...[]byte) *CookieStore
 ```
@@ -309,7 +309,7 @@ strong keys.
 
 
 
-### <a name="CookieStore.Get">func</a> (\*CookieStore) [Get](/src/target/store.go?s=2418:2491#L79)
+### <a name="CookieStore.Get">func</a> (\*CookieStore) [Get](https://github.com/gorilla/sessions/tree/master/store.go?s=2418:2491#L79)
 ``` go
 func (s *CookieStore) Get(r *http.Request, name string) (*Session, error)
 ```
@@ -324,7 +324,7 @@ not be decoded.
 
 
 
-### <a name="CookieStore.MaxAge">func</a> (\*CookieStore) [MaxAge](/src/target/store.go?s=3734:3771#L119)
+### <a name="CookieStore.MaxAge">func</a> (\*CookieStore) [MaxAge](https://github.com/gorilla/sessions/tree/master/store.go?s=3734:3771#L119)
 ``` go
 func (s *CookieStore) MaxAge(age int)
 ```
@@ -335,7 +335,7 @@ implementation. Individual sessions can be deleted by setting Options.MaxAge
 
 
 
-### <a name="CookieStore.New">func</a> (\*CookieStore) [New](/src/target/store.go?s=2807:2880#L88)
+### <a name="CookieStore.New">func</a> (\*CookieStore) [New](https://github.com/gorilla/sessions/tree/master/store.go?s=2807:2880#L88)
 ``` go
 func (s *CookieStore) New(r *http.Request, name string) (*Session, error)
 ```
@@ -348,7 +348,7 @@ decoded session after the first call.
 
 
 
-### <a name="CookieStore.Save">func</a> (\*CookieStore) [Save](/src/target/store.go?s=3254:3345#L105)
+### <a name="CookieStore.Save">func</a> (\*CookieStore) [Save](https://github.com/gorilla/sessions/tree/master/store.go?s=3254:3345#L105)
 ``` go
 func (s *CookieStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
@@ -358,7 +358,7 @@ Save adds a single session to the response.
 
 
 
-## <a name="FilesystemStore">type</a> [FilesystemStore](/src/target/store.go?s=4822:4942#L162)
+## <a name="FilesystemStore">type</a> [FilesystemStore](https://github.com/gorilla/sessions/tree/master/store.go?s=4822:4942#L162)
 ``` go
 type FilesystemStore struct {
     Codecs  []securecookie.Codec
@@ -378,7 +378,7 @@ This store is still experimental and not well tested. Feedback is welcome.
 
 
 
-### <a name="NewFilesystemStore">func</a> [NewFilesystemStore](/src/target/store.go?s=4309:4382#L140)
+### <a name="NewFilesystemStore">func</a> [NewFilesystemStore](https://github.com/gorilla/sessions/tree/master/store.go?s=4309:4382#L140)
 ``` go
 func NewFilesystemStore(path string, keyPairs ...[]byte) *FilesystemStore
 ```
@@ -393,7 +393,7 @@ See NewCookieStore() for a description of the other parameters.
 
 
 
-### <a name="FilesystemStore.Get">func</a> (\*FilesystemStore) [Get](/src/target/store.go?s=5401:5478#L182)
+### <a name="FilesystemStore.Get">func</a> (\*FilesystemStore) [Get](https://github.com/gorilla/sessions/tree/master/store.go?s=5401:5478#L182)
 ``` go
 func (s *FilesystemStore) Get(r *http.Request, name string) (*Session, error)
 ```
@@ -404,7 +404,7 @@ See CookieStore.Get().
 
 
 
-### <a name="FilesystemStore.MaxAge">func</a> (\*FilesystemStore) [MaxAge](/src/target/store.go?s=7361:7402#L246)
+### <a name="FilesystemStore.MaxAge">func</a> (\*FilesystemStore) [MaxAge](https://github.com/gorilla/sessions/tree/master/store.go?s=7361:7402#L246)
 ``` go
 func (s *FilesystemStore) MaxAge(age int)
 ```
@@ -415,7 +415,7 @@ implementation. Individual sessions can be deleted by setting Options.MaxAge
 
 
 
-### <a name="FilesystemStore.MaxLength">func</a> (\*FilesystemStore) [MaxLength](/src/target/store.go?s=5133:5175#L171)
+### <a name="FilesystemStore.MaxLength">func</a> (\*FilesystemStore) [MaxLength](https://github.com/gorilla/sessions/tree/master/store.go?s=5133:5175#L171)
 ``` go
 func (s *FilesystemStore) MaxLength(l int)
 ```
@@ -426,7 +426,7 @@ The default for a new FilesystemStore is 4096.
 
 
 
-### <a name="FilesystemStore.New">func</a> (\*FilesystemStore) [New](/src/target/store.go?s=5628:5705#L189)
+### <a name="FilesystemStore.New">func</a> (\*FilesystemStore) [New](https://github.com/gorilla/sessions/tree/master/store.go?s=5628:5705#L189)
 ``` go
 func (s *FilesystemStore) New(r *http.Request, name string) (*Session, error)
 ```
@@ -437,7 +437,7 @@ See CookieStore.New().
 
 
 
-### <a name="FilesystemStore.Save">func</a> (\*FilesystemStore) [Save](/src/target/store.go?s=6373:6468#L213)
+### <a name="FilesystemStore.Save">func</a> (\*FilesystemStore) [Save](https://github.com/gorilla/sessions/tree/master/store.go?s=6373:6468#L213)
 ``` go
 func (s *FilesystemStore) Save(r *http.Request, w http.ResponseWriter,
     session *Session) error
@@ -452,7 +452,7 @@ web browser.
 
 
 
-## <a name="MultiError">type</a> [MultiError](/src/target/sessions.go?s=6092:6115#L220)
+## <a name="MultiError">type</a> [MultiError](https://github.com/gorilla/sessions/tree/master/sessions.go?s=6165:6188#L222)
 ``` go
 type MultiError []error
 ```
@@ -469,20 +469,21 @@ Borrowed from the App Engine SDK.
 
 
 
-### <a name="MultiError.Error">func</a> (MultiError) [Error](/src/target/sessions.go?s=6117:6151#L222)
+### <a name="MultiError.Error">func</a> (MultiError) [Error](https://github.com/gorilla/sessions/tree/master/sessions.go?s=6190:6224#L224)
 ``` go
 func (m MultiError) Error() string
 ```
 
 
 
-## <a name="Options">type</a> [Options](/src/target/sessions.go?s=516:798#L24)
+## <a name="Options">type</a> [Options](https://github.com/gorilla/sessions/tree/master/sessions.go?s=516:843#L24)
 ``` go
 type Options struct {
     Path   string
     Domain string
-    // MaxAge=0 means no 'Max-Age' attribute specified.
-    // MaxAge<0 means delete cookie now, equivalently 'Max-Age: 0'.
+    // MaxAge=0 means no Max-Age attribute specified and the cookie will be
+    // deleted after the browser session ends.
+    // MaxAge<0 means delete cookie immediately.
     // MaxAge>0 means Max-Age attribute present and given in seconds.
     MaxAge   int
     Secure   bool
@@ -502,7 +503,7 @@ Fields are a subset of http.Cookie fields.
 
 
 
-## <a name="Registry">type</a> [Registry](/src/target/sessions.go?s=3728:3809#L139)
+## <a name="Registry">type</a> [Registry](https://github.com/gorilla/sessions/tree/master/sessions.go?s=3801:3882#L141)
 ``` go
 type Registry struct {
     // contains filtered or unexported fields
@@ -516,7 +517,7 @@ Registry stores sessions used during a request.
 
 
 
-### <a name="GetRegistry">func</a> [GetRegistry](/src/target/sessions.go?s=3383:3426#L125)
+### <a name="GetRegistry">func</a> [GetRegistry](https://github.com/gorilla/sessions/tree/master/sessions.go?s=3456:3499#L127)
 ``` go
 func GetRegistry(r *http.Request) *Registry
 ```
@@ -526,7 +527,7 @@ GetRegistry returns a registry instance for the current request.
 
 
 
-### <a name="Registry.Get">func</a> (\*Registry) [Get](/src/target/sessions.go?s=3969:4047#L147)
+### <a name="Registry.Get">func</a> (\*Registry) [Get](https://github.com/gorilla/sessions/tree/master/sessions.go?s=4042:4120#L149)
 ``` go
 func (s *Registry) Get(store Store, name string) (session *Session, err error)
 ```
@@ -537,7 +538,7 @@ It returns a new session if there are no sessions registered for the name.
 
 
 
-### <a name="Registry.Save">func</a> (\*Registry) [Save](/src/target/sessions.go?s=4465:4517#L163)
+### <a name="Registry.Save">func</a> (\*Registry) [Save](https://github.com/gorilla/sessions/tree/master/sessions.go?s=4538:4590#L165)
 ``` go
 func (s *Registry) Save(w http.ResponseWriter) error
 ```
@@ -546,7 +547,7 @@ Save saves all sessions registered for the current request.
 
 
 
-## <a name="Session">type</a> [Session](/src/target/sessions.go?s=1183:1457#L47)
+## <a name="Session">type</a> [Session](https://github.com/gorilla/sessions/tree/master/sessions.go?s=1256:1530#L49)
 ``` go
 type Session struct {
     // The ID of the session, generated by stores. It should not be used for
@@ -567,7 +568,7 @@ Session stores the values and optional configuration for a session.
 
 
 
-### <a name="NewSession">func</a> [NewSession](/src/target/sessions.go?s=957:1007#L38)
+### <a name="NewSession">func</a> [NewSession](https://github.com/gorilla/sessions/tree/master/sessions.go?s=1002:1052#L39)
 ``` go
 func NewSession(store Store, name string) *Session
 ```
@@ -577,7 +578,7 @@ NewSession is called by session stores to create a new session instance.
 
 
 
-### <a name="Session.AddFlash">func</a> (\*Session) [AddFlash](/src/target/sessions.go?s=2138:2199#L81)
+### <a name="Session.AddFlash">func</a> (\*Session) [AddFlash](https://github.com/gorilla/sessions/tree/master/sessions.go?s=2211:2272#L83)
 ``` go
 func (s *Session) AddFlash(value interface{}, vars ...string)
 ```
@@ -589,7 +590,7 @@ the flash key. If not defined "_flash" is used by default.
 
 
 
-### <a name="Session.Flashes">func</a> (\*Session) [Flashes](/src/target/sessions.go?s=1661:1716#L63)
+### <a name="Session.Flashes">func</a> (\*Session) [Flashes](https://github.com/gorilla/sessions/tree/master/sessions.go?s=1734:1789#L65)
 ``` go
 func (s *Session) Flashes(vars ...string) []interface{}
 ```
@@ -601,7 +602,7 @@ the flash key. If not defined "_flash" is used by default.
 
 
 
-### <a name="Session.Name">func</a> (\*Session) [Name](/src/target/sessions.go?s=2764:2795#L101)
+### <a name="Session.Name">func</a> (\*Session) [Name](https://github.com/gorilla/sessions/tree/master/sessions.go?s=2837:2868#L103)
 ``` go
 func (s *Session) Name() string
 ```
@@ -610,7 +611,7 @@ Name returns the name used to register the session.
 
 
 
-### <a name="Session.Save">func</a> (\*Session) [Save](/src/target/sessions.go?s=2605:2673#L96)
+### <a name="Session.Save">func</a> (\*Session) [Save](https://github.com/gorilla/sessions/tree/master/sessions.go?s=2678:2746#L98)
 ``` go
 func (s *Session) Save(r *http.Request, w http.ResponseWriter) error
 ```
@@ -621,7 +622,7 @@ the response or returning from the handler.
 
 
 
-### <a name="Session.Store">func</a> (\*Session) [Store](/src/target/sessions.go?s=2881:2912#L106)
+### <a name="Session.Store">func</a> (\*Session) [Store](https://github.com/gorilla/sessions/tree/master/sessions.go?s=2954:2985#L108)
 ``` go
 func (s *Session) Store() Store
 ```
@@ -630,7 +631,7 @@ Store returns the session store used to register the session.
 
 
 
-## <a name="Store">type</a> [Store](/src/target/store.go?s=425:930#L22)
+## <a name="Store">type</a> [Store](https://github.com/gorilla/sessions/tree/master/store.go?s=425:930#L22)
 ``` go
 type Store interface {
     // Get should return a cached session.
