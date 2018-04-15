@@ -5,7 +5,6 @@
 
 * [Overview](#pkg-overview)
 * [Index](#pkg-index)
-* [Subdirectories](#pkg-subdirectories)
 
 ## <a name="pkg-overview">Overview</a>
 Package martini is a powerful package for quickly writing modular web applications/services in Golang.

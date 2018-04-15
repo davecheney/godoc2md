@@ -84,6 +84,20 @@ Walker does not follow symbolic links.
 
 
 
+#### <a name="example_Walker">Example</a>
+
+Code:
+``` go
+walker := fs.Walk("/usr/lib")
+for walker.Step() {
+    if err := walker.Err(); err != nil {
+        fmt.Fprintln(os.Stderr, err)
+        continue
+    }
+    fmt.Println(walker.Path())
+}
+```
+
 
 
 

@@ -61,12 +61,15 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"comment_md": commentMdFunc,
-		"base":       path.Base,
-		"md":         mdFunc,
-		"pre":        preFunc,
-		"kebab":      kebabFunc,
-		"bitscape":   bitscapeFunc, //Escape [] for bitbucket confusion
+		"comment_md":    commentMdFunc,
+		"base":          path.Base,
+		"md":            mdFunc,
+		"pre":           preFunc,
+		"kebab":         kebabFunc,
+		"bitscape":      bitscapeFunc, //Escape [] for bitbucket confusion
+		"show_examples": func() bool { return *showExamples },
+		"examples":      examplesFunc,
+		"output":        outputFunc,
 	}
 )
 
@@ -84,6 +87,14 @@ func mdFunc(text string) string {
 
 func preFunc(text string) string {
 	return "``` go\n" + text + "\n```"
+}
+
+func outputFunc(output string) string {
+	lines := strings.Split(output, "\n")
+	for i, line := range lines {
+		lines[i] = "    " + line
+	}
+	return "\n" + strings.Join(lines, "\n")
 }
 
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L562
