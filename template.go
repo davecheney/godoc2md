@@ -9,13 +9,13 @@ var pkgTemplate = `{{with .PDoc}}
 ` + "`" + `import "{{.ImportPath}}"` + "`" + `
 
 * [Overview](#pkg-overview)
-* [Index](#pkg-index){{if $.Examples}}
+* [Index](#pkg-index){{if and $.Examples show_examples}}
 * [Examples](#pkg-examples){{- end}}{{if $.Dirs}}
 * [Subdirectories](#pkg-subdirectories){{- end}}
 
 ## <a name="pkg-overview">Overview</a>
 {{comment_md .Doc}}
-{{example_html $ ""}}
+{{example_md $ ""}}
 
 ## <a name="pkg-index">Index</a>{{if .Consts}}
 * [Constants](#pkg-constants){{end}}{{if .Vars}}
@@ -25,12 +25,12 @@ var pkgTemplate = `{{with .PDoc}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$tname_html}}.{{$name_html}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
-{{if $.Examples}}
+{{if and $.Examples show_examples}}
 #### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
-* [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
+* [{{example_name .Name}}](#example-{{example_link .Name}}){{- end}}{{- end}}
 {{with .Filenames}}
 #### <a name="pkg-files">Package files</a>
-{{range .}}[{{.|filename|html}}]({{.|srcLink|html}}) {{end}}
+{{range $i, $f := .}}{{ if $i }} {{ end }}[{{$f|filename|html}}]({{.|srcLink|html}}){{end}}
 {{end}}
 
 {{with .Consts}}## <a name="pkg-constants">Constants</a>
@@ -40,12 +40,12 @@ var pkgTemplate = `{{with .PDoc}}
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 
-{{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}## <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}
+{{example_md $ .Name}}
 {{callgraph_html $ "" .Name}}{{end}}
-{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{posLink_url $ .Decl}})
+{{range .Types}}{{$tname := .Name}}{{$tname_html := html .Name}}## <a name="{{$tname_html}}">type</a> [{{$tname_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}{{range .Consts}}
 {{node $ .Decl | pre }}
@@ -53,20 +53,20 @@ var pkgTemplate = `{{with .PDoc}}
 {{node $ .Decl | pre }}
 {{comment_md .Doc}}{{end}}
 
-{{example_html $ $tname}}
+{{example_md $ $tname}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
-{{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Funcs}}{{$name_html := html .Name}}### <a name="{{$name_html}}">func</a> [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{example_html $ .Name}}{{end}}
+{{example_md $ .Name}}{{end}}
 {{callgraph_html $ "" .Name}}
 
-{{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{posLink_url $ .Decl}})
+{{range .Methods}}{{$name_html := html .Name}}### <a name="{{$tname_html}}.{{$name_html}}">func</a> ({{md .Recv}}) [{{$name_html}}]({{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .Decl}})
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
-{{$name := printf "%s_%s" $tname .Name}}{{example_html $ $name}}
+{{$name := printf "%s_%s" $tname .Name}}{{example_md $ $name}}
 {{callgraph_html $ .Recv .Name}}
 {{end}}{{end}}{{end}}
 
@@ -75,7 +75,7 @@ var pkgTemplate = `{{with .PDoc}}
 ## <a name="pkg-note-{{$marker}}">{{noteTitle $marker | html}}s
 <ul style="list-style: none; padding: 0;">
 {{range .}}
-<li><a href="{{posLink_url $ .}}">&#x261e;</a> {{html .Body}}</li>
+<li><a href="{{$.PDoc.ImportPath|srcLink|html}}{{posLink_url $ .}}">&#x261e;</a> {{html .Body}}</li>
 {{end}}
 </ul>
 {{end}}

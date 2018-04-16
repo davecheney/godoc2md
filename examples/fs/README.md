@@ -25,17 +25,17 @@ Package fs provides filesystem-related functions.
   * [func (w *Walker) Step() bool](#Walker.Step)
 
 #### <a name="pkg-examples">Examples</a>
-* [Walker](#example_Walker)
+* [Walker](#example-walker)
 
 #### <a name="pkg-files">Package files</a>
-[filesystem.go](/src/github.com/kr/fs/filesystem.go) [walk.go](/src/github.com/kr/fs/walk.go) 
+[filesystem.go](https://github.com/kr/fs/tree/master/filesystem.go) [walk.go](https://github.com/kr/fs/tree/master/walk.go)
 
 
 
 
 
 
-## <a name="FileSystem">type</a> [FileSystem](/src/target/filesystem.go?s=121:774#L10)
+## <a name="FileSystem">type</a> [FileSystem](https://github.com/kr/fs/tree/master/filesystem.go?s=121:774#L10)
 ``` go
 type FileSystem interface {
 
@@ -67,7 +67,7 @@ FileSystem defines the methods of an abstract filesystem.
 
 
 
-## <a name="Walker">type</a> [Walker](/src/target/walk.go?s=494:580#L15)
+## <a name="Walker">type</a> [Walker](https://github.com/kr/fs/tree/master/walk.go?s=494:580#L15)
 ``` go
 type Walker struct {
     // contains filtered or unexported fields
@@ -83,18 +83,30 @@ Walker does not follow symbolic links.
 
 
 
+##### Example Walker:
+``` go
+walker := fs.Walk("/usr/lib")
+for walker.Step() {
+    if err := walker.Err(); err != nil {
+        fmt.Fprintln(os.Stderr, err)
+        continue
+    }
+    fmt.Println(walker.Path())
+}
+```
 
 
 
 
-### <a name="Walk">func</a> [Walk](/src/target/walk.go?s=692:722#L29)
+
+### <a name="Walk">func</a> [Walk](https://github.com/kr/fs/tree/master/walk.go?s=692:722#L29)
 ``` go
 func Walk(root string) *Walker
 ```
 Walk returns a new Walker rooted at root.
 
 
-### <a name="WalkFS">func</a> [WalkFS](/src/target/walk.go?s=826:873#L34)
+### <a name="WalkFS">func</a> [WalkFS](https://github.com/kr/fs/tree/master/walk.go?s=826:873#L34)
 ``` go
 func WalkFS(root string, fs FileSystem) *Walker
 ```
@@ -104,7 +116,7 @@ WalkFS returns a new Walker rooted at root on the FileSystem fs.
 
 
 
-### <a name="Walker.Err">func</a> (\*Walker) [Err](/src/target/walk.go?s=2325:2353#L87)
+### <a name="Walker.Err">func</a> (\*Walker) [Err](https://github.com/kr/fs/tree/master/walk.go?s=2325:2353#L87)
 ``` go
 func (w *Walker) Err() error
 ```
@@ -115,7 +127,7 @@ an error, w will not descend into that directory.
 
 
 
-### <a name="Walker.Path">func</a> (\*Walker) [Path](/src/target/walk.go?s=1946:1976#L74)
+### <a name="Walker.Path">func</a> (\*Walker) [Path](https://github.com/kr/fs/tree/master/walk.go?s=1946:1976#L74)
 ``` go
 func (w *Walker) Path() string
 ```
@@ -127,7 +139,7 @@ a directory containing the file "a", Path will return "dir/a".
 
 
 
-### <a name="Walker.SkipDir">func</a> (\*Walker) [SkipDir](/src/target/walk.go?s=2496:2522#L93)
+### <a name="Walker.SkipDir">func</a> (\*Walker) [SkipDir](https://github.com/kr/fs/tree/master/walk.go?s=2496:2522#L93)
 ``` go
 func (w *Walker) SkipDir()
 ```
@@ -137,7 +149,7 @@ If w is not on a directory, SkipDir has no effect.
 
 
 
-### <a name="Walker.Stat">func</a> (\*Walker) [Stat](/src/target/walk.go?s=2090:2125#L80)
+### <a name="Walker.Stat">func</a> (\*Walker) [Stat](https://github.com/kr/fs/tree/master/walk.go?s=2090:2125#L80)
 ``` go
 func (w *Walker) Stat() os.FileInfo
 ```
@@ -147,7 +159,7 @@ visited by a call to Step.
 
 
 
-### <a name="Walker.Step">func</a> (\*Walker) [Step](/src/target/walk.go?s=1176:1204#L46)
+### <a name="Walker.Step">func</a> (\*Walker) [Step](https://github.com/kr/fs/tree/master/walk.go?s=1176:1204#L46)
 ``` go
 func (w *Walker) Step() bool
 ```
