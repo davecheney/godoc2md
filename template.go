@@ -27,7 +27,7 @@ var pkgTemplate = `{{with .PDoc}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
 {{if $.Examples}}
 #### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
-* [{{example_name .Name}}](#example-{{.Name | clean_link}}){{- end}}{{- end}}
+* [{{example_name .Name}}](#example-{{example_link .Name}}){{- end}}{{- end}}
 {{with .Filenames}}
 #### <a name="pkg-files">Package files</a>
 {{range $i, $f := .}}{{ if $i }} {{ end }}[{{$f|filename|html}}]({{.|srcLink|html}}){{end}}

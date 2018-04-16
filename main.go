@@ -15,7 +15,6 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
-	"go/printer"
 	"io/ioutil"
 	"log"
 	"os"
@@ -25,8 +24,6 @@ import (
 	"runtime"
 	"strings"
 	"text/template"
-	"unicode"
-	"unicode/utf8"
 
 	"golang.org/x/tools/godoc"
 	"golang.org/x/tools/godoc/vfs"
@@ -80,82 +77,21 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"example_md": exampleMdFunc,
-		"comment_md": commentMdFunc,
-		"base":       path.Base,
-		"md":         mdFunc,
-		"pre":        preFunc,
-		"kebab":      kebabFunc,
-		"bitscape":   bitscapeFunc, //Escape [] for bitbucket confusion
-		"clean_link": cleanLink,
+		"example_md":   exampleMdFunc,
+		"example_link": exampleLinkFunc,
+		"comment_md":   commentMdFunc,
+		"base":         path.Base,
+		"md":           mdFunc,
+		"pre":          preFunc,
+		"kebab":        kebabFunc,
+		"bitscape":     bitscapeFunc, //Escape [] for bitbucket confusion
+		"clean_link":   cleanLink,
 	}
 )
 
 func cleanLink(src string) string {
 	src = strings.ToLower(src)
 	return strings.Replace(src, "_", "", -1)
-}
-
-// Comes from https://github.com/golang/tools/blob/master/godoc/godoc.go#L786
-func stripExampleSuffix(name string) string {
-	if i := strings.LastIndex(name, "_"); i != -1 {
-		if i < len(name)-1 && !startsWithUppercase(name[i+1:]) {
-			name = name[:i]
-		}
-	}
-	return name
-}
-
-// Comes from https://github.com/golang/tools/blob/master/godoc/godoc.go#L777
-func startsWithUppercase(s string) bool {
-	r, _ := utf8.DecodeRuneInString(s)
-	return unicode.IsUpper(r)
-}
-
-// Based on example_textFunc from
-// https://github.com/golang/tools/blob/master/godoc/godoc.go
-func exampleMdFunc(info *godoc.PageInfo, funcName string) string {
-	if !*showExamples {
-		return ""
-	}
-
-	var buf bytes.Buffer
-	first := true
-	for _, eg := range info.Examples {
-		name := stripExampleSuffix(eg.Name)
-		if name != funcName {
-			continue
-		}
-
-		if !first {
-			buf.WriteString("\n")
-		}
-		first = false
-
-		// print code
-		cnode := &printer.CommentedNode{Node: eg.Code, Comments: eg.Comments}
-		config := &printer.Config{Mode: printer.UseSpaces, Tabwidth: pres.TabWidth}
-		var buf1 bytes.Buffer
-		config.Fprint(&buf1, info.FSet, cnode)
-		code := buf1.String()
-
-		// Additional formatting if this is a function body. Unfortunately, we
-		// can't print statements individually because we would lose comments
-		// on later statements.
-		if n := len(code); n >= 2 && code[0] == '{' && code[n-1] == '}' {
-			// remove surrounding braces
-			code = code[1 : n-1]
-		}
-		code = strings.Trim(code, "\n")
-		title := fmt.Sprintf("##### Example %s:\n", strings.Replace(funcName, "_", ".", -1))
-		buf.WriteString(title)
-		buf.WriteString("``` go\n")
-		buf.WriteString(code)
-		buf.WriteString("\n```\n\n")
-	}
-	if buf.Len() > 0 {
-	}
-	return buf.String()
 }
 
 func commentMdFunc(comment string) string {
