@@ -85,14 +85,14 @@ Walker does not follow symbolic links.
 
 ##### Example Walker:
 ``` go
-    walker := fs.Walk("/usr/lib")
-    for walker.Step() {
-        if err := walker.Err(); err != nil {
-            fmt.Fprintln(os.Stderr, err)
-            continue
-        }
-        fmt.Println(walker.Path())
+walker := fs.Walk("/usr/lib")
+for walker.Step() {
+    if err := walker.Err(); err != nil {
+        fmt.Fprintln(os.Stderr, err)
+        continue
     }
+    fmt.Println(walker.Path())
+}
 ```
 
 
