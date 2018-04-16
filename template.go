@@ -9,7 +9,7 @@ var pkgTemplate = `{{with .PDoc}}
 ` + "`" + `import "{{.ImportPath}}"` + "`" + `
 
 * [Overview](#pkg-overview)
-* [Index](#pkg-index){{if $.Examples}}
+* [Index](#pkg-index){{if and $.Examples show_examples}}
 * [Examples](#pkg-examples){{- end}}{{if $.Dirs}}
 * [Subdirectories](#pkg-subdirectories){{- end}}
 
@@ -25,7 +25,7 @@ var pkgTemplate = `{{with .PDoc}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$tname_html}}.{{$name_html}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
-{{if $.Examples}}
+{{if and $.Examples show_examples}}
 #### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
 * [{{example_name .Name}}](#example-{{example_link .Name}}){{- end}}{{- end}}
 {{with .Filenames}}
