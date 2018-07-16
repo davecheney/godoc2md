@@ -47,6 +47,8 @@ var (
 	// use the same format. For example Bitbucket Enterprise uses `#%d`. This option provides the
 	// user the option to switch the format as needed and still remain backwards compatible.
 	srcLinkHashFormat = flag.String("hashformat", "#L%d", "source link URL hash format")
+
+	srcLinkFormat = flag.String("srclink", "", "if set, format for entire source link")
 )
 
 func usage() {
@@ -61,12 +63,13 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"comment_md": commentMdFunc,
-		"base":       path.Base,
-		"md":         mdFunc,
-		"pre":        preFunc,
-		"kebab":      kebabFunc,
-		"bitscape":   bitscapeFunc, //Escape [] for bitbucket confusion
+		"comment_md":  commentMdFunc,
+		"base":        path.Base,
+		"md":          mdFunc,
+		"pre":         preFunc,
+		"kebab":       kebabFunc,
+		"bitscape":    bitscapeFunc, //Escape [] for bitbucket confusion
+		"trim_prefix": strings.TrimPrefix,
 	}
 )
 
@@ -99,6 +102,10 @@ func srcLinkFunc(s string) string {
 // Made format for the source link hash configurable to support source control platforms other than Github.
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L540
 func srcPosLinkFunc(s string, line, low, high int) string {
+	if *srcLinkFormat != "" {
+		return fmt.Sprintf(*srcLinkFormat, s, line, low, high)
+	}
+
 	s = srcLinkFunc(s)
 	var buf bytes.Buffer
 	template.HTMLEscape(&buf, []byte(s))
