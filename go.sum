@@ -1,7 +1,0 @@
-github.com/golang/tools v0.0.0-20181011021141-0e57ebad1d6b h1:FRB6BrcKoX1SzFC0wsMNMOOb4viaEZu8nvgwlloLssg=
-github.com/golang/tools v0.0.0-20181011021141-0e57ebad1d6b/go.mod h1:BZR6KJOI/IQ5FlSQroxL7yevEMRCz1dARTXHD9s4mHE=
-github.com/golang/tools v0.0.0-20181211200412-2b6afc6596c9 h1:yjFP+a/3zpmFw/bBtQenTIilq1gWx0YJjFqiGGftvfE=
-golang.org/x/tools v0.0.0-20181011021141-0e57ebad1d6b h1:HmX7qDZr5gv5SRnNE4hk4jaqDx4+d+bmiXgS3zdanJs=
-golang.org/x/tools v0.0.0-20181011021141-0e57ebad1d6b/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
-golang.org/x/tools v0.0.0-20181211200412-2b6afc6596c9 h1:J9YYbAoPaoJzppee/I37cyy2rN0FogFEkXizwBsugpY=
-golang.org/x/tools v0.0.0-20181211200412-2b6afc6596c9/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=

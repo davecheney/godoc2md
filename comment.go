@@ -3,8 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Godoc comment extraction and comment -> Markdown formatting.
-
-package main
+package godoc2md
 
 import (
 	"io"
@@ -17,7 +16,7 @@ import (
 
 const (
 	// Regexp for Go identifiers
-	identRx = `[a-zA-Z_][a-zA-Z_0-9]*` // TODO(gri) ASCII only for now - fix this
+	identRx = `[a-zA-Z_][a-zA-Z_0-9]*`
 
 	// Regexp for URLs
 	protocol = `(https?|ftp|file|gopher|mailto|news|nntp|telnet|wais|prospero):`

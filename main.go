@@ -2,61 +2,28 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// godoc2md converts godoc formatted package documentation into Markdown format.
+// Package godoc2md creates a markdown representation of a package's godoc.
 //
-//
-// Usage
-//
-//    godoc2md $PACKAGE > $GOPATH/src/$PACKAGE/README.md
-package main
+// This is forked from https://github.com/davecheney/godoc2md.  The primary difference being that this version is
+// a library that can be used by other packages.
+package godoc2md
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	"go/build"
+	"io"
 	"io/ioutil"
 	"log"
-	"os"
 	"path"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"text/template"
 
+	"github.com/WillAbides/godoc2md/cmdline"
 	"golang.org/x/tools/godoc"
 	"golang.org/x/tools/godoc/vfs"
 )
-
-var (
-	verbose = flag.Bool("v", false, "verbose mode")
-
-	// file system roots
-	// TODO(gri) consider the invariant that goroot always end in '/'
-	goroot = flag.String("goroot", runtime.GOROOT(), "Go root directory")
-
-	// layout control
-	tabWidth       = flag.Int("tabwidth", 4, "tab width")
-	showTimestamps = flag.Bool("timestamps", false, "show timestamps with directory listings")
-	altPkgTemplate = flag.String("template", "", "path to an alternate template file")
-	showPlayground = flag.Bool("play", false, "enable playground in web interface")
-	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
-	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
-
-	// The hash format for Github is the default `#L%d`; but other source control platforms do not
-	// use the same format. For example Bitbucket Enterprise uses `#%d`. This option provides the
-	// user the option to switch the format as needed and still remain backwards compatible.
-	srcLinkHashFormat = flag.String("hashformat", "#L%d", "source link URL hash format")
-
-	srcLinkFormat = flag.String("srclink", "", "if set, format for entire source link")
-)
-
-func usage() {
-	fmt.Fprintf(os.Stderr,
-		"usage: godoc2md package [name ...]\n")
-	flag.PrintDefaults()
-	os.Exit(2)
-}
 
 var (
 	pres *godoc.Presentation
@@ -72,6 +39,19 @@ var (
 		"trim_prefix": strings.TrimPrefix,
 	}
 )
+
+type Config struct {
+	TabWidth          int
+	ShowTimestamps    bool
+	AltPkgTemplate    string
+	ShowPlayground    bool
+	ShowExamples      bool
+	DeclLinks         bool
+	SrcLinkHashFormat string
+	SrcLinkFormat     string
+	Goroot            string
+	Verbose           bool
+}
 
 func commentMdFunc(comment string) string {
 	var buf bytes.Buffer
@@ -101,27 +81,29 @@ func srcLinkFunc(s string) string {
 // Removed code line that always substracted 10 from the value of `line`.
 // Made format for the source link hash configurable to support source control platforms other than Github.
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L540
-func srcPosLinkFunc(s string, line, low, high int) string {
-	if *srcLinkFormat != "" {
-		return fmt.Sprintf(*srcLinkFormat, s, line, low, high)
-	}
-
-	s = srcLinkFunc(s)
-	var buf bytes.Buffer
-	template.HTMLEscape(&buf, []byte(s))
-	// selection ranges are of form "s=low:high"
-	if low < high {
-		fmt.Fprintf(&buf, "?s=%d:%d", low, high) // no need for URL escaping
-		if line < 1 {
-			line = 1
+func genSrcPosLinkFunc(srcLinkFormat, srcLinkHashFormat string) func(s string, line, low, high int) string {
+	return func(s string, line, low, high int) string {
+		if srcLinkFormat != "" {
+			return fmt.Sprintf(srcLinkFormat, s, line, low, high)
 		}
+
+		s = srcLinkFunc(s)
+		var buf bytes.Buffer
+		template.HTMLEscape(&buf, []byte(s))
+		// selection ranges are of form "s=low:high"
+		if low < high {
+			fmt.Fprintf(&buf, "?s=%d:%d", low, high) // no need for URL escaping
+			if line < 1 {
+				line = 1
+			}
+		}
+		// line id's in html-printed source are of the
+		// form "L%d" (on Github) where %d stands for the line number
+		if line > 0 {
+			fmt.Fprintf(&buf, srcLinkHashFormat, line) // no need for URL escaping
+		}
+		return buf.String()
 	}
-	// line id's in html-printed source are of the
-	// form "L%d" (on Github) where %d stands for the line number
-	if line > 0 {
-		fmt.Fprintf(&buf, *srcLinkHashFormat, line) // no need for URL escaping
-	}
-	return buf.String()
 }
 
 func readTemplate(name, data string) *template.Template {
@@ -146,47 +128,34 @@ func bitscapeFunc(text string) string {
 	return s
 }
 
-func main() {
-	flag.Usage = usage
-	flag.Parse()
-
-	// Check usage
-	if flag.NArg() == 0 {
-		usage()
-	}
-
+//Godoc2md turns your godoc into markdown
+func Godoc2md(args []string, out io.Writer, config *Config) {
 	// use file system of underlying OS
-	fs.Bind("/", vfs.OS(*goroot), "/", vfs.BindReplace)
-
+	fs.Bind("/", vfs.OS(config.Goroot), "/", vfs.BindReplace)
 	// Bind $GOPATH trees into Go root.
 	for _, p := range filepath.SplitList(build.Default.GOPATH) {
 		fs.Bind("/src/pkg", vfs.OS(p), "/src", vfs.BindAfter)
 	}
-
 	corpus := godoc.NewCorpus(fs)
-	corpus.Verbose = *verbose
-
+	corpus.Verbose = config.Verbose
 	pres = godoc.NewPresentation(corpus)
-	pres.TabWidth = *tabWidth
-	pres.ShowTimestamps = *showTimestamps
-	pres.ShowPlayground = *showPlayground
-	pres.ShowExamples = *showExamples
-	pres.DeclLinks = *declLinks
+	pres.TabWidth = config.TabWidth
+	pres.ShowTimestamps = config.ShowTimestamps
+	pres.ShowPlayground = config.ShowPlayground
+	pres.DeclLinks = config.DeclLinks
 	pres.SrcMode = false
-	pres.HTMLMode = false
-	pres.URLForSrcPos = srcPosLinkFunc
-
-	if *altPkgTemplate != "" {
-		buf, err := ioutil.ReadFile(*altPkgTemplate)
+	pres.URLForSrcPos = genSrcPosLinkFunc(config.SrcLinkFormat, config.SrcLinkHashFormat)
+	var tmpl *template.Template
+	if config.AltPkgTemplate != "" {
+		buf, err := ioutil.ReadFile(config.AltPkgTemplate)
 		if err != nil {
 			log.Fatal(err)
 		}
-		pres.PackageText = readTemplate("package.txt", string(buf))
+		tmpl = readTemplate("package.txt", string(buf))
 	} else {
-		pres.PackageText = readTemplate("package.txt", pkgTemplate)
+		tmpl = readTemplate("package.txt", pkgTemplate)
 	}
-
-	if err := godoc.CommandLine(os.Stdout, fs, pres, flag.Args()); err != nil {
+	if err := cmdline.CommandLine(out, fs, pres, tmpl, args); err != nil {
 		log.Print(err)
 	}
 }
