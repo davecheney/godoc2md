@@ -48,8 +48,6 @@ func usage() {
 	os.Exit(2)
 }
 
-//go:generate go run . github.com/WillAbides/godoc2md
-
 func main() {
 	flag.Usage = usage
 	flag.Parse()

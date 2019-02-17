@@ -1,4 +1,4 @@
-all: lint examples readme
+all: lint examples gen
 
 BINDIR := $(CURDIR)/bin
 
@@ -18,14 +18,17 @@ bin/golangci-lint: tmp/mods/go.mod
 bin/godoc2md: $(shell find ./ -name \*.go)
 	go build -o bin/godoc2md ./cmd/godoc2md/main.go
 
+bin/goreadme: $(shell find ./ -name \*.go)
+	go build -o bin/goreadme ./cmd/goreadme/main.go
+
+gen: bin/goreadme
+	go generate ./...
+
 fmt: bin/goimports
 	bin/goimports -w .
 
 lint: bin/golangci-lint
 	bin/golangci-lint run ./...
-
-readme: bin/godoc2md
-	bin/godoc2md github.com/WillAbides/godoc2md > README.md
 
 examples: bin/godoc2md
 	bin/godoc2md github.com/kr/fs > examples/fs/README.md
@@ -33,4 +36,4 @@ examples: bin/godoc2md
 	bin/godoc2md github.com/gorilla/sessions > examples/sessions/README.md
 	bin/godoc2md go/build > examples/build/README.md
 
-.PHONY: examples readme all lint fmt
+.PHONY: examples all lint fmt gen
