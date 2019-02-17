@@ -28,7 +28,7 @@ a library that can be used by other packages.
 
 
 
-## <a name="Godoc2md">func</a> [Godoc2md](/src/target/godoc2md.go?s=3426:3485#L132)
+## <a name="Godoc2md">func</a> [Godoc2md](/src/target/godoc2md.go?s=3439:3498#L132)
 ``` go
 func Godoc2md(args []string, out io.Writer, config *Config)
 ```
@@ -40,15 +40,15 @@ Godoc2md turns your godoc into markdown
 ## <a name="Config">type</a> [Config](/src/target/godoc2md.go?s=985:1254#L43)
 ``` go
 type Config struct {
-    TabWidth          int
-    ShowTimestamps    bool
     AltPkgTemplate    string
-    ShowPlayground    bool
-    ShowExamples      bool
-    DeclLinks         bool
     SrcLinkHashFormat string
     SrcLinkFormat     string
     Goroot            string
+    TabWidth          int
+    ShowTimestamps    bool
+    ShowPlayground    bool
+    ShowExamples      bool
+    DeclLinks         bool
     Verbose           bool
 }
 

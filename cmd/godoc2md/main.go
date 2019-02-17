@@ -13,9 +13,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/WillAbides/godoc2md"
 	"os"
 	"runtime"
+
+	"github.com/WillAbides/godoc2md"
 )
 
 var (

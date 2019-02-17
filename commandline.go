@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"go/ast"
 	"go/build"
-	"golang.org/x/tools/godoc"
-	"golang.org/x/tools/godoc/vfs"
 	"io"
 	"log"
 	"os"
@@ -14,6 +12,9 @@ import (
 	"regexp"
 	"strings"
 	"text/template"
+
+	"golang.org/x/tools/godoc"
+	"golang.org/x/tools/godoc/vfs"
 )
 
 const (

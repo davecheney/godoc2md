@@ -41,15 +41,15 @@ var (
 
 //Config contains config options for Godoc2md
 type Config struct {
-	TabWidth          int
-	ShowTimestamps    bool
 	AltPkgTemplate    string
-	ShowPlayground    bool
-	ShowExamples      bool
-	DeclLinks         bool
 	SrcLinkHashFormat string
 	SrcLinkFormat     string
 	Goroot            string
+	TabWidth          int
+	ShowTimestamps    bool
+	ShowPlayground    bool
+	ShowExamples      bool
+	DeclLinks         bool
 	Verbose           bool
 }
 

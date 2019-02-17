@@ -38,6 +38,11 @@ var (
 	mdH3      = []byte("### ")
 )
 
+//so we just have to have one lint exception
+func writeIgnore(w io.Writer, p []byte) {
+	_, _ = w.Write(p) //nolint:errcheck
+}
+
 // Emphasize and escape a line of text for HTML. URLs are converted into links.
 func emphasize(w io.Writer, line string) {
 	for {
@@ -48,29 +53,29 @@ func emphasize(w io.Writer, line string) {
 		// m >= 6 (two parenthesized sub-regexps in matchRx, 1st one is urlRx)
 
 		// write text before match
-		_, _ = w.Write([]byte(line[0:m[0]]))
+		writeIgnore(w, []byte(line[0:m[0]]))
 
 		// analyze match
 		match := line[m[0]:m[1]]
 
 		// if URL then write as link
 		if m[2] >= 0 {
-			_, _ = w.Write(htmlA)
+			writeIgnore(w, htmlA)
 			template.HTMLEscape(w, []byte(match))
-			_, _ = w.Write(htmlAq)
+			writeIgnore(w, htmlAq)
 		}
 
 		// write match
-		_, _ = w.Write([]byte(match))
+		writeIgnore(w, []byte(match))
 
 		if m[2] >= 0 {
-			_, _ = w.Write(htmlEnda)
+			writeIgnore(w, htmlEnda)
 		}
 
 		// advance
 		line = line[m[1]:]
 	}
-	_, _ = w.Write([]byte(line))
+	writeIgnore(w, []byte(line))
 }
 
 func indentLen(s string) int {
@@ -198,24 +203,24 @@ func toMd(w io.Writer, text string) {
 			for _, line := range b.lines {
 				emphasize(w, line)
 			}
-			_, _ = w.Write(mdNewline) // trailing newline to emulate </p>
+			writeIgnore(w, mdNewline) // trailing newline to emulate </p>
 		case opHead:
-			_, _ = w.Write(mdH3)
+			writeIgnore(w, mdH3)
 			id := ""
 			for _, line := range b.lines {
 				if id == "" {
 					id = anchorID(line)
 				}
-				_, _ = w.Write([]byte(line))
+				writeIgnore(w, []byte(line))
 			}
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 		case opPre:
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 			for _, line := range b.lines {
-				_, _ = w.Write(mdPre)
+				writeIgnore(w, mdPre)
 				emphasize(w, line)
 			}
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 		}
 	}
 }
