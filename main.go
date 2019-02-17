@@ -20,7 +20,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/WillAbides/godoc2md/cmdline"
 	"golang.org/x/tools/godoc"
 	"golang.org/x/tools/godoc/vfs"
 )
@@ -40,6 +39,7 @@ var (
 	}
 )
 
+//Config contains config options for Godoc2md
 type Config struct {
 	TabWidth          int
 	ShowTimestamps    bool
@@ -155,7 +155,7 @@ func Godoc2md(args []string, out io.Writer, config *Config) {
 	} else {
 		tmpl = readTemplate("package.txt", pkgTemplate)
 	}
-	if err := cmdline.CommandLine(out, fs, pres, tmpl, args); err != nil {
+	if err := commandLine(out, fs, pres, tmpl, args); err != nil {
 		log.Print(err)
 	}
 }

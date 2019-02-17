@@ -1,4 +1,4 @@
-package cmdline
+package godoc2md
 
 import (
 	"fmt"
@@ -24,9 +24,9 @@ const (
 	builtinPkgPath = "builtin"
 )
 
-// CommandLine returns godoc results to w.
+// commandLine returns godoc results to w.
 // Note that it may add a /target path to fs.
-func CommandLine(w io.Writer, fs vfs.NameSpace, pres *godoc.Presentation, tmpl *template.Template, args []string) error {
+func commandLine(w io.Writer, fs vfs.NameSpace, pres *godoc.Presentation, tmpl *template.Template, args []string) error {
 	path := args[0]
 	srcMode := pres.SrcMode
 	cmdMode := strings.HasPrefix(path, cmdPrefix)

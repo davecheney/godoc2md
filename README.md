@@ -23,13 +23,13 @@ a library that can be used by other packages.
 
 
 #### <a name="pkg-files">Package files</a>
-[comment.go](/src/github.com/WillAbides/godoc2md/comment.go) [main.go](/src/github.com/WillAbides/godoc2md/main.go) [template.go](/src/github.com/WillAbides/godoc2md/template.go) 
+[commandline.go](/src/github.com/WillAbides/godoc2md/commandline.go) [comment.go](/src/github.com/WillAbides/godoc2md/comment.go) [main.go](/src/github.com/WillAbides/godoc2md/main.go) [template.go](/src/github.com/WillAbides/godoc2md/template.go) 
 
 
 
 
 
-## <a name="Godoc2md">func</a> [Godoc2md](/src/target/main.go?s=3422:3481#L132)
+## <a name="Godoc2md">func</a> [Godoc2md](/src/target/main.go?s=3426:3485#L132)
 ``` go
 func Godoc2md(args []string, out io.Writer, config *Config)
 ```
@@ -37,7 +37,7 @@ Godoc2md turns your godoc into markdown
 
 
 
-## <a name="ToMD">func</a> [ToMD](/src/target/comment.go?s=4363:4398#L196)
+## <a name="ToMD">func</a> [ToMD](/src/target/comment.go?s=4298:4333#L194)
 ``` go
 func ToMD(w io.Writer, text string)
 ```
@@ -61,7 +61,7 @@ URLs in the comment text are converted into links.
 
 
 
-## <a name="Config">type</a> [Config](/src/target/main.go?s=981:1250#L43)
+## <a name="Config">type</a> [Config](/src/target/main.go?s=985:1254#L43)
 ``` go
 type Config struct {
     TabWidth          int
@@ -77,6 +77,8 @@ type Config struct {
 }
 
 ```
+Config contains config options for Godoc2md
+
 
 
 
