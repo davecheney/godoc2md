@@ -2,9 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Godoc comment extraction and comment -> Markdown formatting.
-
-package main
+package godoc2md
 
 import (
 	"io"
@@ -17,7 +15,7 @@ import (
 
 const (
 	// Regexp for Go identifiers
-	identRx = `[a-zA-Z_][a-zA-Z_0-9]*` // TODO(gri) ASCII only for now - fix this
+	identRx = `[a-zA-Z_][a-zA-Z_0-9]*`
 
 	// Regexp for URLs
 	protocol = `(https?|ftp|file|gopher|mailto|news|nntp|telnet|wais|prospero):`
@@ -40,6 +38,11 @@ var (
 	mdH3      = []byte("### ")
 )
 
+//so we just have to have one lint exception
+func writeIgnore(w io.Writer, p []byte) {
+	_, _ = w.Write(p) //nolint:errcheck
+}
+
 // Emphasize and escape a line of text for HTML. URLs are converted into links.
 func emphasize(w io.Writer, line string) {
 	for {
@@ -50,29 +53,29 @@ func emphasize(w io.Writer, line string) {
 		// m >= 6 (two parenthesized sub-regexps in matchRx, 1st one is urlRx)
 
 		// write text before match
-		_, _ = w.Write([]byte(line[0:m[0]]))
+		writeIgnore(w, []byte(line[0:m[0]]))
 
 		// analyze match
 		match := line[m[0]:m[1]]
 
 		// if URL then write as link
 		if m[2] >= 0 {
-			_, _ = w.Write(htmlA)
+			writeIgnore(w, htmlA)
 			template.HTMLEscape(w, []byte(match))
-			_, _ = w.Write(htmlAq)
+			writeIgnore(w, htmlAq)
 		}
 
 		// write match
-		_, _ = w.Write([]byte(match))
+		writeIgnore(w, []byte(match))
 
 		if m[2] >= 0 {
-			_, _ = w.Write(htmlEnda)
+			writeIgnore(w, htmlEnda)
 		}
 
 		// advance
 		line = line[m[1]:]
 	}
-	_, _ = w.Write([]byte(line))
+	writeIgnore(w, []byte(line))
 }
 
 func indentLen(s string) int {
@@ -177,7 +180,7 @@ func anchorID(line string) string {
 	return "hdr-" + nonAlphaNumRx.ReplaceAllString(line, "_")
 }
 
-// ToMD converts comment text to formatted Markdown.
+// toMd converts comment text to formatted Markdown.
 // The comment was prepared by DocReader,
 // so it is known not to have leading, trailing blank lines
 // nor to have trailing spaces at the end of lines.
@@ -193,31 +196,31 @@ func anchorID(line string) string {
 // with the common indent prefix removed.
 //
 // URLs in the comment text are converted into links.
-func ToMD(w io.Writer, text string) {
+func toMd(w io.Writer, text string) {
 	for _, b := range blocks(text) {
 		switch b.op {
 		case opPara:
 			for _, line := range b.lines {
 				emphasize(w, line)
 			}
-			_, _ = w.Write(mdNewline) // trailing newline to emulate </p>
+			writeIgnore(w, mdNewline) // trailing newline to emulate </p>
 		case opHead:
-			_, _ = w.Write(mdH3)
+			writeIgnore(w, mdH3)
 			id := ""
 			for _, line := range b.lines {
 				if id == "" {
 					id = anchorID(line)
 				}
-				_, _ = w.Write([]byte(line))
+				writeIgnore(w, []byte(line))
 			}
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 		case opPre:
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 			for _, line := range b.lines {
-				_, _ = w.Write(mdPre)
+				writeIgnore(w, mdPre)
 				emphasize(w, line)
 			}
-			_, _ = w.Write(mdNewline)
+			writeIgnore(w, mdNewline)
 		}
 	}
 }

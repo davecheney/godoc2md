@@ -1,5 +1,3 @@
-use 'godoc cmd/go/build' for documentation on the go/build command 
-
 
 
 # build
@@ -117,6 +115,9 @@ During a particular build, the following words are satisfied:
 	- "go1.6", from Go version 1.6 onward
 	- "go1.7", from Go version 1.7 onward
 	- "go1.8", from Go version 1.8 onward
+	- "go1.9", from Go version 1.9 onward
+	- "go1.10", from Go version 1.10 onward
+	- "go1.11", from Go version 1.11 onward
 	- any additional words listed in ctxt.BuildTags
 
 If a file's name, after stripping the extension and a possible _test suffix,
@@ -204,19 +205,19 @@ documentation.
 
 
 #### <a name="pkg-files">Package files</a>
-[build.go](/src/go/build/build.go) [doc.go](/src/go/build/doc.go) [read.go](/src/go/build/read.go) [syslist.go](/src/go/build/syslist.go) [zcgo.go](/src/go/build/zcgo.go) 
+[build.go](/src/go/build/build.go) [doc.go](/src/go/build/doc.go) [gc.go](/src/go/build/gc.go) [read.go](/src/go/build/read.go) [syslist.go](/src/go/build/syslist.go) [zcgo.go](/src/go/build/zcgo.go) 
 
 
 
 ## <a name="pkg-variables">Variables</a>
 ``` go
-var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+var ToolDir = getToolDir()
 ```
 ToolDir is the directory containing build tools.
 
 
 
-## <a name="ArchChar">func</a> [ArchChar](/src/target/build.go?s=45435:45479#L1563)
+## <a name="ArchChar">func</a> [ArchChar](/src/target/build.go?s=51400:51444#L1725)
 ``` go
 func ArchChar(goarch string) (string, error)
 ```
@@ -228,7 +229,7 @@ no longer vary by architecture; they are compile, link, .o, and a.out, respectiv
 
 
 
-## <a name="IsLocalImport">func</a> [IsLocalImport](/src/target/build.go?s=44955:44991#L1553)
+## <a name="IsLocalImport">func</a> [IsLocalImport](/src/target/build.go?s=50920:50956#L1715)
 ``` go
 func IsLocalImport(path string) bool
 ```
@@ -238,7 +239,7 @@ a local import path, like ".", "..", "./foo", or "../foo".
 
 
 
-## <a name="Context">type</a> [Context](/src/target/build.go?s=450:3568#L30)
+## <a name="Context">type</a> [Context](/src/target/build.go?s=461:3579#L31)
 ``` go
 type Context struct {
     GOARCH      string // target architecture
@@ -301,6 +302,7 @@ type Context struct {
     // If OpenFile is nil, Import uses os.Open.
     OpenFile func(path string) (io.ReadCloser, error)
 }
+
 ```
 A Context specifies the supporting context for a build.
 
@@ -321,7 +323,7 @@ if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 
 
 
-### <a name="Context.Import">func</a> (\*Context) [Import](/src/target/build.go?s=16697:16787#L486)
+### <a name="Context.Import">func</a> (\*Context) [Import](/src/target/build.go?s=17039:17129#L496)
 ``` go
 func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Package, error)
 ```
@@ -345,7 +347,7 @@ If an error occurs, Import returns a non-nil error and a non-nil
 
 
 
-### <a name="Context.ImportDir">func</a> (\*Context) [ImportDir](/src/target/build.go?s=14860:14937#L434)
+### <a name="Context.ImportDir">func</a> (\*Context) [ImportDir](/src/target/build.go?s=15202:15279#L444)
 ``` go
 func (ctxt *Context) ImportDir(dir string, mode ImportMode) (*Package, error)
 ```
@@ -355,7 +357,7 @@ the named directory.
 
 
 
-### <a name="Context.MatchFile">func</a> (\*Context) [MatchFile](/src/target/build.go?s=30989:31061#L1032)
+### <a name="Context.MatchFile">func</a> (\*Context) [MatchFile](/src/target/build.go?s=36323:36395#L1185)
 ``` go
 func (ctxt *Context) MatchFile(dir, name string) (match bool, err error)
 ```
@@ -369,7 +371,7 @@ read some or all of the file's content.
 
 
 
-### <a name="Context.SrcDirs">func</a> (\*Context) [SrcDirs](/src/target/build.go?s=7522:7561#L238)
+### <a name="Context.SrcDirs">func</a> (\*Context) [SrcDirs](/src/target/build.go?s=7613:7652#L240)
 ``` go
 func (ctxt *Context) SrcDirs() []string
 ```
@@ -380,7 +382,7 @@ that do not exist.
 
 
 
-## <a name="ImportMode">type</a> [ImportMode](/src/target/build.go?s=9780:9800#L325)
+## <a name="ImportMode">type</a> [ImportMode](/src/target/build.go?s=10122:10142#L335)
 ``` go
 type ImportMode uint
 ```
@@ -441,13 +443,14 @@ const (
 
 
 
-## <a name="MultiplePackageError">type</a> [MultiplePackageError](/src/target/build.go?s=15413:15621#L451)
+## <a name="MultiplePackageError">type</a> [MultiplePackageError](/src/target/build.go?s=15755:15963#L461)
 ``` go
 type MultiplePackageError struct {
     Dir      string   // directory containing files
     Packages []string // package names found
     Files    []string // corresponding files: Files[i] declares package Packages[i]
 }
+
 ```
 MultiplePackageError describes a directory containing
 multiple buildable Go source files for multiple packages.
@@ -461,18 +464,19 @@ multiple buildable Go source files for multiple packages.
 
 
 
-### <a name="MultiplePackageError.Error">func</a> (\*MultiplePackageError) [Error](/src/target/build.go?s=15623:15668#L457)
+### <a name="MultiplePackageError.Error">func</a> (\*MultiplePackageError) [Error](/src/target/build.go?s=15965:16010#L467)
 ``` go
 func (e *MultiplePackageError) Error() string
 ```
 
 
 
-## <a name="NoGoError">type</a> [NoGoError](/src/target/build.go?s=15165:15202#L441)
+## <a name="NoGoError">type</a> [NoGoError](/src/target/build.go?s=15507:15544#L451)
 ``` go
 type NoGoError struct {
     Dir string
 }
+
 ```
 NoGoError is the error used by Import to describe a directory
 containing no buildable Go source files. (It may still contain
@@ -487,14 +491,14 @@ test files, files hidden by build tags, and so on.)
 
 
 
-### <a name="NoGoError.Error">func</a> (\*NoGoError) [Error](/src/target/build.go?s=15204:15238#L445)
+### <a name="NoGoError.Error">func</a> (\*NoGoError) [Error](/src/target/build.go?s=15546:15580#L455)
 ``` go
 func (e *NoGoError) Error() string
 ```
 
 
 
-## <a name="Package">type</a> [Package](/src/target/build.go?s=11686:14547#L372)
+## <a name="Package">type</a> [Package](/src/target/build.go?s=12028:14889#L382)
 ``` go
 type Package struct {
     Dir           string   // directory containing package sources
@@ -548,6 +552,7 @@ type Package struct {
     XTestImports   []string                    // import paths from XTestGoFiles
     XTestImportPos map[string][]token.Position // line information for XTestImports
 }
+
 ```
 A Package describes the Go package found in a directory.
 
@@ -557,14 +562,14 @@ A Package describes the Go package found in a directory.
 
 
 
-### <a name="Import">func</a> [Import](/src/target/build.go?s=33366:33433#L1117)
+### <a name="Import">func</a> [Import](/src/target/build.go?s=38647:38714#L1270)
 ``` go
 func Import(path, srcDir string, mode ImportMode) (*Package, error)
 ```
 Import is shorthand for Default.Import.
 
 
-### <a name="ImportDir">func</a> [ImportDir](/src/target/build.go?s=33531:33592#L1122)
+### <a name="ImportDir">func</a> [ImportDir](/src/target/build.go?s=38812:38873#L1275)
 ``` go
 func ImportDir(dir string, mode ImportMode) (*Package, error)
 ```
@@ -574,7 +579,7 @@ ImportDir is shorthand for Default.ImportDir.
 
 
 
-### <a name="Package.IsCommand">func</a> (\*Package) [IsCommand](/src/target/build.go?s=14705:14739#L428)
+### <a name="Package.IsCommand">func</a> (\*Package) [IsCommand](/src/target/build.go?s=15047:15081#L438)
 ``` go
 func (p *Package) IsCommand() bool
 ```
@@ -589,5 +594,3 @@ Packages named "main" are treated as commands.
 
 
 
-- - -
-Generated by [godoc2md](http://godoc.org/github.com/davecheney/godoc2md)

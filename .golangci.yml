@@ -1,0 +1,26 @@
+# configure golangci-lint
+# see https://github.com/golangci/golangci-lint/blob/master/.golangci.example.yml
+issues:
+  exclude-use-default: false
+linters:
+  enable:
+    - golint
+    - gosec
+    - interfacer
+    - unconvert
+    - gocyclo
+    - goconst
+    - goimports
+    - maligned
+    - gocritic
+linters-settings:
+  errcheck:
+    # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`;
+    # default is false: such cases aren't reported by default.
+    check-blank: true
+  govet:
+    # report about shadowed variables
+    check-shadowing: true
+  maligned:
+    # print struct with more effective memory layout or not, false by default
+    suggest-new: true
