@@ -55,7 +55,7 @@ type Config struct {
 
 func commentMdFunc(comment string) string {
 	var buf bytes.Buffer
-	ToMD(&buf, comment)
+	toMd(&buf, comment)
 	return buf.String()
 }
 

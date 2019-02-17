@@ -175,7 +175,7 @@ func anchorID(line string) string {
 	return "hdr-" + nonAlphaNumRx.ReplaceAllString(line, "_")
 }
 
-// ToMD converts comment text to formatted Markdown.
+// toMd converts comment text to formatted Markdown.
 // The comment was prepared by DocReader,
 // so it is known not to have leading, trailing blank lines
 // nor to have trailing spaces at the end of lines.
@@ -191,7 +191,7 @@ func anchorID(line string) string {
 // with the common indent prefix removed.
 //
 // URLs in the comment text are converted into links.
-func ToMD(w io.Writer, text string) {
+func toMd(w io.Writer, text string) {
 	for _, b := range blocks(text) {
 		switch b.op {
 		case opPara:

@@ -18,18 +18,17 @@ a library that can be used by other packages.
 
 ## <a name="pkg-index">Index</a>
 * [func Godoc2md(args []string, out io.Writer, config *Config)](#Godoc2md)
-* [func ToMD(w io.Writer, text string)](#ToMD)
 * [type Config](#Config)
 
 
 #### <a name="pkg-files">Package files</a>
-[commandline.go](/src/github.com/WillAbides/godoc2md/commandline.go) [comment.go](/src/github.com/WillAbides/godoc2md/comment.go) [main.go](/src/github.com/WillAbides/godoc2md/main.go) [template.go](/src/github.com/WillAbides/godoc2md/template.go) 
+[commandline.go](/src/github.com/WillAbides/godoc2md/commandline.go) [comment.go](/src/github.com/WillAbides/godoc2md/comment.go) [godoc2md.go](/src/github.com/WillAbides/godoc2md/godoc2md.go) [template.go](/src/github.com/WillAbides/godoc2md/template.go) 
 
 
 
 
 
-## <a name="Godoc2md">func</a> [Godoc2md](/src/target/main.go?s=3426:3485#L132)
+## <a name="Godoc2md">func</a> [Godoc2md](/src/target/godoc2md.go?s=3426:3485#L132)
 ``` go
 func Godoc2md(args []string, out io.Writer, config *Config)
 ```
@@ -37,31 +36,8 @@ Godoc2md turns your godoc into markdown
 
 
 
-## <a name="ToMD">func</a> [ToMD](/src/target/comment.go?s=4298:4333#L194)
-``` go
-func ToMD(w io.Writer, text string)
-```
-ToMD converts comment text to formatted Markdown.
-The comment was prepared by DocReader,
-so it is known not to have leading, trailing blank lines
-nor to have trailing spaces at the end of lines.
-The comment markers have already been removed.
 
-Each span of unindented non-blank lines is converted into
-a single paragraph. There is one exception to the rule: a span that
-consists of a single line, is followed by another paragraph span,
-begins with a capital letter, and contains no punctuation
-is formatted as a heading.
-
-A span of indented lines is converted into a <pre> block,
-with the common indent prefix removed.
-
-URLs in the comment text are converted into links.
-
-
-
-
-## <a name="Config">type</a> [Config](/src/target/main.go?s=985:1254#L43)
+## <a name="Config">type</a> [Config](/src/target/godoc2md.go?s=985:1254#L43)
 ``` go
 type Config struct {
     TabWidth          int
