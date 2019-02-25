@@ -42,6 +42,7 @@ var (
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
 	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
 	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
+	outFile        = flag.String("o", "", "output file path. Writes to stdout if unspecified or equal to -")
 
 	// The hash format for Github is the default `#L%d`; but other source control platforms do not
 	// use the same format. For example Bitbucket Enterprise uses `#%d`. This option provides the
@@ -186,7 +187,17 @@ func main() {
 		pres.PackageText = readTemplate("package.txt", pkgTemplate)
 	}
 
-	if err := godoc.CommandLine(os.Stdout, fs, pres, flag.Args()); err != nil {
+	of := os.Stdout
+	if *outFile != "" && *outFile != "-" {
+		var err error
+		of, err = os.Create(*outFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer of.Close()
+	}
+
+	if err := godoc.CommandLine(of, fs, pres, flag.Args()); err != nil {
 		log.Print(err)
 	}
 }
